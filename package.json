@@ -1,0 +1,47 @@
+{
+  "title": "ChromeReactRedux",
+  "name": "rreact-redux-ext",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/herodrigues/react-redux-ext.git"
+  },
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "base64-image-loader": "^1.2.0",
+    "gulp": "^3.9.1",
+    "raw-loader": "^0.5.1",
+    "react-devtools": "^2.5.2",
+    "rimraf": "^2.6.2",
+    "webpack": "^3.8.1"
+  },
+  "description": "Chrome extension with React/Redux",
+  "bugs": {
+    "url": "https://github.com/herodrigues/react-redux-ext/issues"
+  },
+  "homepage": "https://github.com/58phases/react-redux-ext#readme",
+  "main": "gulpfile.babel.js",
+  "scripts": {
+    "start": "./node_modules/.bin/gulp watch",
+    "build": "./node_modules/.bin/gulp build",
+    "react-devtools": "./node_modules/.bin/react-devtools &"
+  },
+  "keywords": [
+    "extension",
+    "react",
+    "redux"
+  ],
+  "author": "Herinson Rodrigues"
+}
