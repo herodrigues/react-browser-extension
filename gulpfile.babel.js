@@ -10,11 +10,22 @@ gulp.task('clean', (cb) => {
 });
 
 gulp.task('copy-files', ['clean'], () => {
+  const args = process.argv.slice(2);
+  const scriptIndex = args.findIndex(index => index === 'start' || index === 'build');
+  const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
+
+  let output = '';
+  switch (script) {
+    case 'watch': output = 'build'; break;
+    case 'build': output = 'dist'; break;
+    default: break;
+  }
+
   return gulp.src([
     './src/icons/**/*',
     './src/manifest.json'
   ], { base: 'src' })
-    .pipe(gulp.dest('./build'));
+    .pipe(gulp.dest(`./${output}`));
 });
 
 gulp.task('bundle-js', ['clean', 'copy-files'], (cb) => {
@@ -36,7 +47,7 @@ gulp.task('bundle-js', ['clean', 'copy-files'], (cb) => {
         if (err) {
           throw new plugins.util.PluginError('webpack', err);
         }
-        console.log(tats.toString({ colors: true }));
+        console.log(stats.toString({ colors: true }));
         cb();
       });
     default:

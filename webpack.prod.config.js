@@ -9,9 +9,8 @@ module.exports = {
   },
 
   output: {
-    sourceMapFilename: '[name].map.js',
     filename: '[name].js',
-    path: path.resolve(__dirname, 'build')
+    path: path.resolve(__dirname, 'dist')
   },
 
   resolve: {
@@ -31,8 +30,6 @@ module.exports = {
       }
     }),
     new UglifyJsPlugin({
-      exclude: /\.map\.js$/,
-      sourceMap: true,
       compress: {
         warnings: false
       }

@@ -20,6 +20,6 @@ $ npm run react-devtools
 ## Build
 
 ```bash
-# build files to './build'
+# build files to './dist'
 $ npm run build
 ```
