@@ -23,9 +23,9 @@
     "base64-image-loader": "^1.2.1",
     "gulp": "^3.9.1",
     "raw-loader": "^0.5.1",
-    "react-devtools": "^3.0.0",
+    "react-devtools": "^3.1.0",
     "rimraf": "^2.6.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.11.0"
   },
   "description": "Chrome extension with React/Redux",
   "bugs": {
