@@ -1,16 +1,12 @@
-import path from 'path';
-import { DefinePlugin } from 'webpack';
-const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
+const path = require('path');
+const webpackMerge = require('webpack-merge');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
     background: './src/background/index.js',
     content: './src/content/index.js'
-  },
-
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
   },
 
   resolve: {
@@ -20,21 +16,6 @@ module.exports = {
     ],
     extensions: ['.js', '.jsx']
   },
-
-  devtool: 'source-map',
-
-  plugins: [
-    new DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ],
 
   module: {
     rules: [
@@ -53,5 +34,13 @@ module.exports = {
         use: [ 'raw-loader' ]
       }
     ]
-  }
+  },
+
+  plugins: [
+    new CleanWebpackPlugin(__dirname),
+    new CopyWebpackPlugin([
+      { from: './src/icons' },
+      { from: './src/manifest.json' }
+    ])
+  ]
 };

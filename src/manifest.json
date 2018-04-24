@@ -1,5 +1,5 @@
 {
-  "name": "ChromeReactRedux",
+  "name": "Chrome React Minimal",
   "version": "1.0.0",
   "description": "Chrome extension with React/Redux",
   "manifest_version": 2,

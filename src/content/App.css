@@ -49,3 +49,12 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+@keyframes App-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.App-fade {
+  opacity: 0;
+  animation: App-fade-in ease 250ms;
+  animation-fill-mode: forwards;
+  animation-duration: 250ms;
+}

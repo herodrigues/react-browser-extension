@@ -22,13 +22,13 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App" style={{ display: this.props.visible ? "block" : "none" }}>
+      <div className="App App-fade" style={{ display: this.props.visible ? "block" : "none" }}>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, edit <code>src/App.js</code> and reload the extension.
         </p>
         <p className="App-footer" onClick={this.handleClick}>
           Click here {this.state.counter} times to throw an error.
