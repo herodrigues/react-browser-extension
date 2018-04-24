@@ -1,6 +1,4 @@
 import React from "react";
-import "react-devtools";
-
 import { Provider } from "react-redux";
 import { render } from "react-dom";
 
