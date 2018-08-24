@@ -2,6 +2,8 @@
 
 A minimal example of a Chrome extension using React and Redux.
 
+![example](https://user-images.githubusercontent.com/1832537/44593550-11309980-a79a-11e8-8ec5-6c3d6430e06c.gif)
+
 ### Installation
 
 Requirements:
