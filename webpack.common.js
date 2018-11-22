@@ -16,14 +16,18 @@ module.exports = {
     ],
     extensions: ['.js', '.jsx']
   },
-
   module: {
     rules: [
       {
-        test: /\.(jsx|js)?$/,
-        loader: 'babel-loader',
-        exclude: /(node_modules)/,
-        include: path.resolve(__dirname, 'src')
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: ['@babel/plugin-proposal-object-rest-spread']
+          }
+        }
       },
       {
         test: /\.(png|jpg|svg)$/,

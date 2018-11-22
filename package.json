@@ -8,42 +8,31 @@
     "url": "git://github.com/herodrigues/chrome-react-minimal.git"
   },
   "dependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-redux": "^5.0.7",
-    "redux": "^4.0.0"
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-redux": "^5.1.1",
+    "redux": "^4.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
     "base64-image-loader": "^1.2.1",
-    "clean-webpack-plugin": "^0.1.19",
-    "copy-webpack-plugin": "^4.5.1",
+    "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.6.0",
     "raw-loader": "^0.5.1",
-    "react-devtools": "^3.2.1",
-    "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15",
-    "webpack-merge": "^4.1.2"
+    "react-devtools": "^3.4.3",
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-merge": "^4.1.4"
   },
   "description": "Chrome extension with React/Redux",
   "bugs": {
     "url": "https://github.com/herodrigues/chrome-react-minimal/issues"
   },
   "homepage": "https://github.com/58phases/chrome-react-minimal#readme",
-  "babel": {
-    "presets": [
-      "env",
-      "react"
-    ],
-    "plugins": [
-      "transform-object-rest-spread"
-    ],
-    "compact": false
-  },
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.prod.js --progress --colors",
     "start": "./node_modules/.bin/webpack --config webpack.dev.js --watch --progress --colors",
