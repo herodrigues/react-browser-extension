@@ -196,7 +196,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var REACT_STATICS = {
     childContextTypes: true,
     contextType: true,
@@ -204,6 +203,7 @@ var REACT_STATICS = {
     defaultProps: true,
     displayName: true,
     getDefaultProps: true,
+    getDerivedStateFromError: true,
     getDerivedStateFromProps: true,
     mixins: true,
     propTypes: true,
@@ -222,7 +222,10 @@ var KNOWN_STATICS = {
 
 var FORWARD_REF_STATICS = {
     '$$typeof': true,
-    render: true
+    render: true,
+    defaultProps: true,
+    displayName: true,
+    propTypes: true
 };
 
 var TYPE_STATICS = {};
@@ -1169,6 +1172,39 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
+/***/ "./node_modules/react-devtools-core/build/backend.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-devtools-core/build/backend.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(window,function(){return function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=8)}([function(e,t,n){var r,o,i;!function(a,s){"use strict";o=[n(54)],void 0===(i="function"==typeof(r=function(e){var t=/(^|@)\S+\:\d+/,n=/^\s*at .*(\S+\:\d+|\(native\))/m,r=/^(eval@)?(\[native code\])?$/;return{parse:function(e){if(void 0!==e.stacktrace||void 0!==e["opera#sourceloc"])return this.parseOpera(e);if(e.stack&&e.stack.match(n))return this.parseV8OrIE(e);if(e.stack)return this.parseFFOrSafari(e);throw new Error("Cannot parse given Error object")},extractLocation:function(e){if(-1===e.indexOf(":"))return[e];var t=/(.+?)(?:\:(\d+))?(?:\:(\d+))?$/.exec(e.replace(/[\(\)]/g,""));return[t[1],t[2]||void 0,t[3]||void 0]},parseV8OrIE:function(t){var r=t.stack.split("\n").filter(function(e){return!!e.match(n)},this);return r.map(function(t){t.indexOf("(eval ")>-1&&(t=t.replace(/eval code/g,"eval").replace(/(\(eval at [^\()]*)|(\)\,.*$)/g,""));var n=t.replace(/^\s+/,"").replace(/\(eval code/g,"(").split(/\s+/).slice(1),r=this.extractLocation(n.pop()),o=n.join(" ")||void 0,i=["eval","<anonymous>"].indexOf(r[0])>-1?void 0:r[0];return new e({functionName:o,fileName:i,lineNumber:r[1],columnNumber:r[2],source:t})},this)},parseFFOrSafari:function(t){var n=t.stack.split("\n").filter(function(e){return!e.match(r)},this);return n.map(function(t){if(t.indexOf(" > eval")>-1&&(t=t.replace(/ line (\d+)(?: > eval line \d+)* > eval\:\d+\:\d+/g,":$1")),-1===t.indexOf("@")&&-1===t.indexOf(":"))return new e({functionName:t});var n=/((.*".+"[^@]*)?[^@]*)(?:@)/,r=t.match(n),o=r&&r[1]?r[1]:void 0,i=this.extractLocation(t.replace(n,""));return new e({functionName:o,fileName:i[0],lineNumber:i[1],columnNumber:i[2],source:t})},this)},parseOpera:function(e){return!e.stacktrace||e.message.indexOf("\n")>-1&&e.message.split("\n").length>e.stacktrace.split("\n").length?this.parseOpera9(e):e.stack?this.parseOpera11(e):this.parseOpera10(e)},parseOpera9:function(t){for(var n=/Line (\d+).*script (?:in )?(\S+)/i,r=t.message.split("\n"),o=[],i=2,a=r.length;i<a;i+=2){var s=n.exec(r[i]);s&&o.push(new e({fileName:s[2],lineNumber:s[1],source:r[i]}))}return o},parseOpera10:function(t){for(var n=/Line (\d+).*script (?:in )?(\S+)(?:: In function (\S+))?$/i,r=t.stacktrace.split("\n"),o=[],i=0,a=r.length;i<a;i+=2){var s=n.exec(r[i]);s&&o.push(new e({functionName:s[3]||void 0,fileName:s[2],lineNumber:s[1],source:r[i]}))}return o},parseOpera11:function(n){var r=n.stack.split("\n").filter(function(e){return!!e.match(t)&&!e.match(/^Error created at/)},this);return r.map(function(t){var n,r=t.split("@"),o=this.extractLocation(r.pop()),i=r.shift()||"",a=i.replace(/<anonymous function(: (\w+))?>/,"$2").replace(/\([^\)]*\)/g,"")||void 0;i.match(/\(([^\)]*)\)/)&&(n=i.replace(/^[^\(]+\(([^\)]*)\)$/,"$1"));var s=void 0===n||"[arguments not available]"===n?void 0:n.split(",");return new e({functionName:a,args:s,fileName:o[0],lineNumber:o[1],columnNumber:o[2],source:t})},this)}}})?r.apply(t,o):r)||(e.exports=i)}()},function(e,t,n){"use strict";var r=Object.prototype.hasOwnProperty,o=Object.prototype.propertyIsEnumerable;e.exports=Object.assign||function(e,t){for(var n,i,a=function(e){if(null==e)throw new TypeError("Object.assign cannot be called with null or undefined");return Object(e)}(e),s=1;s<arguments.length;s++){for(var u in n=Object(arguments[s]))r.call(n,u)&&(a[u]=n[u]);if(Object.getOwnPropertySymbols){i=Object.getOwnPropertySymbols(n);for(var c=0;c<i.length;c++)o.call(n,i[c])&&(a[i[c]]=n[i[c]])}}return a}},function(e,t,n){"use strict";function r(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function o(e,t,n,i){if(n>=t.length)return i;var a=t[n],s=Array.isArray(e)?e.slice():function(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},o=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(o=o.concat(Object.getOwnPropertySymbols(n).filter(function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),o.forEach(function(t){r(e,t,n[t])})}return e}({},e);return s[a]=o(e[a],t,n+1,i),s}e.exports=function(e,t,n){return o(e,t,0,n)}},function(e,t){function n(e){return function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}var r=Object.prototype.hasOwnProperty;e.exports=function(e,t){return t.reduce(function(e,t){if(e){if(r.call(e,t))return e[t];if("function"==typeof e[Symbol.iterator])return n(e)[t]}return null},e)}},function(e,t,n){"use strict";var r=n(14);e.exports={name:r("name"),type:r("type"),inspected:r("inspected"),meta:r("meta"),proto:r("proto")}},function(e,t,n){"use strict";var r=/^(.*) \[from (.*)\]$/,o=new WeakMap;e.exports=function(e){var t,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"Unknown",i=o.get(e);if(null!=i)return i;"string"==typeof e.displayName&&(t=e.displayName),t||(t=e.name||n);var a=t.match(r);if(a){var s=a[1],u=a[2];s&&u&&(u===s||u.startsWith(s+"."))&&(t=s)}return o.set(e,t),t}},function(e,t){var n,r,o=e.exports={};function i(){throw new Error("setTimeout has not been defined")}function a(){throw new Error("clearTimeout has not been defined")}function s(e){if(n===setTimeout)return setTimeout(e,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i}catch(e){n=i}try{r="function"==typeof clearTimeout?clearTimeout:a}catch(e){r=a}}();var u,c=[],l=!1,f=-1;function p(){l&&u&&(l=!1,u.length?c=u.concat(c):f=-1,c.length&&d())}function d(){if(!l){var e=s(p);l=!0;for(var t=c.length;t;){for(u=c,c=[];++f<t;)u&&u[f].run();f=-1,t=c.length}u=null,l=!1,function(e){if(r===clearTimeout)return clearTimeout(e);if((r===a||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(e);try{r(e)}catch(t){try{return r.call(null,e)}catch(t){return r.call(this,e)}}}(e)}}function h(e,t){this.fun=e,this.array=t}function m(){}o.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];c.push(new h(e,t)),1!==c.length||l||s(d)},h.prototype.run=function(){this.fun.apply(null,this.array)},o.title="browser",o.browser=!0,o.env={},o.argv=[],o.version="",o.versions={},o.on=m,o.addListener=m,o.once=m,o.off=m,o.removeListener=m,o.removeAllListeners=m,o.emit=m,o.prependListener=m,o.prependOnceListener=m,o.listeners=function(e){return[]},o.binding=function(e){throw new Error("process.binding is not supported")},o.cwd=function(){return"/"},o.chdir=function(e){throw new Error("process.chdir is not supported")},o.umask=function(){return 0}},function(e,t){function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var r;r=function(){return this}();try{r=r||Function("return this")()||(0,eval)("this")}catch(e){"object"===("undefined"==typeof window?"undefined":n(window))&&(r=window)}e.exports=r},function(e,t,n){"use strict";var r=n(9),o=n(13),i=n(37),a=n(38),s=n(39),u=n(48),c=n(52),l=n(61).default,f=n(55);a(window),window.document&&window.__REACT_DEVTOOLS_GLOBAL_HOOK__.on("react-devtools",function(e){n(56)(e)}),e.exports={connectToDevTools:function e(t){var n=t||{},a=n.host,p=void 0===a?"localhost":a,d=n.port,h=void 0===d?8097:d,m=n.websocket,y=n.resolveRNStyle,v=void 0===y?null:y,g=n.isAppActive;function b(){setTimeout(function(){return e(t)},2e3)}if((void 0===g?function(){return!0}:g)()){var _=[],w=[],S="ws://"+p+":"+h,E=m||new window.WebSocket(S);E.onclose=x,E.onerror=x,E.onmessage=function(e){var t;try{u("string"==typeof e.data),t=JSON.parse(e.data)}catch(t){return void console.error("failed to parse json: "+String(e.data))}_.forEach(function(e){try{e(t)}catch(e){throw console.log(t),e}})},E.onopen=function(){!function(e,t){e.onClose(function(){a&&a.emit("shutdown"),window.__REACT_DEVTOOLS_GLOBAL_HOOK__.emit("shutdown"),n=null,a=null,console.log("closing devtools")});var n=new o(e),a=new r(window,{rnStyle:!!t,rnStyleMeasure:!!t});a.addBridge(n),t&&c(n,a,t),f(n,a,window.__REACT_DEVTOOLS_GLOBAL_HOOK__),l(n,a);var u=setTimeout(function(){console.warn("react-devtools agent got no connection")},2e4);a.once("connected",function(){a&&(s(window.__REACT_DEVTOOLS_GLOBAL_HOOK__,a),clearTimeout(u))}),i.init(a)}({listen:function(e){_.push(e)},onClose:function(e){w.push(e)},send:function(e){E.send(JSON.stringify(e))}},v)};var O=!1}else b();function x(){O||(O=!0,b(),w.forEach(function(e){return e()}))}}}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function i(e){return(i=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function a(e,t){return(a=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function s(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}var u=n(10).EventEmitter,c=n(1),l=n(11).default,f=n(12),p=n(3),d=function(e){function t(e,n){var o,a,u,l;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t),a=this,u=i(t).call(this),(o=!u||"object"!==r(u)&&"function"!=typeof u?s(a):u).global=e,o.internalInstancesById=new Map,o.idsByInternalInstances=new WeakMap,o.renderers=new Map,o.elementData=new Map,o.roots=new Set,o.reactInternals={},o.on("selected",function(e){var t=o.elementData.get(e);t&&t.publicInstance&&o.global.$r===l&&(o.global.$r=t.publicInstance,l=t.publicInstance)}),o._prevSelected=null,o._scrollUpdate=!1;var f=window.document&&"function"==typeof window.document.createElement;return o.capabilities=c({scroll:f&&"function"==typeof window.document.body.scrollIntoView,dom:f,editTextContent:!1},n),f&&(o._updateScroll=o._updateScroll.bind(s(s(o))),window.addEventListener("scroll",o._onScroll.bind(s(s(o))),!0),window.addEventListener("click",o._onClick.bind(s(s(o))),!0),window.addEventListener("mouseover",o._onMouseOver.bind(s(s(o))),!0),window.addEventListener("resize",o._onResize.bind(s(s(o))),!0)),o}var n,d,h;return function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&a(e,t)}(t,u),n=t,(d=[{key:"sub",value:function(e,t){var n=this;return this.on(e,t),function(){n.removeListener(e,t)}}},{key:"setReactInternals",value:function(e,t){this.reactInternals[e]=t}},{key:"addBridge",value:function(e){var t=this;e.on("requestCapabilities",function(){e.send("capabilities",t.capabilities),t.emit("connected")}),e.on("setState",this._setState.bind(this)),e.on("setProps",this._setProps.bind(this)),e.on("setContext",this._setContext.bind(this)),e.on("makeGlobal",this._makeGlobal.bind(this)),e.on("highlight",function(e){return t.highlight(e)}),e.on("highlightMany",function(e){return t.highlightMany(e)}),e.on("hideHighlight",function(){return t.emit("hideHighlight")}),e.on("startInspecting",function(){return t.emit("startInspecting")}),e.on("stopInspecting",function(){return t.emit("stopInspecting")}),e.on("selected",function(e){return t.emit("selected",e)}),e.on("isRecording",function(e){return t.emit("isRecording",e)}),e.on("setInspectEnabled",function(e){t._inspectEnabled=e,t.emit("stopInspecting")}),e.on("shutdown",function(){return t.emit("shutdown")}),e.on("changeTextContent",function(e){var n=e.id,r=e.text,o=t.getNodeForID(n);o&&(o.textContent=r)}),e.on("putSelectedNode",function(e){window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$node=t.getNodeForID(e)}),e.on("putSelectedInstance",function(e){var n=t.elementData.get(e);window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$type=n?n.type:null,n&&n.publicInstance?window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$inst=n.publicInstance:window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$inst=null}),e.on("checkSelection",function(){var e=window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$0;e!==t._prevSelected&&(t._prevSelected=e,e!==window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$node&&t.selectFromDOMNode(e,!0))}),e.on("scrollToNode",function(e){return t.scrollToNode(e)}),e.on("traceupdatesstatechange",function(e){return t.emit("traceupdatesstatechange",e)}),e.on("colorizerchange",function(e){return t.emit("colorizerchange",e)}),this.on("root",function(t){return e.send("root",t)}),this.on("mount",function(t){return e.send("mount",t)}),this.on("update",function(t){return e.send("update",t)}),this.on("updateProfileTimes",function(t){return e.send("updateProfileTimes",t)}),this.on("unmount",function(t){e.send("unmount",t),e.forget(t)}),this.on("setSelection",function(t){return e.send("select",t)}),this.on("setInspectEnabled",function(t){return e.send("setInspectEnabled",t)}),this.on("isRecording",function(t){return e.send("isRecording",t)}),this.on("storeSnapshot",function(t){return e.send("storeSnapshot",t)}),this.on("clearSnapshots",function(){return e.send("clearSnapshots")})}},{key:"scrollToNode",value:function(e){var t=this.getNodeForID(e);if(t){var n=t.nodeType===Node.ELEMENT_NODE?t:t.parentElement;n?("function"==typeof n.scrollIntoViewIfNeeded?n.scrollIntoViewIfNeeded():"function"==typeof n.scrollIntoView&&n.scrollIntoView(),this.highlight(e)):console.warn("unable to get the domElement for scrolling")}else console.warn("unable to get the node for scrolling")}},{key:"highlight",value:function(e){var t=this.elementData.get(e),n=this.getNodeForID(e);t&&n&&this.emit("highlight",{node:n,name:t.name,props:t.props})}},{key:"highlightMany",value:function(e){var t=this,n=[];e.forEach(function(e){var r=t.getNodeForID(e);r&&n.push(r)}),n.length&&this.emit("highlightMany",n)}},{key:"getNodeForID",value:function(e){var t=this.internalInstancesById.get(e);if(!t)return null;var n=this.renderers.get(e);return n&&this.reactInternals[n].getNativeFromReactElement?this.reactInternals[n].getNativeFromReactElement(t):null}},{key:"selectFromDOMNode",value:function(e,t){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=this.getIDForNode(e);r&&this.emit("setSelection",{id:r,quiet:t,offsetFromLeaf:n})}},{key:"selectFromReactInstance",value:function(e,t){var n=this.getId(e);n?this.emit("setSelection",{id:n,quiet:t}):console.log("no instance id",e)}},{key:"getIDForNode",value:function(e){if(!this.reactInternals)return null;var t;for(var n in this.reactInternals){try{t=this.reactInternals[n].getReactElementFromNative(e)}catch(e){}if(t)return this.getId(t)}return null}},{key:"_setProps",value:function(e){var t=e.id,n=e.path,r=e.value,o=this.elementData.get(t);o&&o.updater&&"function"==typeof o.updater.setInProps?o.updater.setInProps(n,r):console.warn("trying to set props on a component that doesn't support it")}},{key:"_setState",value:function(e){var t=e.id,n=e.path,r=e.value,o=this.elementData.get(t);o&&o.updater&&"function"==typeof o.updater.setInState?o.updater.setInState(n,r):console.warn("trying to set state on a component that doesn't support it")}},{key:"_setContext",value:function(e){var t=e.id,n=e.path,r=e.value,o=this.elementData.get(t);o&&o.updater&&"function"==typeof o.updater.setInContext?o.updater.setInContext(n,r):console.warn("trying to set context on a component that doesn't support it")}},{key:"_makeGlobal",value:function(e){var t,n=e.id,r=e.path,o=this.elementData.get(n);o&&(t="instance"===r?o.publicInstance:p(o,r),this.global.$tmp=t,console.log("$tmp =",t))}},{key:"getId",value:function(e){return"object"===r(e)&&e?(this.idsByInternalInstances.has(e)||(this.idsByInternalInstances.set(e,f()),this.internalInstancesById.set(l(this.idsByInternalInstances.get(e)),e)),l(this.idsByInternalInstances.get(e))):e}},{key:"addRoot",value:function(e,t){var n=this.getId(t);this.roots.add(n),this.emit("root",n)}},{key:"rootCommitted",value:function(e,t,n){var r=this.getId(t);this.emit("rootCommitted",r,t,n)}},{key:"onMounted",value:function(e,t,n){var r=this,o=this.getId(t);this.renderers.set(o,e),this.elementData.set(o,n);var i=c({},n);i.children&&i.children.map&&(i.children=i.children.map(function(e){return r.getId(e)})),i.id=o,i.canUpdate=i.updater&&i.updater.canUpdate,delete i.type,delete i.updater,this.emit("mount",i)}},{key:"onUpdated",value:function(e,t){var n=this,r=this.getId(e);this.elementData.set(r,t);var o=c({},t);o.children&&o.children.map&&(o.children=o.children.map(function(e){return n.getId(e)})),o.id=r,o.canUpdate=o.updater&&o.updater.canUpdate,delete o.type,delete o.updater,this.emit("update",o)}},{key:"onUpdatedProfileTimes",value:function(e,t){var n=this,r=this.getId(e);this.elementData.set(r,t);var o=c({},t);o.children&&o.children.map&&(o.children=o.children.map(function(e){return n.getId(e)})),o.id=r,o.canUpdate=o.updater&&o.updater.canUpdate,delete o.type,delete o.updater,this.emit("updateProfileTimes",o)}},{key:"onUnmounted",value:function(e){var t=this.getId(e);this.elementData.delete(t),this.roots.has(t)&&(this.roots.delete(t),this.emit("rootUnmounted",t)),this.renderers.delete(t),this.emit("unmount",t),this.idsByInternalInstances.delete(e)}},{key:"_onScroll",value:function(){this._scrollUpdate||(this._scrollUpdate=!0,window.requestAnimationFrame(this._updateScroll))}},{key:"_updateScroll",value:function(){this.emit("refreshMultiOverlay"),this.emit("stopInspecting"),this._scrollUpdate=!1}},{key:"_onClick",value:function(e){if(this._inspectEnabled){var t=this.getIDForNode(e.target);t&&(e.stopPropagation(),e.preventDefault(),this.emit("setSelection",{id:t}),this.emit("setInspectEnabled",!1))}}},{key:"_onMouseOver",value:function(e){if(this._inspectEnabled){var t=this.getIDForNode(e.target);if(!t)return;this.highlight(t)}}},{key:"_onResize",value:function(e){this.emit("stopInspecting")}}])&&o(n.prototype,d),h&&o(n,h),t}();e.exports=d},function(e,t){function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function r(){this._events=this._events||{},this._maxListeners=this._maxListeners||void 0}function o(e){return"function"==typeof e}function i(e){return"object"===n(e)&&null!==e}function a(e){return void 0===e}e.exports=r,r.EventEmitter=r,r.prototype._events=void 0,r.prototype._maxListeners=void 0,r.defaultMaxListeners=10,r.prototype.setMaxListeners=function(e){if("number"!=typeof e||e<0||isNaN(e))throw TypeError("n must be a positive number");return this._maxListeners=e,this},r.prototype.emit=function(e){var t,n,r,s,u,c;if(this._events||(this._events={}),"error"===e&&(!this._events.error||i(this._events.error)&&!this._events.error.length)){if((t=arguments[1])instanceof Error)throw t;var l=new Error('Uncaught, unspecified "error" event. ('+t+")");throw l.context=t,l}if(a(n=this._events[e]))return!1;if(o(n))switch(arguments.length){case 1:n.call(this);break;case 2:n.call(this,arguments[1]);break;case 3:n.call(this,arguments[1],arguments[2]);break;default:s=Array.prototype.slice.call(arguments,1),n.apply(this,s)}else if(i(n))for(s=Array.prototype.slice.call(arguments,1),r=(c=n.slice()).length,u=0;u<r;u++)c[u].apply(this,s);return!0},r.prototype.addListener=function(e,t){var n;if(!o(t))throw TypeError("listener must be a function");return this._events||(this._events={}),this._events.newListener&&this.emit("newListener",e,o(t.listener)?t.listener:t),this._events[e]?i(this._events[e])?this._events[e].push(t):this._events[e]=[this._events[e],t]:this._events[e]=t,i(this._events[e])&&!this._events[e].warned&&(n=a(this._maxListeners)?r.defaultMaxListeners:this._maxListeners)&&n>0&&this._events[e].length>n&&(this._events[e].warned=!0,console.error("(node) warning: possible EventEmitter memory leak detected. %d listeners added. Use emitter.setMaxListeners() to increase limit.",this._events[e].length),"function"==typeof console.trace&&console.trace()),this},r.prototype.on=r.prototype.addListener,r.prototype.once=function(e,t){if(!o(t))throw TypeError("listener must be a function");var n=!1;function r(){this.removeListener(e,r),n||(n=!0,t.apply(this,arguments))}return r.listener=t,this.on(e,r),this},r.prototype.removeListener=function(e,t){var n,r,a,s;if(!o(t))throw TypeError("listener must be a function");if(!this._events||!this._events[e])return this;if(a=(n=this._events[e]).length,r=-1,n===t||o(n.listener)&&n.listener===t)delete this._events[e],this._events.removeListener&&this.emit("removeListener",e,t);else if(i(n)){for(s=a;s-- >0;)if(n[s]===t||n[s].listener&&n[s].listener===t){r=s;break}if(r<0)return this;1===n.length?(n.length=0,delete this._events[e]):n.splice(r,1),this._events.removeListener&&this.emit("removeListener",e,t)}return this},r.prototype.removeAllListeners=function(e){var t,n;if(!this._events)return this;if(!this._events.removeListener)return 0===arguments.length?this._events={}:this._events[e]&&delete this._events[e],this;if(0===arguments.length){for(t in this._events)"removeListener"!==t&&this.removeAllListeners(t);return this.removeAllListeners("removeListener"),this._events={},this}if(o(n=this._events[e]))this.removeListener(e,n);else if(n)for(;n.length;)this.removeListener(e,n[n.length-1]);return delete this._events[e],this},r.prototype.listeners=function(e){return this._events&&this._events[e]?o(this._events[e])?[this._events[e]]:this._events[e].slice():[]},r.prototype.listenerCount=function(e){if(this._events){var t=this._events[e];if(o(t))return 1;if(t)return t.length}return 0},r.listenerCount=function(e,t){return e.listenerCount(t)}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=function(e){if(null!=e)return e;throw new Error("Got unexpected null or undefined")}},function(e,t,n){"use strict";e.exports=function(){return"g"+Math.random().toString(16).substr(2)}},function(e,t,n){"use strict";function r(e){return function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}function o(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function i(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var a=n(4),s=n(32),u=n(33),c=n(3),l=n(34);function f(e,t){return-1===String(window[e]).indexOf("[native code]")?t:window[e]}var p=5,d=f("cancelIdleCallback",clearTimeout),h=f("requestIdleCallback",function(e,t){var n=3e3*p;return n>500&&(n=500),setTimeout(function(){var t=l();e({didTimeout:!1,timeRemaining:function(){return 1/0}});var n=l();p=(n-t)/1e3},n)}),m=function(){function e(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this._cbs=new Map,this._inspectables=new Map,this._cid=0,this._listeners={},this._buffer=[],this._flushHandle=null,this._callers={},this._paused=!1,this._wall=t,t.listen(this._handleMessage.bind(this))}var t,n,l;return t=e,(n=[{key:"inspect",value:function(e,t,n){var r=this._cid++;this._cbs.set(r,function(e,t,r,o){t.length&&s(e,t),r&&o.length&&s(r,o),r&&(e[a.proto]=r),n(e)}),this._wall.send({type:"inspect",callback:r,path:t,id:e})}},{key:"call",value:function(e,t,n){var r=this._cid++;this._cbs.set(r,n),this._wall.send({type:"call",callback:r,args:t,name:e})}},{key:"onCall",value:function(e,t){if(this._callers[e])throw new Error("only one call handler per call name allowed");this._callers[e]=t}},{key:"pause",value:function(){this._wall.send({type:"pause"})}},{key:"resume",value:function(){this._wall.send({type:"resume"})}},{key:"setInspectable",value:function(e,t){var n=this._inspectables.get(e);n?this._inspectables.set(e,function(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},r=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(r=r.concat(Object.getOwnPropertySymbols(n).filter(function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),r.forEach(function(t){o(e,t,n[t])})}return e}({},n,t)):this._inspectables.set(e,t)}},{key:"send",value:function(e,t){this._buffer.push({evt:e,data:t}),this.scheduleFlush()}},{key:"scheduleFlush",value:function(){if(!this._flushHandle&&this._buffer.length){var e=this._paused?5e3:500;this._flushHandle=h(this.flushBufferWhileIdle.bind(this),{timeout:e})}}},{key:"cancelFlush",value:function(){this._flushHandle&&(d(this._flushHandle),this._flushHandle=null)}},{key:"flushBufferWhileIdle",value:function(e){this._flushHandle=null;for(var t=this._paused?20:10,n=Math.round(this._buffer.length/t),r=this._paused?50:100;this._buffer.length&&(e.timeRemaining()>0||e.didTimeout);){var o=Math.min(this._buffer.length,Math.max(r,n)),i=this._buffer.splice(0,o);this.flushBufferSlice(i)}this._buffer.length&&this.scheduleFlush()}},{key:"flushBufferSlice",value:function(e){var t=this,n=e.map(function(e){var n=e.evt,r=e.data,o=[],i=u(r,o);return o.length&&t.setInspectable(r.id,r),{type:"event",evt:n,data:i,cleaned:o}});this._wall.send({type:"many-events",events:n})}},{key:"forget",value:function(e){this._inspectables.delete(e)}},{key:"on",value:function(e,t){this._listeners[e]?this._listeners[e].push(t):this._listeners[e]=[t]}},{key:"off",value:function(e,t){if(this._listeners[e]){var n=this._listeners[e].indexOf(t);-1!==n&&this._listeners[e].splice(n,1)}}},{key:"once",value:function(e,t){var n=this;this.on(e,function r(){t.apply(this,arguments),n.off(e,r)})}},{key:"_handleMessage",value:function(e){var t=this;if("resume"===e.type)return this._paused=!1,void this.scheduleFlush();if("pause"===e.type)return this._paused=!0,void this.cancelFlush();if("callback"!==e.type)if("call"!==e.type)if("inspect"!==e.type){if("event"===e.type){e.cleaned&&s(e.data,e.cleaned);var n=this._listeners[e.evt],o=e.data;n&&n.forEach(function(e){return e(o)})}"many-events"===e.type&&e.events.forEach(function(e){e.cleaned&&s(e.data,e.cleaned);var n=t._listeners[e.evt];n&&n.forEach(function(t){return t(e.data)})})}else this._inspectResponse(e.id,e.path,e.callback);else this._handleCall(e.name,e.args,e.callback);else{var i=this._cbs.get(e.id);i&&(i.apply(void 0,r(e.args)),this._cbs.delete(e.id))}}},{key:"_handleCall",value:function(e,t,n){if(this._callers[e]){var r;t=Array.isArray(t)?t:[t];try{r=this._callers[e].apply(null,t)}catch(e){return void console.error("Failed to call",e)}this._wall.send({type:"callback",id:n,args:[r]})}else console.warn('unknown call: "'+e+'"')}},{key:"_inspectResponse",value:function(e,t,n){var r=this._inspectables.get(e),o={},i=[],a=null,s=[];if(r){var l=c(r,t),f=!1,p="function"==typeof l;if(l&&"function"==typeof l[Symbol.iterator]){var d=Object.create({}),h=0,m=!0,y=!1,v=void 0;try{for(var g,b=l[Symbol.iterator]();!(m=(g=b.next()).done);m=!0){var _=g.value;if(h>100)break;d[h]=_,h++}}catch(e){y=!0,v=e}finally{try{m||null==b.return||b.return()}finally{if(y)throw v}}l=d}if(Object.getOwnPropertyNames(l).forEach(function(e){"__proto__"===e&&(f=!0),(!p||"arguments"!==e&&"callee"!==e&&"caller"!==e)&&(o[e]=u(l[e],i,[e]))}),!f&&l.__proto__&&"Object"!==l.constructor.name){var w={},S="function"==typeof l.__proto__;Object.getOwnPropertyNames(l.__proto__).forEach(function(e){(!S||"arguments"!==e&&"callee"!==e&&"caller"!==e)&&(w[e]=u(l.__proto__[e],s,[e]))}),a=w}}this._wall.send({type:"callback",id:n,args:[o,i,a,s]})}}])&&i(t.prototype,n),l&&i(t,l),e}();e.exports=m},function(e,t,n){"use strict";e.exports=n(15)()?Symbol:n(16)},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}e.exports=function(){var e;if("function"!=typeof Symbol)return!1;e=Symbol("test symbol");try{String(e)}catch(e){return!1}return"symbol"===r(Symbol.iterator)||"object"===r(Symbol.isConcatSpreadable)&&("object"===r(Symbol.iterator)&&("object"===r(Symbol.toPrimitive)&&("object"===r(Symbol.toStringTag)&&"object"===r(Symbol.unscopables))))}},function(e,t,n){"use strict";var r,o,i,a=n(17),s=n(30),u=Object.create,c=Object.defineProperties,l=Object.defineProperty,f=Object.prototype,p=u(null);"function"==typeof Symbol&&(r=Symbol);var d,h=(d=u(null),function(e){for(var t,n,r=0;d[e+(r||"")];)++r;return d[e+=r||""]=!0,l(f,t="@@"+e,a.gs(null,function(e){n||(n=!0,l(this,t,a(e)),n=!1)})),t});i=function(e){if(this instanceof i)throw new TypeError("TypeError: Symbol is not a constructor");return o(e)},e.exports=o=function e(t){var n;if(this instanceof e)throw new TypeError("TypeError: Symbol is not a constructor");return n=u(i.prototype),t=void 0===t?"":String(t),c(n,{__description__:a("",t),__name__:a("",h(t))})},c(o,{for:a(function(e){return p[e]?p[e]:p[e]=o(String(e))}),keyFor:a(function(e){var t;for(t in s(e),p)if(p[t]===e)return t}),hasInstance:a("",r&&r.hasInstance||o("hasInstance")),isConcatSpreadable:a("",r&&r.isConcatSpreadable||o("isConcatSpreadable")),iterator:a("",r&&r.iterator||o("iterator")),match:a("",r&&r.match||o("match")),replace:a("",r&&r.replace||o("replace")),search:a("",r&&r.search||o("search")),species:a("",r&&r.species||o("species")),split:a("",r&&r.split||o("split")),toPrimitive:a("",r&&r.toPrimitive||o("toPrimitive")),toStringTag:a("",r&&r.toStringTag||o("toStringTag")),unscopables:a("",r&&r.unscopables||o("unscopables"))}),c(i.prototype,{constructor:a(o),toString:a("",function(){return this.__name__})}),c(o.prototype,{toString:a(function(){return"Symbol ("+s(this).__description__+")"}),valueOf:a(function(){return s(this)})}),l(o.prototype,o.toPrimitive,a("",function(){return s(this)})),l(o.prototype,o.toStringTag,a("c","Symbol")),l(i.prototype,o.toStringTag,a("c",o.prototype[o.toStringTag])),l(i.prototype,o.toPrimitive,a("c",o.prototype[o.toPrimitive]))},function(e,t,n){"use strict";var r=n(18),o=n(25),i=n(26),a=n(27);(e.exports=function(e,t){var n,i,s,u,c;return arguments.length<2||"string"!=typeof e?(u=t,t=e,e=null):u=arguments[2],null==e?(n=s=!0,i=!1):(n=a.call(e,"c"),i=a.call(e,"e"),s=a.call(e,"w")),c={value:t,configurable:n,enumerable:i,writable:s},u?r(o(u),c):c}).gs=function(e,t,n){var s,u,c,l;return"string"!=typeof e?(c=n,n=t,t=e,e=null):c=arguments[3],null==t?t=void 0:i(t)?null==n?n=void 0:i(n)||(c=n,n=void 0):(c=t,t=n=void 0),null==e?(s=!0,u=!1):(s=a.call(e,"c"),u=a.call(e,"e")),l={get:t,set:n,configurable:s,enumerable:u},c?r(o(c),l):l}},function(e,t,n){"use strict";e.exports=n(19)()?Object.assign:n(20)},function(e,t,n){"use strict";e.exports=function(){var e,t=Object.assign;return"function"==typeof t&&(t(e={foo:"raz"},{bar:"dwa"},{trzy:"trzy"}),e.foo+e.bar+e.trzy==="razdwatrzy")}},function(e,t,n){"use strict";var r=n(21),o=n(24),i=Math.max;e.exports=function(e,t){var n,a,s,u=i(arguments.length,2);for(e=Object(o(e)),s=function(r){try{e[r]=t[r]}catch(e){n||(n=e)}},a=1;a<u;++a)t=arguments[a],r(t).forEach(s);if(void 0!==n)throw n;return e}},function(e,t,n){"use strict";e.exports=n(22)()?Object.keys:n(23)},function(e,t,n){"use strict";e.exports=function(){try{return Object.keys("primitive"),!0}catch(e){return!1}}},function(e,t,n){"use strict";var r=Object.keys;e.exports=function(e){return r(null==e?e:Object(e))}},function(e,t,n){"use strict";e.exports=function(e){if(null==e)throw new TypeError("Cannot use null or undefined");return e}},function(e,t,n){"use strict";var r=Array.prototype.forEach,o=Object.create;e.exports=function(e){var t=o(null);return r.call(arguments,function(e){null!=e&&function(e,t){var n;for(n in e)t[n]=e[n]}(Object(e),t)}),t}},function(e,t,n){"use strict";e.exports=function(e){return"function"==typeof e}},function(e,t,n){"use strict";e.exports=n(28)()?String.prototype.contains:n(29)},function(e,t,n){"use strict";var r="razdwatrzy";e.exports=function(){return"function"==typeof r.contains&&(!0===r.contains("dwa")&&!1===r.contains("foo"))}},function(e,t,n){"use strict";var r=String.prototype.indexOf;e.exports=function(e){return r.call(this,e,arguments[1])>-1}},function(e,t,n){"use strict";var r=n(31);e.exports=function(e){if(!r(e))throw new TypeError(e+" is not a symbol");return e}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}e.exports=function(e){return e&&("symbol"===r(e)||"Symbol"===e["@@toStringTag"])||!1}},function(e,t,n){"use strict";var r=n(4);e.exports=function(e,t){t.forEach(function(t){var n=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);if(o&&o[n]){var i={};i[r.name]=o[n].name,i[r.type]=o[n].type,i[r.meta]=o[n].meta,i[r.inspected]=!1,o[n]=i}})}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o=2;function i(e,t,n,r){var o={};return"array"!==e&&"typed_array"!==e||(o.length=t.length),"iterator"!==e&&"typed_array"!==e||(o.readOnly=!0),n.push(r),{type:e,meta:o,name:t.constructor&&"Object"!==t.constructor.name?t.constructor.name:""}}e.exports=function e(t,n){var a=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[],s=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0,u=function(e){if(!e)return null;var t=r(e);if("object"===t){if(e._reactFragment)return"react_fragment";if(Array.isArray(e))return"array";if(ArrayBuffer.isView(e))return e instanceof DataView?"data_view":"typed_array";if(e instanceof ArrayBuffer)return"array_buffer";if("function"==typeof e[Symbol.iterator])return"iterator";if("[object Date]"===Object.prototype.toString.call(e))return"date"}return t}(t);switch(u){case"function":return n.push(a),{name:t.name,type:"function"};case"string":return t.length<=500?t:t.slice(0,500)+"...";case"symbol":return n.push(a),{type:"symbol",name:t.toString()};case"react_fragment":return"A React Fragment";case"array_buffer":case"data_view":return n.push(a),{type:u,name:"data_view"===u?"DataView":"ArrayBuffer",meta:{length:t.byteLength,uninspectable:!0}};case"array":return s>o?i(u,t,n,a):t.map(function(t,r){return e(t,n,a.concat([r]),s+1)});case"typed_array":case"iterator":return i(u,t,n,a);case"date":return n.push(a),{name:t.toString(),type:"date",meta:{uninspectable:!0}};case"object":if(s>o||t.constructor&&"function"==typeof t.constructor&&"Object"!==t.constructor.name)return i(u,t,n,a);var c={};for(var l in t)c[l]=e(t[l],n,a.concat([l]),s+1);return c;default:return t}}},function(e,t,n){"use strict";var r,o=n(35);r=o.now?function(){return o.now()}:function(){return Date.now()},e.exports=r},function(e,t,n){"use strict";var r;n(36).canUseDOM&&(r=window.performance||window.msPerformance||window.webkitPerformance),e.exports=r||{}},function(e,t,n){"use strict";var r=!("undefined"==typeof window||!window.document||!window.document.createElement),o={canUseDOM:r,canUseWorkers:"undefined"!=typeof Worker,canUseEventListeners:r&&!(!window.addEventListener&&!window.attachEvent),canUseViewport:r&&!!window.screen,isInWorker:!r};e.exports=o},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function o(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function i(e){return(i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var a="object"===("undefined"==typeof performance?"undefined":i(performance))&&"function"==typeof performance.now?function(){return performance.now()}:function(){return Date.now()},s=function(){function e(t){var n=this;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),o(this,"_committedNodes",new Set),o(this,"_isRecording",!1),o(this,"_maxActualDuration",0),o(this,"_recordingStartTime",0),o(this,"_onIsRecording",function(e){n._committedNodes=new Set,n._isRecording=e,n._recordingStartTime=e?a():0,e&&n._agent.emit("clearSnapshots")}),o(this,"_onMountOrUpdate",function(e){n._isRecording&&void 0!==e.actualDuration&&(n._committedNodes.add(e.id),n._maxActualDuration=Math.max(n._maxActualDuration,e.actualDuration))}),o(this,"_onRootCommitted",function(e,t,r){n._isRecording&&(n._takeCommitSnapshotForRoot(e,r),n._committedNodes=new Set,n._maxActualDuration=0)}),o(this,"_onUnmount",function(e){n._committedNodes.delete(e)}),this._agent=t,t.on("isRecording",this._onIsRecording),t.on("mount",this._onMountOrUpdate),t.on("rootCommitted",this._onRootCommitted),t.on("unmount",this._onUnmount),t.on("update",this._onMountOrUpdate)}var t,n,i;return t=e,(n=[{key:"_takeCommitSnapshotForRoot",value:function(e,t){var n=this,r={memoizedInteractions:(null!=t.memoizedInteractions?Array.from(t.memoizedInteractions):[]).map(function(e){return{name:e.name,timestamp:e.timestamp-n._recordingStartTime}}),committedNodes:Array.from(this._committedNodes),commitTime:a()-this._recordingStartTime,duration:this._maxActualDuration,root:e};this._agent.emit("storeSnapshot",r)}}])&&r(t.prototype,n),i&&r(t,i),e}();e.exports={init:function(e){return new s(e)}}},function(e,t,n){"use strict";e.exports=function(e){if(!e.__REACT_DEVTOOLS_GLOBAL_HOOK__){var t=!1,n={_renderers:{},helpers:{},checkDCE:function(e){try{Function.prototype.toString.call(e).indexOf("^_^")>-1&&(t=!0,setTimeout(function(){throw new Error("React is running in production mode, but dead code elimination has not been applied. Read how to correctly configure React for production: https://fb.me/react-perf-use-the-production-build")}))}catch(e){}},inject:function(e){var r=Math.random().toString(16).slice(2);n._renderers[r]=e;var o=t?"deadcode":function(e){try{if("string"==typeof e.version)return e.bundleType>0?"development":"production";var t=Function.prototype.toString;if(e.Mount&&e.Mount._renderNewRootComponent){var n=t.call(e.Mount._renderNewRootComponent);return 0!==n.indexOf("function")?"production":-1!==n.indexOf("storedMeasure")?"development":-1!==n.indexOf("should be a pure function")?-1!==n.indexOf("NODE_ENV")?"development":-1!==n.indexOf("development")?"development":-1!==n.indexOf("true")?"development":-1!==n.indexOf("nextElement")||-1!==n.indexOf("nextComponent")?"unminified":"development":-1!==n.indexOf("nextElement")||-1!==n.indexOf("nextComponent")?"unminified":"outdated"}}catch(e){}return"production"}(e);return n.emit("renderer",{id:r,renderer:e,reactBuildType:o}),r},_listeners:{},sub:function(e,t){return n.on(e,t),function(){return n.off(e,t)}},on:function(e,t){n._listeners[e]||(n._listeners[e]=[]),n._listeners[e].push(t)},off:function(e,t){if(n._listeners[e]){var r=n._listeners[e].indexOf(t);-1!==r&&n._listeners[e].splice(r,1),n._listeners[e].length||(n._listeners[e]=null)}},emit:function(e,t){n._listeners[e]&&n._listeners[e].map(function(e){return e(t)})},supportsFiber:!0,_fiberRoots:{},getFiberRoots:function(e){var t=n._fiberRoots;return t[e]||(t[e]=new Set),t[e]},onCommitFiberUnmount:function(e,t){n.helpers[e]&&n.helpers[e].handleCommitFiberUnmount(t)},onCommitFiberRoot:function(e,t){var r=n.getFiberRoots(e),o=t.current,i=r.has(t),a=null==o.memoizedState||null==o.memoizedState.element;i||a?i&&a&&r.delete(t):r.add(t),n.helpers[e]&&n.helpers[e].handleCommitFiberRoot(t)}};Object.defineProperty(e,"__REACT_DEVTOOLS_GLOBAL_HOOK__",{value:n})}}},function(e,t,n){"use strict";var r=n(40);e.exports=function(e,t){var n=[e.sub("renderer-attached",function(e){var n=e.id,r=(e.renderer,e.helpers);t.setReactInternals(n,r),r.walkTree(t.onMounted.bind(t,n),t.addRoot.bind(t,n))}),e.sub("mount",function(e){var n=e.renderer,r=e.internalInstance,o=e.data;return t.onMounted(n,r,o)}),e.sub("unmount",function(e){e.renderer;var n=e.internalInstance;return t.onUnmounted(n)}),e.sub("update",function(e){e.renderer;var n=e.internalInstance,r=e.data;return t.onUpdated(n,r)}),e.sub("root",function(e){var n=e.renderer,r=e.internalInstance;return t.addRoot(n,r)}),e.sub("rootCommitted",function(e){var n=e.renderer,r=e.internalInstance,o=e.data;return t.rootCommitted(n,r,o)}),e.sub("updateProfileTimes",function(e){e.renderer;var n=e.internalInstance,r=e.data;return t.onUpdatedProfileTimes(n,r)})];r(e)&&(e.emit("react-devtools",t),e.reactDevtoolsAgent=t,t.on("shutdown",function(){n.forEach(function(e){return e()}),e.reactDevtoolsAgent=null}))}},function(e,t,n){"use strict";var r=n(41);e.exports=function(e){var t=window.React&&window.React.__internals;for(var n in t&&0===Object.keys(e._renderers).length&&e.inject(t),e._renderers)e.helpers[n]=r(e,n,e._renderers[n]),e.emit("renderer-attached",{id:n,renderer:e._renderers[n],helpers:e.helpers[n]});e.on("renderer",function(t){var n=t.id,o=t.renderer;e.helpers[n]=r(e,n,o),e.emit("renderer-attached",{id:n,renderer:o,helpers:e.helpers[n]})});return e.on("shutdown",function t(){for(var n in e.helpers)e.helpers[n].cleanup();e.off("shutdown",t)}),!0}},function(e,t,n){"use strict";var r=n(42),o=n(45),i=n(46);function a(e,t,n){var i=n?o(e):r(e);i.children&&Array.isArray(i.children)&&i.children.forEach(function(e){return a(e,t,n)}),t(e,i)}function s(e,t,n){var r=e[t];return e[t]=function(e){var t=r.apply(this,arguments);return n(t),t},r}function u(e,t,n){var r=e[t];return e[t]=function(e){var t=r.apply(this,arguments);return n.apply(this,arguments),t},r}function c(e,t){var n={};for(var r in t)n[r]=u(e,r,t[r]);return n}function l(e,t){for(var n in t)e[n]=t[n]}e.exports=function(e,t,n){var u,f,p,d=new Map,h={},m=!n.Reconciler;return"function"==typeof n.findFiberByHostInstance?i(e,t,n):(n.Mount.findNodeHandle&&n.Mount.nativeTagToRootNodeID?(h.getNativeFromReactElement=function(e){return n.Mount.findNodeHandle(e)},h.getReactElementFromNative=function(e){var t=n.Mount.nativeTagToRootNodeID(e);return d.get(t)}):n.ComponentTree?(h.getNativeFromReactElement=function(e){return n.ComponentTree.getNodeFromInstance(e)},h.getReactElementFromNative=function(e){return n.ComponentTree.getClosestInstanceFromNode(e)}):n.Mount.getID&&n.Mount.getNode?(h.getNativeFromReactElement=function(e){try{return n.Mount.getNode(e._rootNodeID)}catch(e){return}},h.getReactElementFromNative=function(e){for(var t=n.Mount.getID(e);e&&e.parentNode&&!t;)e=e.parentNode,t=n.Mount.getID(e);return d.get(t)}):console.warn("Unknown react version (does not have getID), probably an unshimmed React Native"),n.Mount._renderNewRootComponent?p=s(n.Mount,"_renderNewRootComponent",function(n){e.emit("root",{renderer:t,internalInstance:n})}):n.Mount.renderComponent&&(f=s(n.Mount,"renderComponent",function(n){e.emit("root",{renderer:t,internalInstance:n._reactInternalInstance})})),n.Component?(console.error("You are using a version of React with limited support in this version of the devtools.\nPlease upgrade to use at least 0.13, or you can downgrade to use the old version of the devtools:\ninstructions here https://github.com/facebook/react-devtools/tree/devtools-next#how-do-i-use-this-for-react--013"),u=c(n.Component.Mixin,{mountComponent:function(){var n=this;d.set(this._rootNodeID,this),setTimeout(function(){e.emit("mount",{internalInstance:n,data:o(n),renderer:t})},0)},updateComponent:function(){var n=this;setTimeout(function(){e.emit("update",{internalInstance:n,data:o(n),renderer:t})},0)},unmountComponent:function(){e.emit("unmount",{internalInstance:this,renderer:t}),d.delete(this._rootNodeID)}})):n.Reconciler&&(u=c(n.Reconciler,{mountComponent:function(n,o,i,a){var s=r(n);d.set(n._rootNodeID,n),e.emit("mount",{internalInstance:n,data:s,renderer:t})},performUpdateIfNecessary:function(n,o,i,a){e.emit("update",{internalInstance:n,data:r(n),renderer:t})},receiveComponent:function(n,o,i,a){e.emit("update",{internalInstance:n,data:r(n),renderer:t})},unmountComponent:function(n){e.emit("unmount",{internalInstance:n,renderer:t}),d.delete(n._rootNodeID)}})),h.walkTree=function(e,t){!function(e,t,n,r){for(var o in e)a(e[o],t,r),n(e[o])}(n.Mount._instancesByReactRootID||n.Mount._instancesByContainerID,function(t,n){d.set(t._rootNodeID,t),e(t,n)},t,m)},h.cleanup=function(){u&&(n.Component?l(n.Component.Mixin,u):l(n.Reconciler,u)),p&&(n.Mount._renderNewRootComponent=p),f&&(n.Mount.renderComponent=f),u=null,p=null,f=null},h.renderer=null,h)}},function(e,t,n){"use strict";function r(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var i=n(2),a=n(5),s=n(43);function u(e,t,n){var r=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);o&&(o[r]=n)}function c(e){var t=[];for(var n in e)t.push(e[n]);return t}e.exports=function(e){var t=null,n=null,l=null,f=null,p=null,d=null,h=null,m=null,y=null,v=null,g=null,b=null,_="Native";if("object"!==o(e))_="Text",g=e+"";else if(null===e._currentElement||!1===e._currentElement)_="Empty";else if(e._renderedComponent)_="NativeWrapper",t=[e._renderedComponent],n=e._instance.props,l=e._instance.state,(f=e._instance.context)&&0===Object.keys(f).length&&(f=null);else if(e._renderedChildren)t=c(e._renderedChildren);else if(e._currentElement&&e._currentElement.props){var w=e._currentElement.props.children,S=[];s(w,"",function(e,t){var n=o(t);"string"!==n&&"number"!==n||S.push(t)}),t=S.length<=1?S.length?String(S[0]):void 0:S}if(!n&&e._currentElement&&e._currentElement.props&&(n=e._currentElement.props),null!=e._currentElement&&(h=e._currentElement.type,e._currentElement.key&&(m=String(e._currentElement.key)),v=e._currentElement._source,y=e._currentElement.ref,"string"==typeof h?(d=h,null!=e._nativeNode&&(b=e._nativeNode),null!=e._hostNode&&(b=e._hostNode)):"function"==typeof h?(_="Composite",d=a(h),e._renderedComponent&&(e._currentElement.props===e._renderedComponent._currentElement||e._currentElement.type.isReactTopLevelWrapper)&&(_="Wrapper"),null===d&&(d="No display name")):"string"==typeof e._stringText?(_="Text",g=e._stringText):d=a(h)),e._instance){var E=e._instance,O=E.forceUpdate||E.updater&&E.updater.enqueueForceUpdate&&function(e){E.updater.enqueueForceUpdate(this,e,"forceUpdate")};p={canUpdate:!0,setState:E.setState&&E.setState.bind(E),setInProps:O&&function(e,t,n,o){var a=e._currentElement;e._currentElement=function(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},o=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(o=o.concat(Object.getOwnPropertySymbols(n).filter(function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),o.forEach(function(t){r(e,t,n[t])})}return e}({},a,{props:i(a.props,n,o)}),t.call(e._instance)}.bind(null,e,O),setInState:E.forceUpdate&&function(e,t,n){u(e.state,t,n),e.forceUpdate()}.bind(null,E),setInContext:O&&function(e,t,n,r){u(e.context,n,r),t.call(e)}.bind(null,E,O)},"function"==typeof h&&(b=E),E._renderedChildren&&(t=c(E._renderedChildren))}return"function"==typeof e.setNativeProps&&(p={setNativeProps:function(t){e.setNativeProps(t)}}),{nodeType:_,type:h,key:m,ref:y,source:v,name:d,props:n,state:l,context:f,children:t,text:g,updater:p,publicInstance:b}}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o=n(44),i=".",a=":",s="@@iterator",u="function"==typeof Symbol&&Symbol.iterator,c="function"==typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103;function l(e,t){return"object"===r(e)&&null!==e&&null!=e.key?(n=e.key,o={"=":"=0",":":"=2"},"$"+(""+n).replace(/[=:]/g,function(e){return o[e]})):t.toString(36);var n,o}e.exports=function e(t,n,f,p){var d,h=r(t);if("undefined"!==h&&"boolean"!==h||(t=null),null===t||"string"===h||"number"===h||"object"===h&&t.$$typeof===c)return f(p,t,""===n?i+l(t,0):n),1;var m=0,y=""===n?i:n+a;if(Array.isArray(t))for(var v=0;v<t.length;v++)m+=e(d=t[v],y+l(d,v),f,p);else{var g=u&&t[u]||t[s];if("function"==typeof g)for(var b,_=g.call(t),w=0;!(b=_.next()).done;)m+=e(d=b.value,y+l(d,w++),f,p);else if("object"===h){var S=""+t;o(!1,"The React Devtools cannot render an object as a child. (found: %s).%s","[object Object]"===S?"object with keys {"+Object.keys(t).join(", ")+"}":S," If you meant to render a collection of children, use an array instead.")}}return m}},function(e,t,n){"use strict";e.exports=function(e,t,n,r,o,i,a,s){if(!e){var u;if(void 0===t)u=new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var c=[n,r,o,i,a,s],l=0;(u=new Error(t.replace(/%s/g,function(){return c[l++]}))).name="Invariant Violation"}throw u.framesToPop=1,u}}},function(e,t,n){"use strict";var r=n(2);function o(e,t,n){var r=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);o&&(o[r]=n)}e.exports=function(e){var t=null,n=e.props,i=e.state,a=e.context,s=null,u=null,c=null,l=null,f=null,p=null,d=null,h="Native";return e._renderedComponent?(h="Wrapper",t=[e._renderedComponent],a&&0===Object.keys(a).length&&(a=null)):e._renderedChildren?(u=e.constructor.displayName,t=function(e){var t=[];for(var n in e)t.push(e[n]);return t}(e._renderedChildren)):"string"==typeof n.children&&(u=e.constructor.displayName,t=n.children,h="Native"),!n&&e._currentElement&&e._currentElement.props&&(n=e._currentElement.props),e._currentElement&&(c=e._currentElement.type,e._currentElement.key&&(l=String(e._currentElement.key)),f=e._currentElement.ref,"string"==typeof c?u=c:(h="Composite",(u=c.displayName)||(u="No display name"))),u||(u=e.constructor.displayName||"No display name",h="Composite"),"string"==typeof n&&(h="Text",p=n,n=null,u=null),e.forceUpdate&&(s={canUpdate:!0,setState:e.setState.bind(e),setInProps:e.forceUpdate&&function(e,t,n){e.props=r(e.props,t,n),e.forceUpdate()}.bind(null,e),setInState:e.forceUpdate&&function(e,t,n){o(e.state,t,n),e.forceUpdate()}.bind(null,e),setInContext:e.forceUpdate&&function(e,t,n){o(e.context,t,n),e.forceUpdate()}.bind(null,e)},d=e),{nodeType:h,type:c,key:l,ref:f,source:null,name:u,props:n,state:i,context:a,children:t,text:p,updater:s,publicInstance:d}}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o=n(47),i=n(2),a=n(5);e.exports=function(e,t,n){var s,u=n.overrideProps,c=(s=n.version,{ReactTypeOfWork:o.gte(s,"16.6.0-beta.0")?{ClassComponent:1,ContextConsumer:9,ContextProvider:10,CoroutineComponent:-1,CoroutineHandlerPhase:-1,ForwardRef:11,Fragment:7,FunctionComponent:0,HostComponent:5,HostPortal:4,HostRoot:3,HostText:6,IncompleteClassComponent:17,IndeterminateComponent:2,LazyComponent:16,MemoComponent:14,Mode:8,Profiler:12,SimpleMemoComponent:15,SuspenseComponent:13,YieldComponent:-1}:o.gte(s,"16.4.3-alpha")?{ClassComponent:2,ContextConsumer:11,ContextProvider:12,CoroutineComponent:-1,CoroutineHandlerPhase:-1,ForwardRef:13,Fragment:9,FunctionComponent:0,HostComponent:7,HostPortal:6,HostRoot:5,HostText:8,IncompleteClassComponent:-1,IndeterminateComponent:4,LazyComponent:-1,MemoComponent:-1,Mode:10,Profiler:15,SimpleMemoComponent:-1,SuspenseComponent:16,YieldComponent:-1}:{ClassComponent:2,ContextConsumer:12,ContextProvider:13,CoroutineComponent:7,CoroutineHandlerPhase:8,ForwardRef:14,Fragment:10,FunctionComponent:1,HostComponent:5,HostPortal:4,HostRoot:3,HostText:6,IncompleteClassComponent:-1,IndeterminateComponent:0,LazyComponent:-1,MemoComponent:-1,Mode:11,Profiler:15,SimpleMemoComponent:-1,SuspenseComponent:16,YieldComponent:9},ReactSymbols:{CONCURRENT_MODE_NUMBER:60111,CONCURRENT_MODE_SYMBOL_STRING:"Symbol(react.concurrent_mode)",DEPRECATED_ASYNC_MODE_SYMBOL_STRING:"Symbol(react.async_mode)",CONTEXT_CONSUMER_NUMBER:60110,CONTEXT_CONSUMER_SYMBOL_STRING:"Symbol(react.context)",CONTEXT_PROVIDER_NUMBER:60109,CONTEXT_PROVIDER_SYMBOL_STRING:"Symbol(react.provider)",FORWARD_REF_NUMBER:60112,FORWARD_REF_SYMBOL_STRING:"Symbol(react.forward_ref)",MEMO_NUMBER:60115,MEMO_SYMBOL_STRING:"Symbol(react.memo)",PROFILER_NUMBER:60114,PROFILER_SYMBOL_STRING:"Symbol(react.profiler)",STRICT_MODE_NUMBER:60108,STRICT_MODE_SYMBOL_STRING:"Symbol(react.strict_mode)",SUSPENSE_NUMBER:60113,SUSPENSE_SYMBOL_STRING:"Symbol(react.suspense)",DEPRECATED_PLACEHOLDER_SYMBOL_STRING:"Symbol(react.placeholder)"},ReactTypeOfSideEffect:{PerformedWork:1}}),l=c.ReactTypeOfWork,f=c.ReactSymbols,p=c.ReactTypeOfSideEffect.PerformedWork,d=l.FunctionComponent,h=l.ClassComponent,m=l.ContextConsumer,y=l.Fragment,v=l.ForwardRef,g=l.HostRoot,b=l.HostPortal,_=l.HostComponent,w=l.HostText,S=l.IncompleteClassComponent,E=l.IndeterminateComponent,O=l.MemoComponent,x=l.SimpleMemoComponent,C=f.CONCURRENT_MODE_NUMBER,I=f.CONCURRENT_MODE_SYMBOL_STRING,N=f.DEPRECATED_ASYNC_MODE_SYMBOL_STRING,T=f.CONTEXT_CONSUMER_NUMBER,k=f.CONTEXT_CONSUMER_SYMBOL_STRING,R=f.CONTEXT_PROVIDER_NUMBER,j=f.CONTEXT_PROVIDER_SYMBOL_STRING,M=f.PROFILER_NUMBER,D=f.PROFILER_SYMBOL_STRING,P=f.STRICT_MODE_NUMBER,L=f.STRICT_MODE_SYMBOL_STRING,A=f.SUSPENSE_NUMBER,B=f.SUSPENSE_SYMBOL_STRING,F=f.DEPRECATED_PLACEHOLDER_SYMBOL_STRING;function U(e){var t=e.elementType,n=e.type,o=e.key,s=e.ref,c=e.tag,l=e._debugSource,f=null,p=null,m=null,U=null,H=null,$=null,G=null,W=null,q=null,Y=null,K=null,X=null,J=null,Z=null,Q=!1,ee=(c===d||c===x||c===v)&&!!e.memoizedState,te=n;switch("object"===r(n)&&null!==n&&"function"==typeof n.then&&(te=n._reactResult),"function"==typeof u&&($={canUpdate:!0,setState:null,setInProps:u.bind(null,e),setInState:null,setInContext:null}),c){case h:case d:case S:case E:G="Composite",W=a(te),f=e.stateNode,p=e.memoizedProps,m=e.memoizedState,null!=f&&(H=f.context)&&0===Object.keys(H).length&&(H=null);var ne=f;ne&&($={canUpdate:!0,setState:ne.setState&&ne.setState.bind(ne),setInProps:ne.forceUpdate&&function(e,t,n){var r=e.stateNode;e.pendingProps=i(r.props,t,n),e.alternate&&(e.alternate.pendingProps=e.pendingProps),e.stateNode.forceUpdate()}.bind(null,e),setInState:ne.forceUpdate&&function(e,t,n){z(e.state,t,n),e.forceUpdate()}.bind(null,ne),setInContext:ne.forceUpdate&&function(e,t,n){z(e.context,t,n),e.forceUpdate()}.bind(null,ne)}),U=[];break;case v:var re=a(te.render,"");G="Special",W=te.displayName||(""!==re?"ForwardRef(".concat(re,")"):"ForwardRef"),p=e.memoizedProps,m=e.memoizedState,U=[];break;case g:G="Wrapper",U=[],K=e.stateNode.memoizedInteractions;break;case b:G="Portal",W="ReactPortal",p={target:e.stateNode.containerInfo},U=[];break;case _:G="Native",W=(W=e.type).replace("topsecret-",""),f=e.stateNode,U="string"==typeof(p=e.memoizedProps).children||"number"==typeof p.children?p.children.toString():[],"function"==typeof e.stateNode.setNativeProps&&($={setNativeProps:function(t){e.stateNode.setNativeProps(t)}});break;case w:G="Text",q=e.memoizedProps;break;case y:G="Wrapper",U=[];break;case O:case x:if(G="Composite",t.displayName)W=t.displayName;else{var oe=n.displayName||n.name;W=oe?"Memo(".concat(oe,")"):"Memo"}p=e.memoizedProps,m=e.memoizedState,U=[];break;default:var ie="object"===r(n)&&null!==n?n.$$typeof:n;switch("symbol"===r(ie)?ie.toString():ie){case C:case I:case N:G="Special",W="ConcurrentMode",U=[];break;case R:case j:G="Special",p=e.memoizedProps,Y=e.type._context||e.type.context,W="".concat(Y.displayName||"Context",".Provider"),U=[];break;case T:case k:G="Special",p=e.memoizedProps,Y=e.type._context||e.type,W="".concat(Y.displayName||"Context",".Consumer"),U=[];break;case P:case L:G="Special",W="StrictMode",U=[];break;case A:case B:case F:G="Special",W="Suspense",p=e.memoizedProps,U=[],Q=null!==e.memoizedState;break;case M:case D:G="Special",p=e.memoizedProps,W="Profiler(".concat(e.memoizedProps.id,")"),U=[];break;default:G="Native",p=e.memoizedProps,W="TODO_NOT_IMPLEMENTED_YET",U=[]}}if(null!==p&&void 0!==r(e.elementType)&&e.type!==e.elementType&&(p=function(e,t){if(e&&e.defaultProps){var n=Object.assign({},t),r=e.defaultProps;for(var o in r)void 0===n[o]&&(n[o]=r[o]);return n}return t}(e.type,p)),Array.isArray(U))if(Q){var ae=e.child,se=ae.child,ue=ae.sibling.child;U.push(se),U.push(ue)}else for(var ce=e.child;ce;)U.push(V(ce)),ce=ce.sibling;return void 0!==e.actualDuration&&(X=e.actualDuration,J=e.actualStartTime,Z=e.treeBaseDuration),{nodeType:G,type:n,key:o,ref:s,source:l,name:W,props:p,state:m,context:H,children:U,text:q,updater:$,publicInstance:f,memoizedInteractions:K,actualDuration:X,actualStartTime:J,treeBaseDuration:Z,containsHooks:ee}}function z(e,t,n){var r=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);o&&(o[r]=n)}var H=new Set;function V(e){if(H.has(e))return e;var t=e.alternate;return null!=t&&H.has(t)?t:(H.add(e),e)}var $=[];function G(){var t=$;$=[];for(var n=0;n<t.length;n++){var r=t[n];e.emit(r.type,r)}}function W(e){$.push({internalInstance:V(e),data:U(e),renderer:t,type:"mount"}),e.tag===g&&$.push({internalInstance:V(e),renderer:t,type:"root"})}function q(e,n){var r,o,i=U(e);if(!n&&!function(e,t){switch(t.tag){case h:case d:case m:case O:case x:return(t.effectTag&p)===p;default:return e.memoizedProps!==t.memoizedProps||e.memoizedState!==t.memoizedState||e.ref!==t.ref}}(e.alternate,e))return r=e.alternate,o=e,void(void 0===r.actualDuration||r.actualDuration===o.actualDuration&&r.actualStartTime===o.actualStartTime&&r.treeBaseDuration===o.treeBaseDuration||$.push({internalInstance:V(e),data:i,renderer:t,type:"updateProfileTimes"}));$.push({internalInstance:V(e),data:i,renderer:t,type:"update"})}function Y(e){var n=e.tag===g,r=V(e),o={internalInstance:r,renderer:t,type:"unmount"};n?$.push(o):$.unshift(o),H.delete(r)}function K(e){$.push({internalInstance:V(e),data:U(e),renderer:t,type:"rootCommitted"})}function X(e){var t=e;e:for(;;)if(t.child)t.child.return=t,t=t.child;else{if(W(t),t==e)return;if(!t.sibling){for(;t.return;){if(W(t=t.return),t==e)return;if(t.sibling){t.sibling.return=t.return,t=t.sibling;continue e}}return}t.sibling.return=t.return,t=t.sibling}}return{getNativeFromReactElement:function(e){try{var t=e;return n.findHostInstanceByFiber(t)}catch(e){return null}},getReactElementFromNative:function(e){var t=n.findFiberByHostInstance(e);return null!=t?V(t):null},handleCommitFiberRoot:function(e){var t=e.current,n=t.alternate;if(n){var r=null!=n.memoizedState&&null!=n.memoizedState.element,o=null!=t.memoizedState&&null!=t.memoizedState.element;!r&&o?X(t):r&&o?function e(t,n){if(t.tag===l.SuspenseComponent&&null!==t.memoizedState){var r=t.child.sibling.child;r.alternate?e(r,r.alternate):X(r),q(t,!1)}else{var o=!1;if(t.child!==n.child){for(var i=t.child,a=n.child;i;){if(i.alternate){var s=i.alternate;e(i,s),o||s===a||(o=!0)}else X(i),o||(o=!0);i=i.sibling,o||null==a||(a=a.sibling)}o||null==a||(o=!0)}q(t,o)}}(t,n):r&&!o&&Y(t)}else X(t);K(t),G()},handleCommitFiberUnmount:function(e){Y(e)},cleanup:function(){},walkTree:function(){e.getFiberRoots(t).forEach(function(e){X(e.current),K(e.current)}),G()},renderer:n}}},function(e,t,n){(function(n){function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o;t=e.exports=K,o="object"===(void 0===n?"undefined":r(n))&&n.env&&n.env.NODE_DEBUG&&/\bsemver\b/i.test(n.env.NODE_DEBUG)?function(){var e=Array.prototype.slice.call(arguments,0);e.unshift("SEMVER"),console.log.apply(console,e)}:function(){},t.SEMVER_SPEC_VERSION="2.0.0";var i=256,a=Number.MAX_SAFE_INTEGER||9007199254740991,s=t.re=[],u=t.src=[],c=0,l=c++;u[l]="0|[1-9]\\d*";var f=c++;u[f]="[0-9]+";var p=c++;u[p]="\\d*[a-zA-Z-][a-zA-Z0-9-]*";var d=c++;u[d]="("+u[l]+")\\.("+u[l]+")\\.("+u[l]+")";var h=c++;u[h]="("+u[f]+")\\.("+u[f]+")\\.("+u[f]+")";var m=c++;u[m]="(?:"+u[l]+"|"+u[p]+")";var y=c++;u[y]="(?:"+u[f]+"|"+u[p]+")";var v=c++;u[v]="(?:-("+u[m]+"(?:\\."+u[m]+")*))";var g=c++;u[g]="(?:-?("+u[y]+"(?:\\."+u[y]+")*))";var b=c++;u[b]="[0-9A-Za-z-]+";var _=c++;u[_]="(?:\\+("+u[b]+"(?:\\."+u[b]+")*))";var w=c++,S="v?"+u[d]+u[v]+"?"+u[_]+"?";u[w]="^"+S+"$";var E="[v=\\s]*"+u[h]+u[g]+"?"+u[_]+"?",O=c++;u[O]="^"+E+"$";var x=c++;u[x]="((?:<|>)?=?)";var C=c++;u[C]=u[f]+"|x|X|\\*";var I=c++;u[I]=u[l]+"|x|X|\\*";var N=c++;u[N]="[v=\\s]*("+u[I]+")(?:\\.("+u[I]+")(?:\\.("+u[I]+")(?:"+u[v]+")?"+u[_]+"?)?)?";var T=c++;u[T]="[v=\\s]*("+u[C]+")(?:\\.("+u[C]+")(?:\\.("+u[C]+")(?:"+u[g]+")?"+u[_]+"?)?)?";var k=c++;u[k]="^"+u[x]+"\\s*"+u[N]+"$";var R=c++;u[R]="^"+u[x]+"\\s*"+u[T]+"$";var j=c++;u[j]="(?:^|[^\\d])(\\d{1,16})(?:\\.(\\d{1,16}))?(?:\\.(\\d{1,16}))?(?:$|[^\\d])";var M=c++;u[M]="(?:~>?)";var D=c++;u[D]="(\\s*)"+u[M]+"\\s+",s[D]=new RegExp(u[D],"g");var P=c++;u[P]="^"+u[M]+u[N]+"$";var L=c++;u[L]="^"+u[M]+u[T]+"$";var A=c++;u[A]="(?:\\^)";var B=c++;u[B]="(\\s*)"+u[A]+"\\s+",s[B]=new RegExp(u[B],"g");var F=c++;u[F]="^"+u[A]+u[N]+"$";var U=c++;u[U]="^"+u[A]+u[T]+"$";var z=c++;u[z]="^"+u[x]+"\\s*("+E+")$|^$";var H=c++;u[H]="^"+u[x]+"\\s*("+S+")$|^$";var V=c++;u[V]="(\\s*)"+u[x]+"\\s*("+E+"|"+u[N]+")",s[V]=new RegExp(u[V],"g");var $=c++;u[$]="^\\s*("+u[N]+")\\s+-\\s+("+u[N]+")\\s*$";var G=c++;u[G]="^\\s*("+u[T]+")\\s+-\\s+("+u[T]+")\\s*$";var W=c++;u[W]="(<|>)?=?\\s*\\*";for(var q=0;q<35;q++)o(q,u[q]),s[q]||(s[q]=new RegExp(u[q]));function Y(e,t){if(e instanceof K)return e;if("string"!=typeof e)return null;if(e.length>i)return null;if(!(t?s[O]:s[w]).test(e))return null;try{return new K(e,t)}catch(e){return null}}function K(e,t){if(e instanceof K){if(e.loose===t)return e;e=e.version}else if("string"!=typeof e)throw new TypeError("Invalid Version: "+e);if(e.length>i)throw new TypeError("version is longer than "+i+" characters");if(!(this instanceof K))return new K(e,t);o("SemVer",e,t),this.loose=t;var n=e.trim().match(t?s[O]:s[w]);if(!n)throw new TypeError("Invalid Version: "+e);if(this.raw=e,this.major=+n[1],this.minor=+n[2],this.patch=+n[3],this.major>a||this.major<0)throw new TypeError("Invalid major version");if(this.minor>a||this.minor<0)throw new TypeError("Invalid minor version");if(this.patch>a||this.patch<0)throw new TypeError("Invalid patch version");n[4]?this.prerelease=n[4].split(".").map(function(e){if(/^[0-9]+$/.test(e)){var t=+e;if(t>=0&&t<a)return t}return e}):this.prerelease=[],this.build=n[5]?n[5].split("."):[],this.format()}t.parse=Y,t.valid=function(e,t){var n=Y(e,t);return n?n.version:null},t.clean=function(e,t){var n=Y(e.trim().replace(/^[=v]+/,""),t);return n?n.version:null},t.SemVer=K,K.prototype.format=function(){return this.version=this.major+"."+this.minor+"."+this.patch,this.prerelease.length&&(this.version+="-"+this.prerelease.join(".")),this.version},K.prototype.toString=function(){return this.version},K.prototype.compare=function(e){return o("SemVer.compare",this.version,this.loose,e),e instanceof K||(e=new K(e,this.loose)),this.compareMain(e)||this.comparePre(e)},K.prototype.compareMain=function(e){return e instanceof K||(e=new K(e,this.loose)),J(this.major,e.major)||J(this.minor,e.minor)||J(this.patch,e.patch)},K.prototype.comparePre=function(e){if(e instanceof K||(e=new K(e,this.loose)),this.prerelease.length&&!e.prerelease.length)return-1;if(!this.prerelease.length&&e.prerelease.length)return 1;if(!this.prerelease.length&&!e.prerelease.length)return 0;var t=0;do{var n=this.prerelease[t],r=e.prerelease[t];if(o("prerelease compare",t,n,r),void 0===n&&void 0===r)return 0;if(void 0===r)return 1;if(void 0===n)return-1;if(n!==r)return J(n,r)}while(++t)},K.prototype.inc=function(e,t){switch(e){case"premajor":this.prerelease.length=0,this.patch=0,this.minor=0,this.major++,this.inc("pre",t);break;case"preminor":this.prerelease.length=0,this.patch=0,this.minor++,this.inc("pre",t);break;case"prepatch":this.prerelease.length=0,this.inc("patch",t),this.inc("pre",t);break;case"prerelease":0===this.prerelease.length&&this.inc("patch",t),this.inc("pre",t);break;case"major":0===this.minor&&0===this.patch&&0!==this.prerelease.length||this.major++,this.minor=0,this.patch=0,this.prerelease=[];break;case"minor":0===this.patch&&0!==this.prerelease.length||this.minor++,this.patch=0,this.prerelease=[];break;case"patch":0===this.prerelease.length&&this.patch++,this.prerelease=[];break;case"pre":if(0===this.prerelease.length)this.prerelease=[0];else{for(var n=this.prerelease.length;--n>=0;)"number"==typeof this.prerelease[n]&&(this.prerelease[n]++,n=-2);-1===n&&this.prerelease.push(0)}t&&(this.prerelease[0]===t?isNaN(this.prerelease[1])&&(this.prerelease=[t,0]):this.prerelease=[t,0]);break;default:throw new Error("invalid increment argument: "+e)}return this.format(),this.raw=this.version,this},t.inc=function(e,t,n,r){"string"==typeof n&&(r=n,n=void 0);try{return new K(e,n).inc(t,r).version}catch(e){return null}},t.diff=function(e,t){if(te(e,t))return null;var n=Y(e),r=Y(t);if(n.prerelease.length||r.prerelease.length){for(var o in n)if(("major"===o||"minor"===o||"patch"===o)&&n[o]!==r[o])return"pre"+o;return"prerelease"}for(var o in n)if(("major"===o||"minor"===o||"patch"===o)&&n[o]!==r[o])return o},t.compareIdentifiers=J;var X=/^[0-9]+$/;function J(e,t){var n=X.test(e),r=X.test(t);return n&&r&&(e=+e,t=+t),n&&!r?-1:r&&!n?1:e<t?-1:e>t?1:0}function Z(e,t,n){return new K(e,n).compare(new K(t,n))}function Q(e,t,n){return Z(e,t,n)>0}function ee(e,t,n){return Z(e,t,n)<0}function te(e,t,n){return 0===Z(e,t,n)}function ne(e,t,n){return 0!==Z(e,t,n)}function re(e,t,n){return Z(e,t,n)>=0}function oe(e,t,n){return Z(e,t,n)<=0}function ie(e,t,n,o){var i;switch(t){case"===":"object"===r(e)&&(e=e.version),"object"===r(n)&&(n=n.version),i=e===n;break;case"!==":"object"===r(e)&&(e=e.version),"object"===r(n)&&(n=n.version),i=e!==n;break;case"":case"=":case"==":i=te(e,n,o);break;case"!=":i=ne(e,n,o);break;case">":i=Q(e,n,o);break;case">=":i=re(e,n,o);break;case"<":i=ee(e,n,o);break;case"<=":i=oe(e,n,o);break;default:throw new TypeError("Invalid operator: "+t)}return i}function ae(e,t){if(e instanceof ae){if(e.loose===t)return e;e=e.value}if(!(this instanceof ae))return new ae(e,t);o("comparator",e,t),this.loose=t,this.parse(e),this.semver===se?this.value="":this.value=this.operator+this.semver.version,o("comp",this)}t.rcompareIdentifiers=function(e,t){return J(t,e)},t.major=function(e,t){return new K(e,t).major},t.minor=function(e,t){return new K(e,t).minor},t.patch=function(e,t){return new K(e,t).patch},t.compare=Z,t.compareLoose=function(e,t){return Z(e,t,!0)},t.rcompare=function(e,t,n){return Z(t,e,n)},t.sort=function(e,n){return e.sort(function(e,r){return t.compare(e,r,n)})},t.rsort=function(e,n){return e.sort(function(e,r){return t.rcompare(e,r,n)})},t.gt=Q,t.lt=ee,t.eq=te,t.neq=ne,t.gte=re,t.lte=oe,t.cmp=ie,t.Comparator=ae;var se={};function ue(e,t){if(e instanceof ue)return e.loose===t?e:new ue(e.raw,t);if(e instanceof ae)return new ue(e.value,t);if(!(this instanceof ue))return new ue(e,t);if(this.loose=t,this.raw=e,this.set=e.split(/\s*\|\|\s*/).map(function(e){return this.parseRange(e.trim())},this).filter(function(e){return e.length}),!this.set.length)throw new TypeError("Invalid SemVer Range: "+e);this.format()}function ce(e){return!e||"x"===e.toLowerCase()||"*"===e}function le(e,t,n,r,o,i,a,s,u,c,l,f,p){return((t=ce(n)?"":ce(r)?">="+n+".0.0":ce(o)?">="+n+"."+r+".0":">="+t)+" "+(s=ce(u)?"":ce(c)?"<"+(+u+1)+".0.0":ce(l)?"<"+u+"."+(+c+1)+".0":f?"<="+u+"."+c+"."+l+"-"+f:"<="+s)).trim()}function fe(e,t){for(var n=0;n<e.length;n++)if(!e[n].test(t))return!1;if(t.prerelease.length){for(n=0;n<e.length;n++)if(o(e[n].semver),e[n].semver!==se&&e[n].semver.prerelease.length>0){var r=e[n].semver;if(r.major===t.major&&r.minor===t.minor&&r.patch===t.patch)return!0}return!1}return!0}function pe(e,t,n){try{t=new ue(t,n)}catch(e){return!1}return t.test(e)}function de(e,t,n,r){var o,i,a,s,u;switch(e=new K(e,r),t=new ue(t,r),n){case">":o=Q,i=oe,a=ee,s=">",u=">=";break;case"<":o=ee,i=re,a=Q,s="<",u="<=";break;default:throw new TypeError('Must provide a hilo val of "<" or ">"')}if(pe(e,t,r))return!1;for(var c=0;c<t.set.length;++c){var l=t.set[c],f=null,p=null;if(l.forEach(function(e){e.semver===se&&(e=new ae(">=0.0.0")),f=f||e,p=p||e,o(e.semver,f.semver,r)?f=e:a(e.semver,p.semver,r)&&(p=e)}),f.operator===s||f.operator===u)return!1;if((!p.operator||p.operator===s)&&i(e,p.semver))return!1;if(p.operator===u&&a(e,p.semver))return!1}return!0}ae.prototype.parse=function(e){var t=this.loose?s[z]:s[H],n=e.match(t);if(!n)throw new TypeError("Invalid comparator: "+e);this.operator=n[1],"="===this.operator&&(this.operator=""),n[2]?this.semver=new K(n[2],this.loose):this.semver=se},ae.prototype.toString=function(){return this.value},ae.prototype.test=function(e){return o("Comparator.test",e,this.loose),this.semver===se||("string"==typeof e&&(e=new K(e,this.loose)),ie(e,this.operator,this.semver,this.loose))},ae.prototype.intersects=function(e,t){if(!(e instanceof ae))throw new TypeError("a Comparator is required");var n;if(""===this.operator)return n=new ue(e.value,t),pe(this.value,n,t);if(""===e.operator)return n=new ue(this.value,t),pe(e.semver,n,t);var r=!(">="!==this.operator&&">"!==this.operator||">="!==e.operator&&">"!==e.operator),o=!("<="!==this.operator&&"<"!==this.operator||"<="!==e.operator&&"<"!==e.operator),i=this.semver.version===e.semver.version,a=!(">="!==this.operator&&"<="!==this.operator||">="!==e.operator&&"<="!==e.operator),s=ie(this.semver,"<",e.semver,t)&&(">="===this.operator||">"===this.operator)&&("<="===e.operator||"<"===e.operator),u=ie(this.semver,">",e.semver,t)&&("<="===this.operator||"<"===this.operator)&&(">="===e.operator||">"===e.operator);return r||o||i&&a||s||u},t.Range=ue,ue.prototype.format=function(){return this.range=this.set.map(function(e){return e.join(" ").trim()}).join("||").trim(),this.range},ue.prototype.toString=function(){return this.range},ue.prototype.parseRange=function(e){var t=this.loose;e=e.trim(),o("range",e,t);var n=t?s[G]:s[$];e=e.replace(n,le),o("hyphen replace",e),e=e.replace(s[V],"$1$2$3"),o("comparator trim",e,s[V]),e=(e=(e=e.replace(s[D],"$1~")).replace(s[B],"$1^")).split(/\s+/).join(" ");var r=t?s[z]:s[H],i=e.split(" ").map(function(e){return function(e,t){return o("comp",e),e=function(e,t){return e.trim().split(/\s+/).map(function(e){return function(e,t){o("caret",e,t);var n=t?s[U]:s[F];return e.replace(n,function(t,n,r,i,a){var s;return o("caret",e,t,n,r,i,a),ce(n)?s="":ce(r)?s=">="+n+".0.0 <"+(+n+1)+".0.0":ce(i)?s="0"===n?">="+n+"."+r+".0 <"+n+"."+(+r+1)+".0":">="+n+"."+r+".0 <"+(+n+1)+".0.0":a?(o("replaceCaret pr",a),"-"!==a.charAt(0)&&(a="-"+a),s="0"===n?"0"===r?">="+n+"."+r+"."+i+a+" <"+n+"."+r+"."+(+i+1):">="+n+"."+r+"."+i+a+" <"+n+"."+(+r+1)+".0":">="+n+"."+r+"."+i+a+" <"+(+n+1)+".0.0"):(o("no pr"),s="0"===n?"0"===r?">="+n+"."+r+"."+i+" <"+n+"."+r+"."+(+i+1):">="+n+"."+r+"."+i+" <"+n+"."+(+r+1)+".0":">="+n+"."+r+"."+i+" <"+(+n+1)+".0.0"),o("caret return",s),s})}(e,t)}).join(" ")}(e,t),o("caret",e),e=function(e,t){return e.trim().split(/\s+/).map(function(e){return function(e,t){var n=t?s[L]:s[P];return e.replace(n,function(t,n,r,i,a){var s;return o("tilde",e,t,n,r,i,a),ce(n)?s="":ce(r)?s=">="+n+".0.0 <"+(+n+1)+".0.0":ce(i)?s=">="+n+"."+r+".0 <"+n+"."+(+r+1)+".0":a?(o("replaceTilde pr",a),"-"!==a.charAt(0)&&(a="-"+a),s=">="+n+"."+r+"."+i+a+" <"+n+"."+(+r+1)+".0"):s=">="+n+"."+r+"."+i+" <"+n+"."+(+r+1)+".0",o("tilde return",s),s})}(e,t)}).join(" ")}(e,t),o("tildes",e),e=function(e,t){return o("replaceXRanges",e,t),e.split(/\s+/).map(function(e){return function(e,t){e=e.trim();var n=t?s[R]:s[k];return e.replace(n,function(t,n,r,i,a,s){o("xRange",e,t,n,r,i,a,s);var u=ce(r),c=u||ce(i),l=c||ce(a),f=l;return"="===n&&f&&(n=""),u?t=">"===n||"<"===n?"<0.0.0":"*":n&&f?(c&&(i=0),l&&(a=0),">"===n?(n=">=",c?(r=+r+1,i=0,a=0):l&&(i=+i+1,a=0)):"<="===n&&(n="<",c?r=+r+1:i=+i+1),t=n+r+"."+i+"."+a):c?t=">="+r+".0.0 <"+(+r+1)+".0.0":l&&(t=">="+r+"."+i+".0 <"+r+"."+(+i+1)+".0"),o("xRange return",t),t})}(e,t)}).join(" ")}(e,t),o("xrange",e),e=function(e,t){return o("replaceStars",e,t),e.trim().replace(s[W],"")}(e,t),o("stars",e),e}(e,t)}).join(" ").split(/\s+/);return this.loose&&(i=i.filter(function(e){return!!e.match(r)})),i=i.map(function(e){return new ae(e,t)})},ue.prototype.intersects=function(e,t){if(!(e instanceof ue))throw new TypeError("a Range is required");return this.set.some(function(n){return n.every(function(n){return e.set.some(function(e){return e.every(function(e){return n.intersects(e,t)})})})})},t.toComparators=function(e,t){return new ue(e,t).set.map(function(e){return e.map(function(e){return e.value}).join(" ").trim().split(" ")})},ue.prototype.test=function(e){if(!e)return!1;"string"==typeof e&&(e=new K(e,this.loose));for(var t=0;t<this.set.length;t++)if(fe(this.set[t],e))return!0;return!1},t.satisfies=pe,t.maxSatisfying=function(e,t,n){var r=null,o=null;try{var i=new ue(t,n)}catch(e){return null}return e.forEach(function(e){i.test(e)&&(r&&-1!==o.compare(e)||(o=new K(r=e,n)))}),r},t.minSatisfying=function(e,t,n){var r=null,o=null;try{var i=new ue(t,n)}catch(e){return null}return e.forEach(function(e){i.test(e)&&(r&&1!==o.compare(e)||(o=new K(r=e,n)))}),r},t.validRange=function(e,t){try{return new ue(e,t).range||"*"}catch(e){return null}},t.ltr=function(e,t,n){return de(e,t,"<",n)},t.gtr=function(e,t,n){return de(e,t,">",n)},t.outside=de,t.prerelease=function(e,t){var n=Y(e,t);return n&&n.prerelease.length?n.prerelease:null},t.intersects=function(e,t,n){return e=new ue(e,n),t=new ue(t,n),e.intersects(t)},t.coerce=function(e){if(e instanceof K)return e;if("string"!=typeof e)return null;var t=e.match(s[j]);return null==t?null:Y((t[1]||"0")+"."+(t[2]||"0")+"."+(t[3]||"0"))}}).call(this,n(6))},function(e,t,n){"use strict";(function(t){
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){if(e===t)return 0;for(var n=e.length,r=t.length,o=0,i=Math.min(n,r);o<i;++o)if(e[o]!==t[o]){n=e[o],r=t[o];break}return n<r?-1:r<n?1:0}function i(e){return t.Buffer&&"function"==typeof t.Buffer.isBuffer?t.Buffer.isBuffer(e):!(null==e||!e._isBuffer)}var a=n(49),s=Object.prototype.hasOwnProperty,u=Array.prototype.slice,c="foo"===function(){}.name;function l(e){return Object.prototype.toString.call(e)}function f(e){return!i(e)&&("function"==typeof t.ArrayBuffer&&("function"==typeof ArrayBuffer.isView?ArrayBuffer.isView(e):!!e&&(e instanceof DataView||!!(e.buffer&&e.buffer instanceof ArrayBuffer))))}var p=e.exports=g,d=/\s*function\s+([^\(\s]*)\s*/;function h(e){if(a.isFunction(e)){if(c)return e.name;var t=e.toString().match(d);return t&&t[1]}}function m(e,t){return"string"==typeof e?e.length<t?e:e.slice(0,t):e}function y(e){if(c||!a.isFunction(e))return a.inspect(e);var t=h(e);return"[Function"+(t?": "+t:"")+"]"}function v(e,t,n,r,o){throw new p.AssertionError({message:n,actual:e,expected:t,operator:r,stackStartFunction:o})}function g(e,t){e||v(e,!0,t,"==",p.ok)}function b(e,t,n,s){if(e===t)return!0;if(i(e)&&i(t))return 0===o(e,t);if(a.isDate(e)&&a.isDate(t))return e.getTime()===t.getTime();if(a.isRegExp(e)&&a.isRegExp(t))return e.source===t.source&&e.global===t.global&&e.multiline===t.multiline&&e.lastIndex===t.lastIndex&&e.ignoreCase===t.ignoreCase;if(null!==e&&"object"===r(e)||null!==t&&"object"===r(t)){if(f(e)&&f(t)&&l(e)===l(t)&&!(e instanceof Float32Array||e instanceof Float64Array))return 0===o(new Uint8Array(e.buffer),new Uint8Array(t.buffer));if(i(e)!==i(t))return!1;var c=(s=s||{actual:[],expected:[]}).actual.indexOf(e);return-1!==c&&c===s.expected.indexOf(t)||(s.actual.push(e),s.expected.push(t),function(e,t,n,r){if(null==e||null==t)return!1;if(a.isPrimitive(e)||a.isPrimitive(t))return e===t;if(n&&Object.getPrototypeOf(e)!==Object.getPrototypeOf(t))return!1;var o=_(e),i=_(t);if(o&&!i||!o&&i)return!1;if(o)return e=u.call(e),t=u.call(t),b(e,t,n);var s,c,l=E(e),f=E(t);if(l.length!==f.length)return!1;for(l.sort(),f.sort(),c=l.length-1;c>=0;c--)if(l[c]!==f[c])return!1;for(c=l.length-1;c>=0;c--)if(s=l[c],!b(e[s],t[s],n,r))return!1;return!0}(e,t,n,s))}return n?e===t:e==t}function _(e){return"[object Arguments]"==Object.prototype.toString.call(e)}function w(e,t){if(!e||!t)return!1;if("[object RegExp]"==Object.prototype.toString.call(t))return t.test(e);try{if(e instanceof t)return!0}catch(e){}return!Error.isPrototypeOf(t)&&!0===t.call({},e)}function S(e,t,n,r){var o;if("function"!=typeof t)throw new TypeError('"block" argument must be a function');"string"==typeof n&&(r=n,n=null),o=function(e){var t;try{e()}catch(e){t=e}return t}(t),r=(n&&n.name?" ("+n.name+").":".")+(r?" "+r:"."),e&&!o&&v(o,n,"Missing expected exception"+r);var i="string"==typeof r,s=!e&&o&&!n;if((!e&&a.isError(o)&&i&&w(o,n)||s)&&v(o,n,"Got unwanted exception"+r),e&&o&&n&&!w(o,n)||!e&&o)throw o}p.AssertionError=function(e){var t;this.name="AssertionError",this.actual=e.actual,this.expected=e.expected,this.operator=e.operator,e.message?(this.message=e.message,this.generatedMessage=!1):(this.message=m(y((t=this).actual),128)+" "+t.operator+" "+m(y(t.expected),128),this.generatedMessage=!0);var n=e.stackStartFunction||v;if(Error.captureStackTrace)Error.captureStackTrace(this,n);else{var r=new Error;if(r.stack){var o=r.stack,i=h(n),a=o.indexOf("\n"+i);if(a>=0){var s=o.indexOf("\n",a+1);o=o.substring(s+1)}this.stack=o}}},a.inherits(p.AssertionError,Error),p.fail=v,p.ok=g,p.equal=function(e,t,n){e!=t&&v(e,t,n,"==",p.equal)},p.notEqual=function(e,t,n){e==t&&v(e,t,n,"!=",p.notEqual)},p.deepEqual=function(e,t,n){b(e,t,!1)||v(e,t,n,"deepEqual",p.deepEqual)},p.deepStrictEqual=function(e,t,n){b(e,t,!0)||v(e,t,n,"deepStrictEqual",p.deepStrictEqual)},p.notDeepEqual=function(e,t,n){b(e,t,!1)&&v(e,t,n,"notDeepEqual",p.notDeepEqual)},p.notDeepStrictEqual=function e(t,n,r){b(t,n,!0)&&v(t,n,r,"notDeepStrictEqual",e)},p.strictEqual=function(e,t,n){e!==t&&v(e,t,n,"===",p.strictEqual)},p.notStrictEqual=function(e,t,n){e===t&&v(e,t,n,"!==",p.notStrictEqual)},p.throws=function(e,t,n){S(!0,e,t,n)},p.doesNotThrow=function(e,t,n){S(!1,e,t,n)},p.ifError=function(e){if(e)throw e};var E=Object.keys||function(e){var t=[];for(var n in e)s.call(e,n)&&t.push(n);return t}}).call(this,n(7))},function(e,t,n){(function(e,r){function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var i=/%[sdj%]/g;t.format=function(e){if(!g(e)){for(var t=[],n=0;n<arguments.length;n++)t.push(u(arguments[n]));return t.join(" ")}n=1;for(var r=arguments,o=r.length,a=String(e).replace(i,function(e){if("%%"===e)return"%";if(n>=o)return e;switch(e){case"%s":return String(r[n++]);case"%d":return Number(r[n++]);case"%j":try{return JSON.stringify(r[n++])}catch(e){return"[Circular]"}default:return e}}),s=r[n];n<o;s=r[++n])y(s)||!w(s)?a+=" "+s:a+=" "+u(s);return a},t.deprecate=function(n,o){if(b(e.process))return function(){return t.deprecate(n,o).apply(this,arguments)};if(!0===r.noDeprecation)return n;var i=!1;return function(){if(!i){if(r.throwDeprecation)throw new Error(o);r.traceDeprecation?console.trace(o):console.error(o),i=!0}return n.apply(this,arguments)}};var a,s={};function u(e,n){var r={seen:[],stylize:l};return arguments.length>=3&&(r.depth=arguments[2]),arguments.length>=4&&(r.colors=arguments[3]),m(n)?r.showHidden=n:n&&t._extend(r,n),b(r.showHidden)&&(r.showHidden=!1),b(r.depth)&&(r.depth=2),b(r.colors)&&(r.colors=!1),b(r.customInspect)&&(r.customInspect=!0),r.colors&&(r.stylize=c),f(r,e,r.depth)}function c(e,t){var n=u.styles[t];return n?"["+u.colors[n][0]+"m"+e+"["+u.colors[n][1]+"m":e}function l(e,t){return e}function f(e,n,r){if(e.customInspect&&n&&O(n.inspect)&&n.inspect!==t.inspect&&(!n.constructor||n.constructor.prototype!==n)){var o=n.inspect(r,e);return g(o)||(o=f(e,o,r)),o}var i=function(e,t){if(b(t))return e.stylize("undefined","undefined");if(g(t)){var n="'"+JSON.stringify(t).replace(/^"|"$/g,"").replace(/'/g,"\\'").replace(/\\"/g,'"')+"'";return e.stylize(n,"string")}if(v(t))return e.stylize(""+t,"number");if(m(t))return e.stylize(""+t,"boolean");if(y(t))return e.stylize("null","null")}(e,n);if(i)return i;var a=Object.keys(n),s=function(e){var t={};return e.forEach(function(e,n){t[e]=!0}),t}(a);if(e.showHidden&&(a=Object.getOwnPropertyNames(n)),E(n)&&(a.indexOf("message")>=0||a.indexOf("description")>=0))return p(n);if(0===a.length){if(O(n)){var u=n.name?": "+n.name:"";return e.stylize("[Function"+u+"]","special")}if(_(n))return e.stylize(RegExp.prototype.toString.call(n),"regexp");if(S(n))return e.stylize(Date.prototype.toString.call(n),"date");if(E(n))return p(n)}var c,l="",w=!1,x=["{","}"];(h(n)&&(w=!0,x=["[","]"]),O(n))&&(l=" [Function"+(n.name?": "+n.name:"")+"]");return _(n)&&(l=" "+RegExp.prototype.toString.call(n)),S(n)&&(l=" "+Date.prototype.toUTCString.call(n)),E(n)&&(l=" "+p(n)),0!==a.length||w&&0!=n.length?r<0?_(n)?e.stylize(RegExp.prototype.toString.call(n),"regexp"):e.stylize("[Object]","special"):(e.seen.push(n),c=w?function(e,t,n,r,o){for(var i=[],a=0,s=t.length;a<s;++a)N(t,String(a))?i.push(d(e,t,n,r,String(a),!0)):i.push("");return o.forEach(function(o){o.match(/^\d+$/)||i.push(d(e,t,n,r,o,!0))}),i}(e,n,r,s,a):a.map(function(t){return d(e,n,r,s,t,w)}),e.seen.pop(),function(e,t,n){if(e.reduce(function(e,t){return 0,t.indexOf("\n")>=0&&0,e+t.replace(/\u001b\[\d\d?m/g,"").length+1},0)>60)return n[0]+(""===t?"":t+"\n ")+" "+e.join(",\n  ")+" "+n[1];return n[0]+t+" "+e.join(", ")+" "+n[1]}(c,l,x)):x[0]+l+x[1]}function p(e){return"["+Error.prototype.toString.call(e)+"]"}function d(e,t,n,r,o,i){var a,s,u;if((u=Object.getOwnPropertyDescriptor(t,o)||{value:t[o]}).get?s=u.set?e.stylize("[Getter/Setter]","special"):e.stylize("[Getter]","special"):u.set&&(s=e.stylize("[Setter]","special")),N(r,o)||(a="["+o+"]"),s||(e.seen.indexOf(u.value)<0?(s=y(n)?f(e,u.value,null):f(e,u.value,n-1)).indexOf("\n")>-1&&(s=i?s.split("\n").map(function(e){return"  "+e}).join("\n").substr(2):"\n"+s.split("\n").map(function(e){return"   "+e}).join("\n")):s=e.stylize("[Circular]","special")),b(a)){if(i&&o.match(/^\d+$/))return s;(a=JSON.stringify(""+o)).match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)?(a=a.substr(1,a.length-2),a=e.stylize(a,"name")):(a=a.replace(/'/g,"\\'").replace(/\\"/g,'"').replace(/(^"|"$)/g,"'"),a=e.stylize(a,"string"))}return a+": "+s}function h(e){return Array.isArray(e)}function m(e){return"boolean"==typeof e}function y(e){return null===e}function v(e){return"number"==typeof e}function g(e){return"string"==typeof e}function b(e){return void 0===e}function _(e){return w(e)&&"[object RegExp]"===x(e)}function w(e){return"object"===o(e)&&null!==e}function S(e){return w(e)&&"[object Date]"===x(e)}function E(e){return w(e)&&("[object Error]"===x(e)||e instanceof Error)}function O(e){return"function"==typeof e}function x(e){return Object.prototype.toString.call(e)}function C(e){return e<10?"0"+e.toString(10):e.toString(10)}t.debuglog=function(e){if(b(a)&&(a=r.env.NODE_DEBUG||""),e=e.toUpperCase(),!s[e])if(new RegExp("\\b"+e+"\\b","i").test(a)){var n=r.pid;s[e]=function(){var r=t.format.apply(t,arguments);console.error("%s %d: %s",e,n,r)}}else s[e]=function(){};return s[e]},t.inspect=u,u.colors={bold:[1,22],italic:[3,23],underline:[4,24],inverse:[7,27],white:[37,39],grey:[90,39],black:[30,39],blue:[34,39],cyan:[36,39],green:[32,39],magenta:[35,39],red:[31,39],yellow:[33,39]},u.styles={special:"cyan",number:"yellow",boolean:"yellow",undefined:"grey",null:"bold",string:"green",date:"magenta",regexp:"red"},t.isArray=h,t.isBoolean=m,t.isNull=y,t.isNullOrUndefined=function(e){return null==e},t.isNumber=v,t.isString=g,t.isSymbol=function(e){return"symbol"===o(e)},t.isUndefined=b,t.isRegExp=_,t.isObject=w,t.isDate=S,t.isError=E,t.isFunction=O,t.isPrimitive=function(e){return null===e||"boolean"==typeof e||"number"==typeof e||"string"==typeof e||"symbol"===o(e)||void 0===e},t.isBuffer=n(50);var I=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];function N(e,t){return Object.prototype.hasOwnProperty.call(e,t)}t.log=function(){var e,n;console.log("%s - %s",(e=new Date,n=[C(e.getHours()),C(e.getMinutes()),C(e.getSeconds())].join(":"),[e.getDate(),I[e.getMonth()],n].join(" ")),t.format.apply(t,arguments))},t.inherits=n(51),t._extend=function(e,t){if(!t||!w(t))return e;for(var n=Object.keys(t),r=n.length;r--;)e[n[r]]=t[n[r]];return e}}).call(this,n(7),n(6))},function(e,t){function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}e.exports=function(e){return e&&"object"===n(e)&&"function"==typeof e.copy&&"function"==typeof e.fill&&"function"==typeof e.readUInt8}},function(e,t){"function"==typeof Object.create?e.exports=function(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}:e.exports=function(e,t){e.super_=t;var n=function(){};n.prototype=t.prototype,e.prototype=new n,e.prototype.constructor=e}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}var i=n(53),a={};e.exports=function(e,t,n){e.onCall("rn-style:get",function(e){var r=t.elementData.get(e);return r&&r.props?n(r.props.style):null}),e.on("rn-style:measure",function(r){u(t,e,n,r)}),e.on("rn-style:rename",function(i){var s=i.id,l=i.oldName,f=i.newName,p=i.val;!function(e,t,n,i,s){var u,l=e.elementData.get(t),f=i?(o(u={},n,void 0),o(u,i,s),u):o({},n,void 0);if(l&&l.updater&&"function"==typeof l.updater.setInProps){var p,d=l&&l.props&&l.props.style;if(Array.isArray(d)){var h=d.length-1;"object"!==r(d[h])||Array.isArray(d[h])?(d=d.concat([f]),l.updater.setInProps(["style"],d)):(delete(p=c(d[h]))[n],i?p[i]=s:p[n]=void 0,l.updater.setInProps(["style",h],p))}else"object"===r(d)?(delete(p=c(d))[n],i?p[i]=s:p[n]=void 0,l.updater.setInProps(["style"],p)):(d=[d,f],l.updater.setInProps(["style"],d))}else{if(!l||!l.updater||"function"!=typeof l.updater.setNativeProps)return;a[t]?Object.assign(a[t],f):a[t]=f,l.updater.setNativeProps({style:f})}e.emit("hideHighlight")}(t,s,l,f,p),setTimeout(function(){return u(t,e,n,s)})}),e.on("rn-style:set",function(i){var s=i.id,c=i.attr,l=i.val;!function(e,t,n,i){var s=e.elementData.get(t),u=o({},n,i);if(s&&s.updater&&"function"==typeof s.updater.setInProps){var c=s.props&&s.props.style;if(Array.isArray(c)){var l=c.length-1;"object"!==r(c[l])||Array.isArray(c[l])?(c=c.concat([u]),s.updater.setInProps(["style"],c)):s.updater.setInProps(["style",l,n],i)}else c=[c,u],s.updater.setInProps(["style"],c)}else{if(!s||!s.updater||"function"!=typeof s.updater.setNativeProps)return;a[t]?Object.assign(a[t],u):a[t]=u,s.updater.setNativeProps({style:u})}e.emit("hideHighlight")}(t,s,c,l),setTimeout(function(){return u(t,e,n,s)})})};var s={top:0,left:0,right:0,bottom:0};function u(e,t,n,r){var o=e.elementData.get(r);if(o&&o.props){var u=n(o.props.style);a[r]&&(u=Object.assign({},u,a[r]));var c=o.publicInstance;c&&c.measure?c.measure(function(e,n,r,o,a,c){if("number"==typeof e){var l=u&&i("margin",u)||s,f=u&&i("padding",u)||s;t.send("rn-style:measure",{style:u,measuredLayout:{x:e,y:n,width:r,height:o,left:a,top:c,margin:l,padding:f}})}else t.send("rn-style:measure",{style:u})}):t.send("rn-style:measure",{style:u})}else t.send("rn-style:measure",{})}function c(e){var t={};for(var n in e)t[n]=e[n];return t}},function(e,t){e.exports=function(e,t){var n={},r=["top","left","bottom","right"],o=!1;return r.forEach(function(r){n[r]=t[e]||0}),t[e]&&(o=!0),t[e+"Vertical"]&&(n.top=n.bottom=t[e+"Vertical"],o=!0),t[e+"Horizontal"]&&(n.left=n.right=t[e+"Horizontal"],o=!0),r.forEach(function(r){var i,a=t[e+(i=r,i[0].toUpperCase()+i.slice(1))];a&&(n[r]=a,o=!0)}),o?n:null}},function(e,t,n){var r,o,i;!function(n,a){"use strict";o=[],void 0===(i="function"==typeof(r=function(){function e(e){return!isNaN(parseFloat(e))&&isFinite(e)}function t(e){return e.charAt(0).toUpperCase()+e.substring(1)}function n(e){return function(){return this[e]}}var r=["isConstructor","isEval","isNative","isToplevel"],o=["columnNumber","lineNumber"],i=["fileName","functionName","source"],a=r.concat(o,i,["args"]);function s(e){if(e instanceof Object)for(var n=0;n<a.length;n++)e.hasOwnProperty(a[n])&&void 0!==e[a[n]]&&this["set"+t(a[n])](e[a[n]])}s.prototype={getArgs:function(){return this.args},setArgs:function(e){if("[object Array]"!==Object.prototype.toString.call(e))throw new TypeError("Args must be an Array");this.args=e},getEvalOrigin:function(){return this.evalOrigin},setEvalOrigin:function(e){if(e instanceof s)this.evalOrigin=e;else{if(!(e instanceof Object))throw new TypeError("Eval Origin must be an Object or StackFrame");this.evalOrigin=new s(e)}},toString:function(){var t=this.getFunctionName()||"{anonymous}",n="("+(this.getArgs()||[]).join(",")+")",r=this.getFileName()?"@"+this.getFileName():"",o=e(this.getLineNumber())?":"+this.getLineNumber():"",i=e(this.getColumnNumber())?":"+this.getColumnNumber():"";return t+n+r+o+i}};for(var u=0;u<r.length;u++)s.prototype["get"+t(r[u])]=n(r[u]),s.prototype["set"+t(r[u])]=function(e){return function(t){this[e]=Boolean(t)}}(r[u]);for(var c=0;c<o.length;c++)s.prototype["get"+t(o[c])]=n(o[c]),s.prototype["set"+t(o[c])]=function(t){return function(n){if(!e(n))throw new TypeError(t+" must be a Number");this[t]=Number(n)}}(o[c]);for(var l=0;l<i.length;l++)s.prototype["get"+t(i[l])]=n(i[l]),s.prototype["set"+t(i[l])]=function(e){return function(t){this[e]=String(t)}}(i[l]);return s})?r.apply(t,o):r)||(e.exports=i)}()},function(e,t,n){"use strict";var r=function(){};e.exports=function(e,t,n){var o=function(){var n=!1;t.roots.forEach(function(e){t.internalInstancesById.get(e).hasOwnProperty("treeBaseDuration")&&(n=!0)}),e.call("profiler:update",[n],r)};t.on("root",o),t.on("rootUnmounted",o),o()}},function(e,t,n){"use strict";var r=n(57);e.exports=function(e){var t=new r(window,function(t){e.selectFromDOMNode(t)});e.on("highlight",function(e){return t.highlight(e.node,e.name)}),e.on("highlightMany",function(e){return t.highlightMany(e)}),e.on("hideHighlight",function(){return t.hideHighlight()}),e.on("refreshMultiOverlay",function(){return t.refreshMultiOverlay()}),e.on("startInspecting",function(){return t.startInspecting()}),e.on("stopInspecting",function(){return t.stopInspecting()}),e.on("shutdown",function(){t.remove()})}},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var o=n(58),i=n(60),a=function(){function e(t,n){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this._win=t,this._onSelect=n,this._overlay=null,this._multiOverlay=null,this._subs=[]}var t,n,a;return t=e,(n=[{key:"startInspecting",value:function(){this._inspecting=!0,this._subs=[s(this._win,"mouseover",this.onHover.bind(this)),s(this._win,"mousedown",this.onMouseDown.bind(this)),s(this._win,"click",this.onClick.bind(this))]}},{key:"stopInspecting",value:function(){this._subs.forEach(function(e){return e()}),this.hideHighlight()}},{key:"remove",value:function(){this.stopInspecting(),this._button&&this._button.parentNode&&this._button.parentNode.removeChild(this._button)}},{key:"highlight",value:function(e,t){this.removeMultiOverlay(),e.nodeType!==Node.COMMENT_NODE&&(this._overlay||(this._overlay=new o(this._win)),this._overlay.inspect(e,t))}},{key:"highlightMany",value:function(e){this.removeOverlay(),this._multiOverlay||(this._multiOverlay=new i(this._win)),this._multiOverlay.highlightMany(e)}},{key:"hideHighlight",value:function(){this._inspecting=!1,this.removeOverlay(),this.removeMultiOverlay()}},{key:"refreshMultiOverlay",value:function(){this._multiOverlay&&this._multiOverlay.refresh()}},{key:"removeOverlay",value:function(){this._overlay&&(this._overlay.remove(),this._overlay=null)}},{key:"removeMultiOverlay",value:function(){this._multiOverlay&&(this._multiOverlay.remove(),this._multiOverlay=null)}},{key:"onMouseDown",value:function(e){this._inspecting&&(e.preventDefault(),e.stopPropagation(),e.cancelBubble=!0,this._onSelect(e.target))}},{key:"onClick",value:function(e){this._inspecting&&(this._subs.forEach(function(e){return e()}),e.preventDefault(),e.stopPropagation(),e.cancelBubble=!0,this.hideHighlight())}},{key:"onHover",value:function(e){this._inspecting&&(e.preventDefault(),e.stopPropagation(),e.cancelBubble=!0,this.highlight(e.target))}},{key:"injectButton",value:function(){var e;this._button=((e=window.document.createElement("button")).innerHTML="&#128269;",e.style.backgroundColor="transparent",e.style.border="none",e.style.outline="none",e.style.cursor="pointer",e.style.position="fixed",e.style.bottom="10px",e.style.right="10px",e.style.fontSize="30px",e.style.zIndex=1e7,e),this._button.onclick=this.startInspecting.bind(this),this._win.document.body.appendChild(this._button)}}])&&r(t.prototype,n),a&&r(t,a),e}();function s(e,t,n){return e.addEventListener(t,n,!0),function(){return e.removeEventListener(t,n,!0)}}e.exports=a},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var o=n(1),i=n(59).monospace,a=function(){function e(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);var n=t.document;this.win=t,this.container=n.createElement("div"),this.node=n.createElement("div"),this.border=n.createElement("div"),this.padding=n.createElement("div"),this.content=n.createElement("div"),this.border.style.borderColor=d.border,this.padding.style.borderColor=d.padding,this.content.style.backgroundColor=d.background,o(this.node.style,{borderColor:d.margin,pointerEvents:"none",position:"fixed"}),this.tip=n.createElement("div"),o(this.tip.style,{backgroundColor:"#333740",borderRadius:"2px",fontFamily:i.family,fontWeight:"bold",padding:"3px 5px",position:"fixed",fontSize:i.sizes.normal+"px"}),this.nameSpan=n.createElement("span"),this.tip.appendChild(this.nameSpan),o(this.nameSpan.style,{color:"#ee78e6",borderRight:"1px solid #aaaaaa",paddingRight:"0.5rem",marginRight:"0.5rem"}),this.dimSpan=n.createElement("span"),this.tip.appendChild(this.dimSpan),o(this.dimSpan.style,{color:"#d7d7d7"}),this.container.style.zIndex=1e7,this.node.style.zIndex=1e7,this.tip.style.zIndex=1e7,this.container.appendChild(this.node),this.container.appendChild(this.tip),this.node.appendChild(this.border),this.border.appendChild(this.padding),this.padding.appendChild(this.content),n.body.appendChild(this.container)}var t,n,a;return t=e,(n=[{key:"remove",value:function(){this.container.parentNode&&this.container.parentNode.removeChild(this.container)}},{key:"inspect",value:function(e,t){if(e.nodeType===Node.ELEMENT_NODE){var n=function(e,t){var n=c(e);if(n&&n!==t){for(var r=[e.getBoundingClientRect()],o=n,i=!1;o;){var a=l(o);if(r.push(a),o=c(o),i)break;o&&u(o)===t&&(i=!0)}return f(r)}return e.getBoundingClientRect()}(e,this.win),r=s(e);p(r,"margin",this.node),p(r,"border",this.border),p(r,"padding",this.padding),o(this.content.style,{height:n.height-r.borderTop-r.borderBottom-r.paddingTop-r.paddingBottom+"px",width:n.width-r.borderLeft-r.borderRight-r.paddingLeft-r.paddingRight+"px"}),o(this.node.style,{top:n.top-r.marginTop+"px",left:n.left-r.marginLeft+"px"}),this.nameSpan.textContent=t||e.nodeName.toLowerCase(),this.dimSpan.textContent=n.width+"px × "+n.height+"px";var i=function(e,t){var n;n=e.top+e.height+20<=t.innerHeight?e.top+e.height<0?5:e.top+e.height+5:e.top-20<=t.innerHeight?e.top-20-5<5?5:e.top-20-5:t.innerHeight-20-5;if(n+="px",e.left<0)return{top:n,left:5};if(e.left+200>t.innerWidth)return{top:n,right:5};return{top:n,left:e.left+5+"px"}}({top:n.top-r.marginTop,left:n.left-r.marginLeft,height:n.height+r.marginTop+r.marginBottom,width:n.width+r.marginLeft+r.marginRight},this.win);o(this.tip.style,i)}}}])&&r(t.prototype,n),a&&r(t,a),e}();function s(e){var t=window.getComputedStyle(e);return{borderLeft:+t.borderLeftWidth.match(/[0-9]*/)[0],borderRight:+t.borderRightWidth.match(/[0-9]*/)[0],borderTop:+t.borderTopWidth.match(/[0-9]*/)[0],borderBottom:+t.borderBottomWidth.match(/[0-9]*/)[0],marginLeft:+t.marginLeft.match(/[0-9]*/)[0],marginRight:+t.marginRight.match(/[0-9]*/)[0],marginTop:+t.marginTop.match(/[0-9]*/)[0],marginBottom:+t.marginBottom.match(/[0-9]*/)[0],paddingLeft:+t.paddingLeft.match(/[0-9]*/)[0],paddingRight:+t.paddingRight.match(/[0-9]*/)[0],paddingTop:+t.paddingTop.match(/[0-9]*/)[0],paddingBottom:+t.paddingBottom.match(/[0-9]*/)[0]}}function u(e){return e.ownerDocument?e.ownerDocument.defaultView:null}function c(e){var t=u(e);return t?t.frameElement:null}function l(e){var t=s(e);return f([e.getBoundingClientRect(),{top:t.borderTop,left:t.borderLeft,bottom:t.borderBottom,right:t.borderRight,width:0,height:0}])}function f(e){return e.reduce(function(e,t){return null==e?t:{top:e.top+t.top,left:e.left+t.left,width:e.width,height:e.height,bottom:e.bottom+t.bottom,right:e.right+t.right}})}function p(e,t,n){o(n.style,{borderTopWidth:e[t+"Top"]+"px",borderLeftWidth:e[t+"Left"]+"px",borderRightWidth:e[t+"Right"]+"px",borderBottomWidth:e[t+"Bottom"]+"px",borderStyle:"solid"})}var d={background:"rgba(120, 170, 210, 0.7)",padding:"rgba(77, 200, 0, 0.3)",margin:"rgba(255, 155, 0, 0.3)",border:"rgba(255, 200, 50, 0.3)"};e.exports=a},function(e,t,n){"use strict";e.exports={monospace:{family:"Menlo, Consolas, monospace",sizes:{normal:11,large:14}},sansSerif:{family:'"Helvetica Neue", "Lucida Grande", -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, sans-serif',sizes:{small:10,normal:12,large:14}}}},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var o=n(1),i=function(){function e(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this.win=t;var n=t.document;this.container=n.createElement("div"),n.body.appendChild(this.container),this._currentNodes=null}var t,n,i;return t=e,(n=[{key:"highlightMany",value:function(e){var t=this;this._currentNodes=e,this.container.innerHTML="",e.forEach(function(e){var n=t.win.document.createElement("div");if("function"==typeof e.getBoundingClientRect){var r=e.getBoundingClientRect();r.bottom<0||r.top>window.innerHeight||(o(n.style,{top:r.top+"px",left:r.left+"px",width:r.width+"px",height:r.height+"px",border:"2px dotted rgba(200, 100, 100, .8)",boxSizing:"border-box",backgroundColor:"rgba(200, 100, 100, .2)",position:"fixed",zIndex:1e7,pointerEvents:"none"}),t.container.appendChild(n))}})}},{key:"refresh",value:function(){this._currentNodes&&this.highlightMany(this._currentNodes)}},{key:"remove",value:function(){this.container.parentNode&&(this.container.parentNode.removeChild(this.container),this._currentNodes=null)}}])&&r(t.prototype,n),i&&r(t,i),e}();e.exports=i},function(e,t,n){"use strict";n.r(t);var r=n(0),o=n.n(r);function i(e){return(i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var a=10,s=11,u=0,c=15,l=[],f=null;function p(){if(null===f){var e,t=new Map;try{m.useContext({_currentValue:null}),m.useState(null),m.useReducer(function(e,t){return e},null),m.useRef(null),m.useLayoutEffect(function(){}),m.useEffect(function(){}),m.useImperativeHandle(void 0,function(){return null}),m.useCallback(function(){}),m.useMemo(function(){return null}),m.useDebugValue(null)}finally{e=l,l=[]}for(var n=0;n<e.length;n++){var r=e[n];t.set(r.primitive,o.a.parse(r.stackError))}f=t}return f}var d=null;function h(){var e=d;return null!==e&&(d=e.next),e}var m={readContext:function(e,t){return e._currentValue},useCallback:function(e,t){var n=h();return l.push({primitive:"Callback",stackError:new Error,value:null!==n?n.memoizedState[0]:e}),e},useContext:function(e,t){return l.push({primitive:"Context",stackError:new Error,value:e._currentValue}),e._currentValue},useEffect:function(e,t){h(),l.push({primitive:"Effect",stackError:new Error,value:e})},useImperativeHandle:function(e,t,n){h();var r=void 0;null!==e&&"object"===i(e)&&(r=e.current),l.push({primitive:"ImperativeHandle",stackError:new Error,value:r})},useDebugValue:function(e,t){l.push({primitive:"DebugValue",stackError:new Error,value:"function"==typeof t?t(e):e})},useLayoutEffect:function(e,t){h(),l.push({primitive:"LayoutEffect",stackError:new Error,value:e})},useMemo:function(e,t){var n=h(),r=null!==n?n.memoizedState[0]:e();return l.push({primitive:"Memo",stackError:new Error,value:r}),r},useReducer:function(e,t,n){var r=h(),o=null!==r?r.memoizedState:t;return l.push({primitive:"Reducer",stackError:new Error,value:o}),[o,function(e){}]},useRef:function(e){var t=h(),n=null!==t?t.memoizedState:{current:e};return l.push({primitive:"Ref",stackError:new Error,value:n.current}),n},useState:function(e){var t=h(),n=null!==t?t.memoizedState:"function"==typeof e?e():e;return l.push({primitive:"State",stackError:new Error,value:n}),[n,function(e){}]}},y=0;function v(e,t,n){var r=t[n].source;e:for(var o=0;o<e.length;o++)if(e[o].source===r){for(var i=n+1,a=o+1;i<t.length&&a<e.length;i++,a++)if(e[a].source!==t[i].source)continue e;return o}return-1}function g(e,t){if(!e)return!1;var n="use"+t;return!(e.length<n.length)&&e.lastIndexOf(n)===e.length-n.length}function b(e,t){var n=o.a.parse(t.stackError),r=function(e,t){var n=v(t,e,y);if(-1!==n)return n;for(var r=0;r<e.length&&r<5;r++)if(-1!==(n=v(t,e,r)))return y=r,n;return-1}(e,n),i=function(e,t){var n=p().get(t.primitive);if(void 0===n)return-1;for(var r=0;r<n.length&&r<e.length;r++)if(n[r].source!==e[r].source)return r<e.length-1&&g(e[r].functionName,t.primitive)&&r++,r<e.length-1&&g(e[r].functionName,t.primitive)&&r++,r;return-1}(n,t);return-1===r||-1===i||r-i<2?null:n.slice(i,r-1)}function _(e){if(!e)return"";var t=e.lastIndexOf(".");return-1===t&&(t=0),"use"===e.substr(t,3)&&(t+=3),e.substr(t)}function w(e,t){for(var n=[],r=null,o=n,i=[],a=0;a<t.length;a++){var s=t[a],u=b(e,s);if(null!==u){var c=0;if(null!==r){for(;c<u.length&&c<r.length;){if(u[u.length-c-1].source!==r[r.length-c-1].source)break;c++}for(var l=r.length-1;l>c;l--)o=i.pop()}for(var f=u.length-c-1;f>=1;f--){var p=[];o.push({name:_(u[f-1].functionName),value:void 0,subHooks:p}),i.push(o),o=p}r=u}o.push({name:s.primitive,value:s.value,subHooks:[]})}return function e(t,n){var r=[];for(var o=0;o<t.length;o++){var i=t[o];"DebugValue"===i.name&&0===i.subHooks.length?(t.splice(o,1),o--,r.push(i)):e(i.subHooks,i)}null!==n&&(1===r.length?n.value=r[0].value:r.length>1&&(n.value=r.map(function(e){var t=e.value;return t})))}(n,null),n}function S(e,t){if(e.tag!==u&&e.tag!==c&&e.tag!==s)throw new Error("Unknown Fiber. Needs to be a function component to inspect hooks.");p();var n=e.type,r=e.memoizedProps;n!==e.elementType&&(r=function(e,t){if(e&&e.defaultProps){var n=Object.assign({},t),r=e.defaultProps;for(var o in r)void 0===n[o]&&(n[o]=r[o]);return n}return t}(n,r)),d=e.memoizedState;var i=new Map;try{return function(e,t){for(var n=t;n;){if(n.tag===a){var r=n.type._context;e.has(r)||(e.set(r,r._currentValue),r._currentValue=n.memoizedProps.value)}n=n.return}}(i,e),e.tag===s?function(e,t,n,r){var i,a,s=r.current;r.current=m;try{a=new Error,e(t,n)}finally{i=l,l=[],r.current=s}return w(o.a.parse(a),i)}(n.render,r,e.ref,t):function(e,t,n){var r,i,a=n.current;n.current=m;try{i=new Error,e(t)}finally{r=l,l=[],n.current=a}return w(o.a.parse(i),r)}(n,r,t)}finally{d=null,function(e){e.forEach(function(e,t){return t._currentValue=e})}(i)}}function E(e,t){var n=null,r=null;function o(e){var n=t.elementData.get(e),r=t.internalInstancesById.get(e);if(r){var o=t.renderers.get(e);if(o){var i=t.reactInternals[o].renderer;if(i&&i.currentDispatcherRef)return{elementID:e,id:"hooksTree",hooksTree:S(n.state===r.memoizedState?r:r.alternate,i.currentDispatcherRef)}}}return null}t.on("selected",function(i){r=i;var a=t.elementData.get(i),s=null;a&&a.containsHooks&&(s=o(i)),n!==s&&(n=s,e.send("inspectedHooks",s))}),t.on("update",function(t){if(null!==r&&null!==n&&n.elementID===t.id){var i=o(t.id);n!==i&&(n=i,e.send("inspectedHooks",i))}})}n.d(t,"default",function(){return E})}])});
+
+/***/ }),
+
+/***/ "./node_modules/react-devtools/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/react-devtools/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var {connectToDevTools} = __webpack_require__(/*! react-devtools-core */ "./node_modules/react-devtools-core/build/backend.js");
+// Connect immediately with default options.
+// If you need more control, use `react-devtools-core` directly instead of `react-devtools`.
+connectToDevTools();
+
+
+/***/ }),
+
 /***/ "./node_modules/react-dom/cjs/react-dom.development.js":
 /*!*************************************************************!*\
   !*** ./node_modules/react-dom/cjs/react-dom.development.js ***!
@@ -1177,7 +1213,7 @@ module.exports = ReactPropTypesSecret;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.6.1
+/** @license React v16.7.0
  * react-dom.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -3693,13 +3729,14 @@ var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
 
 function describeFiber(fiber) {
   switch (fiber.tag) {
-    case IndeterminateComponent:
-    case LazyComponent:
-    case FunctionComponent:
-    case ClassComponent:
-    case HostComponent:
-    case Mode:
-    case SuspenseComponent:
+    case HostRoot:
+    case HostPortal:
+    case HostText:
+    case Fragment:
+    case ContextProvider:
+    case ContextConsumer:
+      return '';
+    default:
       var owner = fiber._debugOwner;
       var source = fiber._debugSource;
       var name = getComponentName(fiber.type);
@@ -3708,8 +3745,6 @@ function describeFiber(fiber) {
         ownerName = getComponentName(owner.type);
       }
       return describeComponentFrame(name, source, ownerName);
-    default:
-      return '';
   }
 }
 
@@ -4319,6 +4354,9 @@ var enableProfilerTimer = true;
 var enableSchedulerTracing = true;
 
 // Only used in www builds.
+ // TODO: true? Here it might just be false.
+
+// Only used in www builds.
 
 
 // Only used in www builds.
@@ -4331,6 +4369,8 @@ var disableInputAttributeSyncing = false;
 // These APIs will no longer be "unstable" in the upcoming 16.7 release,
 // Control this behavior with a flag to support 16.6 minor releases in the meanwhile.
 var enableStableConcurrentModeAPIs = false;
+
+var warnAboutShorthandPropertyCollision = false;
 
 // TODO: direct imports like some-package/src/* are bad. Fix me.
 var didWarnValueDefaultValue = false;
@@ -7269,6 +7309,58 @@ var setTextContent = function (node, text) {
   node.textContent = text;
 };
 
+// List derived from Gecko source code:
+// https://github.com/mozilla/gecko-dev/blob/4e638efc71/layout/style/test/property_database.js
+var shorthandToLonghand = {
+  animation: ['animationDelay', 'animationDirection', 'animationDuration', 'animationFillMode', 'animationIterationCount', 'animationName', 'animationPlayState', 'animationTimingFunction'],
+  background: ['backgroundAttachment', 'backgroundClip', 'backgroundColor', 'backgroundImage', 'backgroundOrigin', 'backgroundPositionX', 'backgroundPositionY', 'backgroundRepeat', 'backgroundSize'],
+  backgroundPosition: ['backgroundPositionX', 'backgroundPositionY'],
+  border: ['borderBottomColor', 'borderBottomStyle', 'borderBottomWidth', 'borderImageOutset', 'borderImageRepeat', 'borderImageSlice', 'borderImageSource', 'borderImageWidth', 'borderLeftColor', 'borderLeftStyle', 'borderLeftWidth', 'borderRightColor', 'borderRightStyle', 'borderRightWidth', 'borderTopColor', 'borderTopStyle', 'borderTopWidth'],
+  borderBlockEnd: ['borderBlockEndColor', 'borderBlockEndStyle', 'borderBlockEndWidth'],
+  borderBlockStart: ['borderBlockStartColor', 'borderBlockStartStyle', 'borderBlockStartWidth'],
+  borderBottom: ['borderBottomColor', 'borderBottomStyle', 'borderBottomWidth'],
+  borderColor: ['borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor'],
+  borderImage: ['borderImageOutset', 'borderImageRepeat', 'borderImageSlice', 'borderImageSource', 'borderImageWidth'],
+  borderInlineEnd: ['borderInlineEndColor', 'borderInlineEndStyle', 'borderInlineEndWidth'],
+  borderInlineStart: ['borderInlineStartColor', 'borderInlineStartStyle', 'borderInlineStartWidth'],
+  borderLeft: ['borderLeftColor', 'borderLeftStyle', 'borderLeftWidth'],
+  borderRadius: ['borderBottomLeftRadius', 'borderBottomRightRadius', 'borderTopLeftRadius', 'borderTopRightRadius'],
+  borderRight: ['borderRightColor', 'borderRightStyle', 'borderRightWidth'],
+  borderStyle: ['borderBottomStyle', 'borderLeftStyle', 'borderRightStyle', 'borderTopStyle'],
+  borderTop: ['borderTopColor', 'borderTopStyle', 'borderTopWidth'],
+  borderWidth: ['borderBottomWidth', 'borderLeftWidth', 'borderRightWidth', 'borderTopWidth'],
+  columnRule: ['columnRuleColor', 'columnRuleStyle', 'columnRuleWidth'],
+  columns: ['columnCount', 'columnWidth'],
+  flex: ['flexBasis', 'flexGrow', 'flexShrink'],
+  flexFlow: ['flexDirection', 'flexWrap'],
+  font: ['fontFamily', 'fontFeatureSettings', 'fontKerning', 'fontLanguageOverride', 'fontSize', 'fontSizeAdjust', 'fontStretch', 'fontStyle', 'fontVariant', 'fontVariantAlternates', 'fontVariantCaps', 'fontVariantEastAsian', 'fontVariantLigatures', 'fontVariantNumeric', 'fontVariantPosition', 'fontWeight', 'lineHeight'],
+  fontVariant: ['fontVariantAlternates', 'fontVariantCaps', 'fontVariantEastAsian', 'fontVariantLigatures', 'fontVariantNumeric', 'fontVariantPosition'],
+  gap: ['columnGap', 'rowGap'],
+  grid: ['gridAutoColumns', 'gridAutoFlow', 'gridAutoRows', 'gridTemplateAreas', 'gridTemplateColumns', 'gridTemplateRows'],
+  gridArea: ['gridColumnEnd', 'gridColumnStart', 'gridRowEnd', 'gridRowStart'],
+  gridColumn: ['gridColumnEnd', 'gridColumnStart'],
+  gridColumnGap: ['columnGap'],
+  gridGap: ['columnGap', 'rowGap'],
+  gridRow: ['gridRowEnd', 'gridRowStart'],
+  gridRowGap: ['rowGap'],
+  gridTemplate: ['gridTemplateAreas', 'gridTemplateColumns', 'gridTemplateRows'],
+  listStyle: ['listStyleImage', 'listStylePosition', 'listStyleType'],
+  margin: ['marginBottom', 'marginLeft', 'marginRight', 'marginTop'],
+  marker: ['markerEnd', 'markerMid', 'markerStart'],
+  mask: ['maskClip', 'maskComposite', 'maskImage', 'maskMode', 'maskOrigin', 'maskPositionX', 'maskPositionY', 'maskRepeat', 'maskSize'],
+  maskPosition: ['maskPositionX', 'maskPositionY'],
+  outline: ['outlineColor', 'outlineStyle', 'outlineWidth'],
+  overflow: ['overflowX', 'overflowY'],
+  padding: ['paddingBottom', 'paddingLeft', 'paddingRight', 'paddingTop'],
+  placeContent: ['alignContent', 'justifyContent'],
+  placeItems: ['alignItems', 'justifyItems'],
+  placeSelf: ['alignSelf', 'justifySelf'],
+  textDecoration: ['textDecorationColor', 'textDecorationLine', 'textDecorationStyle'],
+  textEmphasis: ['textEmphasisColor', 'textEmphasisStyle'],
+  transition: ['transitionDelay', 'transitionDuration', 'transitionProperty', 'transitionTimingFunction'],
+  wordWrap: ['overflowWrap']
+};
+
 /**
  * CSS properties which accept numbers but are not in units of "px".
  */
@@ -7545,6 +7637,69 @@ function setValueForStyles(node, styles) {
       style.setProperty(styleName, styleValue);
     } else {
       style[styleName] = styleValue;
+    }
+  }
+}
+
+function isValueEmpty(value) {
+  return value == null || typeof value === 'boolean' || value === '';
+}
+
+/**
+ * Given {color: 'red', overflow: 'hidden'} returns {
+ *   color: 'color',
+ *   overflowX: 'overflow',
+ *   overflowY: 'overflow',
+ * }. This can be read as "the overflowY property was set by the overflow
+ * shorthand". That is, the values are the property that each was derived from.
+ */
+function expandShorthandMap(styles) {
+  var expanded = {};
+  for (var key in styles) {
+    var longhands = shorthandToLonghand[key] || [key];
+    for (var i = 0; i < longhands.length; i++) {
+      expanded[longhands[i]] = key;
+    }
+  }
+  return expanded;
+}
+
+/**
+ * When mixing shorthand and longhand property names, we warn during updates if
+ * we expect an incorrect result to occur. In particular, we warn for:
+ *
+ * Updating a shorthand property (longhand gets overwritten):
+ *   {font: 'foo', fontVariant: 'bar'} -> {font: 'baz', fontVariant: 'bar'}
+ *   becomes .style.font = 'baz'
+ * Removing a shorthand property (longhand gets lost too):
+ *   {font: 'foo', fontVariant: 'bar'} -> {fontVariant: 'bar'}
+ *   becomes .style.font = ''
+ * Removing a longhand property (should revert to shorthand; doesn't):
+ *   {font: 'foo', fontVariant: 'bar'} -> {font: 'foo'}
+ *   becomes .style.fontVariant = ''
+ */
+function validateShorthandPropertyCollisionInDev(styleUpdates, nextStyles) {
+  if (!warnAboutShorthandPropertyCollision) {
+    return;
+  }
+
+  if (!nextStyles) {
+    return;
+  }
+
+  var expandedUpdates = expandShorthandMap(styleUpdates);
+  var expandedStyles = expandShorthandMap(nextStyles);
+  var warnedAbout = {};
+  for (var key in expandedUpdates) {
+    var originalKey = expandedUpdates[key];
+    var correctOriginalKey = expandedStyles[key];
+    if (correctOriginalKey && originalKey !== correctOriginalKey) {
+      var warningKey = originalKey + ',' + correctOriginalKey;
+      if (warnedAbout[warningKey]) {
+        continue;
+      }
+      warnedAbout[warningKey] = true;
+      warning$1(false, '%s a style property during rerender (%s) when a ' + 'conflicting property is set (%s) can lead to styling bugs. To ' + "avoid this, don't mix shorthand and non-shorthand properties " + 'for the same value; instead, replace the shorthand with ' + 'separate values.', isValueEmpty(styleUpdates[originalKey]) ? 'Removing' : 'Updating', originalKey, correctOriginalKey);
     }
   }
 }
@@ -8988,6 +9143,9 @@ function diffProperties(domElement, tag, lastRawProps, nextRawProps, rootContain
     }
   }
   if (styleUpdates) {
+    {
+      validateShorthandPropertyCollisionInDev(styleUpdates, nextProps[STYLE$1]);
+    }
     (updatePayload = updatePayload || []).push(STYLE$1, styleUpdates);
   }
   return updatePayload;
@@ -10937,6 +11095,26 @@ function FiberNode(tag, pendingProps, key, mode) {
   this.alternate = null;
 
   if (enableProfilerTimer) {
+    // Note: The following is done to avoid a v8 performance cliff.
+    //
+    // Initializing the fields below to smis and later updating them with
+    // double values will cause Fibers to end up having separate shapes.
+    // This behavior/bug has something to do with Object.preventExtension().
+    // Fortunately this only impacts DEV builds.
+    // Unfortunately it makes React unusably slow for some applications.
+    // To work around this, initialize the fields below with doubles.
+    //
+    // Learn more about this here:
+    // https://github.com/facebook/react/issues/14365
+    // https://bugs.chromium.org/p/v8/issues/detail?id=8538
+    this.actualDuration = Number.NaN;
+    this.actualStartTime = Number.NaN;
+    this.selfBaseDuration = Number.NaN;
+    this.treeBaseDuration = Number.NaN;
+
+    // It's okay to replace the initial doubles with smis after initialization.
+    // This won't trigger the performance cliff mentioned above,
+    // and it simplifies other profiler code (including DevTools).
     this.actualDuration = 0;
     this.actualStartTime = -1;
     this.selfBaseDuration = 0;
@@ -11319,6 +11497,8 @@ function createFiberRoot(containerInfo, isConcurrent, hydrate) {
       latestSuspendedTime: NoWork,
       latestPingedTime: NoWork,
 
+      pingCache: null,
+
       didError: false,
 
       pendingCommitExpirationTime: NoWork,
@@ -11341,6 +11521,8 @@ function createFiberRoot(containerInfo, isConcurrent, hydrate) {
       current: uninitializedFiber,
       containerInfo: containerInfo,
       pendingChildren: null,
+
+      pingCache: null,
 
       earliestPendingTime: NoWork,
       latestPendingTime: NoWork,
@@ -11716,6 +11898,10 @@ function markCommittedPriorityLevels(root, earliestRemainingTime) {
     return;
   }
 
+  if (earliestRemainingTime < root.latestPingedTime) {
+    root.latestPingedTime = NoWork;
+  }
+
   // Let's see if the previous latest known pending level was just flushed.
   var latestPendingTime = root.latestPendingTime;
   if (latestPendingTime !== NoWork) {
@@ -11841,10 +12027,8 @@ function markPingedPriorityLevel(root, pingedTime) {
 }
 
 function clearPing(root, completedTime) {
-  // TODO: Track whether the root was pinged during the render phase. If so,
-  // we need to make sure we don't lose track of it.
   var latestPingedTime = root.latestPingedTime;
-  if (latestPingedTime !== NoWork && latestPingedTime >= completedTime) {
+  if (latestPingedTime >= completedTime) {
     root.latestPingedTime = NoWork;
   }
 }
@@ -12795,7 +12979,7 @@ function cloneHook(hook) {
   return {
     memoizedState: hook.memoizedState,
 
-    baseState: hook.memoizedState,
+    baseState: hook.baseState,
     queue: hook.queue,
     baseUpdate: hook.baseUpdate,
 
@@ -13040,10 +13224,6 @@ function useRef(initialValue) {
   return ref;
 }
 
-function useMutationEffect(create, inputs) {
-  useEffectImpl(Snapshot | Update, UnmountSnapshot | MountMutation, create, inputs);
-}
-
 function useLayoutEffect(create, inputs) {
   useEffectImpl(Update, UnmountMutation | MountLayout, create, inputs);
 }
@@ -13078,7 +13258,7 @@ function useImperativeMethods(ref, create, inputs) {
   // TODO: I've implemented this on top of useEffect because it's almost the
   // same thing, and it would require an equal amount of code. It doesn't seem
   // like a common enough use case to justify the additional size.
-  useEffectImpl(Update, UnmountMutation | MountLayout, function () {
+  useLayoutEffect(function () {
     if (typeof ref === 'function') {
       var refCallback = ref;
       var _inst = create();
@@ -15240,12 +15420,14 @@ var didWarnAboutBadClass = void 0;
 var didWarnAboutContextTypeOnFunctionComponent = void 0;
 var didWarnAboutGetDerivedStateOnFunctionComponent = void 0;
 var didWarnAboutFunctionRefs = void 0;
+var didWarnAboutReassigningProps = void 0;
 
 {
   didWarnAboutBadClass = {};
   didWarnAboutContextTypeOnFunctionComponent = {};
   didWarnAboutGetDerivedStateOnFunctionComponent = {};
   didWarnAboutFunctionRefs = {};
+  didWarnAboutReassigningProps = false;
 }
 
 function reconcileChildren(current$$1, workInProgress, nextChildren, renderExpirationTime) {
@@ -15284,6 +15466,18 @@ function forceUnmountCurrentAndReconcile(current$$1, workInProgress, nextChildre
 }
 
 function updateForwardRef(current$$1, workInProgress, Component, nextProps, renderExpirationTime) {
+  {
+    if (workInProgress.type !== workInProgress.elementType) {
+      // Lazy component props can't be validated in createElement
+      // because they're only guaranteed to be resolved here.
+      var innerPropTypes = Component.propTypes;
+      if (innerPropTypes) {
+        checkPropTypes(innerPropTypes, nextProps, // Resolved props
+        'prop', getComponentName(Component), getCurrentFiberStackInDev);
+      }
+    }
+  }
+
   var render = Component.render;
   var ref = workInProgress.ref;
 
@@ -15308,19 +15502,43 @@ function updateForwardRef(current$$1, workInProgress, Component, nextProps, rend
 function updateMemoComponent(current$$1, workInProgress, Component, nextProps, updateExpirationTime, renderExpirationTime) {
   if (current$$1 === null) {
     var type = Component.type;
-    if (isSimpleFunctionComponent(type) && Component.compare === null) {
+    if (isSimpleFunctionComponent(type) && Component.compare === null &&
+    // SimpleMemoComponent codepath doesn't resolve outer props either.
+    Component.defaultProps === undefined) {
       // If this is a plain function component without default props,
       // and with only the default shallow comparison, we upgrade it
       // to a SimpleMemoComponent to allow fast path updates.
       workInProgress.tag = SimpleMemoComponent;
       workInProgress.type = type;
+      {
+        validateFunctionComponentInDev(workInProgress, type);
+      }
       return updateSimpleMemoComponent(current$$1, workInProgress, type, nextProps, updateExpirationTime, renderExpirationTime);
+    }
+    {
+      var innerPropTypes = type.propTypes;
+      if (innerPropTypes) {
+        // Inner memo component props aren't currently validated in createElement.
+        // We could move it there, but we'd still need this for lazy code path.
+        checkPropTypes(innerPropTypes, nextProps, // Resolved props
+        'prop', getComponentName(type), getCurrentFiberStackInDev);
+      }
     }
     var child = createFiberFromTypeAndProps(Component.type, null, nextProps, null, workInProgress.mode, renderExpirationTime);
     child.ref = workInProgress.ref;
     child.return = workInProgress;
     workInProgress.child = child;
     return child;
+  }
+  {
+    var _type = Component.type;
+    var _innerPropTypes = _type.propTypes;
+    if (_innerPropTypes) {
+      // Inner memo component props aren't currently validated in createElement.
+      // We could move it there, but we'd still need this for lazy code path.
+      checkPropTypes(_innerPropTypes, nextProps, // Resolved props
+      'prop', getComponentName(_type), getCurrentFiberStackInDev);
+    }
   }
   var currentChild = current$$1.child; // This is always exactly one child
   if (updateExpirationTime < renderExpirationTime) {
@@ -15344,6 +15562,25 @@ function updateMemoComponent(current$$1, workInProgress, Component, nextProps, u
 }
 
 function updateSimpleMemoComponent(current$$1, workInProgress, Component, nextProps, updateExpirationTime, renderExpirationTime) {
+  {
+    if (workInProgress.type !== workInProgress.elementType) {
+      // Lazy component props can't be validated in createElement
+      // because they're only guaranteed to be resolved here.
+      var outerMemoType = workInProgress.elementType;
+      if (outerMemoType.$$typeof === REACT_LAZY_TYPE) {
+        // We warn when you define propTypes on lazy()
+        // so let's just skip over it to find memo() outer wrapper.
+        // Inner props for memo are validated later.
+        outerMemoType = refineResolvedLazyComponent(outerMemoType);
+      }
+      var outerPropTypes = outerMemoType && outerMemoType.propTypes;
+      if (outerPropTypes) {
+        checkPropTypes(outerPropTypes, nextProps, // Resolved (SimpleMemoComponent has no defaultProps)
+        'prop', getComponentName(outerMemoType), getCurrentFiberStackInDev);
+      }
+      // Inner propTypes will be validated in the function component path.
+    }
+  }
   if (current$$1 !== null && updateExpirationTime < renderExpirationTime) {
     var prevProps = current$$1.memoizedProps;
     if (shallowEqual(prevProps, nextProps) && current$$1.ref === workInProgress.ref) {
@@ -15384,6 +15621,18 @@ function markRef(current$$1, workInProgress) {
 }
 
 function updateFunctionComponent(current$$1, workInProgress, Component, nextProps, renderExpirationTime) {
+  {
+    if (workInProgress.type !== workInProgress.elementType) {
+      // Lazy component props can't be validated in createElement
+      // because they're only guaranteed to be resolved here.
+      var innerPropTypes = Component.propTypes;
+      if (innerPropTypes) {
+        checkPropTypes(innerPropTypes, nextProps, // Resolved props
+        'prop', getComponentName(Component), getCurrentFiberStackInDev);
+      }
+    }
+  }
+
   var unmaskedContext = getUnmaskedContext(workInProgress, Component, true);
   var context = getMaskedContext(workInProgress, unmaskedContext);
 
@@ -15405,6 +15654,18 @@ function updateFunctionComponent(current$$1, workInProgress, Component, nextProp
 }
 
 function updateClassComponent(current$$1, workInProgress, Component, nextProps, renderExpirationTime) {
+  {
+    if (workInProgress.type !== workInProgress.elementType) {
+      // Lazy component props can't be validated in createElement
+      // because they're only guaranteed to be resolved here.
+      var innerPropTypes = Component.propTypes;
+      if (innerPropTypes) {
+        checkPropTypes(innerPropTypes, nextProps, // Resolved props
+        'prop', getComponentName(Component), getCurrentFiberStackInDev);
+      }
+    }
+  }
+
   // Push context providers early to prevent context stack mismatches.
   // During mounting we don't know the child context yet as the instance doesn't exist.
   // We will invalidate the child context in finishClassComponent() right after rendering.
@@ -15440,7 +15701,15 @@ function updateClassComponent(current$$1, workInProgress, Component, nextProps, 
   } else {
     shouldUpdate = updateClassInstance(current$$1, workInProgress, Component, nextProps, renderExpirationTime);
   }
-  return finishClassComponent(current$$1, workInProgress, Component, shouldUpdate, hasContext, renderExpirationTime);
+  var nextUnitOfWork = finishClassComponent(current$$1, workInProgress, Component, shouldUpdate, hasContext, renderExpirationTime);
+  {
+    var inst = workInProgress.stateNode;
+    if (inst.props !== nextProps) {
+      !didWarnAboutReassigningProps ? warning$1(false, 'It looks like %s is reassigning its own `this.props` while rendering. ' + 'This is not supported and can lead to confusing bugs.', getComponentName(workInProgress.type) || 'a component') : void 0;
+      didWarnAboutReassigningProps = true;
+    }
+  }
+  return nextUnitOfWork;
 }
 
 function finishClassComponent(current$$1, workInProgress, Component, shouldUpdate, hasContext, renderExpirationTime) {
@@ -15653,16 +15922,31 @@ function mountLazyComponent(_current, workInProgress, elementType, updateExpirat
       }
     case MemoComponent:
       {
+        {
+          if (workInProgress.type !== workInProgress.elementType) {
+            var outerPropTypes = Component.propTypes;
+            if (outerPropTypes) {
+              checkPropTypes(outerPropTypes, resolvedProps, // Resolved for outer only
+              'prop', getComponentName(Component), getCurrentFiberStackInDev);
+            }
+          }
+        }
         child = updateMemoComponent(null, workInProgress, Component, resolveDefaultProps(Component.type, resolvedProps), // The inner type can have defaults too
         updateExpirationTime, renderExpirationTime);
         break;
       }
     default:
       {
+        var hint = '';
+        {
+          if (Component !== null && typeof Component === 'object' && Component.$$typeof === REACT_LAZY_TYPE) {
+            hint = ' Did you wrap a component in React.lazy() more than once?';
+          }
+        }
         // This message intentionally doesn't mention ForwardRef or MemoComponent
         // because the fact that it's a separate type of work is an
         // implementation detail.
-        invariant(false, 'Element type is invalid. Received a promise that resolves to: %s. Promise elements must resolve to a class or function.', Component);
+        invariant(false, 'Element type is invalid. Received a promise that resolves to: %s. Lazy element type must resolve to a class or function.%s', Component, hint);
       }
   }
   return child;
@@ -15776,48 +16060,52 @@ function mountIndeterminateComponent(_current, workInProgress, Component, render
     // Proceed under the assumption that this is a function component
     workInProgress.tag = FunctionComponent;
     value = finishHooks(Component, props, value, context);
-    {
-      if (Component) {
-        !!Component.childContextTypes ? warningWithoutStack$1(false, '%s(...): childContextTypes cannot be defined on a function component.', Component.displayName || Component.name || 'Component') : void 0;
-      }
-      if (workInProgress.ref !== null) {
-        var info = '';
-        var ownerName = getCurrentFiberOwnerNameInDevOrNull();
-        if (ownerName) {
-          info += '\n\nCheck the render method of `' + ownerName + '`.';
-        }
-
-        var warningKey = ownerName || workInProgress._debugID || '';
-        var debugSource = workInProgress._debugSource;
-        if (debugSource) {
-          warningKey = debugSource.fileName + ':' + debugSource.lineNumber;
-        }
-        if (!didWarnAboutFunctionRefs[warningKey]) {
-          didWarnAboutFunctionRefs[warningKey] = true;
-          warning$1(false, 'Function components cannot be given refs. ' + 'Attempts to access this ref will fail.%s', info);
-        }
-      }
-
-      if (typeof Component.getDerivedStateFromProps === 'function') {
-        var _componentName = getComponentName(Component) || 'Unknown';
-
-        if (!didWarnAboutGetDerivedStateOnFunctionComponent[_componentName]) {
-          warningWithoutStack$1(false, '%s: Function components do not support getDerivedStateFromProps.', _componentName);
-          didWarnAboutGetDerivedStateOnFunctionComponent[_componentName] = true;
-        }
-      }
-
-      if (typeof Component.contextType === 'object' && Component.contextType !== null) {
-        var _componentName2 = getComponentName(Component) || 'Unknown';
-
-        if (!didWarnAboutContextTypeOnFunctionComponent[_componentName2]) {
-          warningWithoutStack$1(false, '%s: Function components do not support contextType.', _componentName2);
-          didWarnAboutContextTypeOnFunctionComponent[_componentName2] = true;
-        }
-      }
-    }
     reconcileChildren(null, workInProgress, value, renderExpirationTime);
+    {
+      validateFunctionComponentInDev(workInProgress, Component);
+    }
     return workInProgress.child;
+  }
+}
+
+function validateFunctionComponentInDev(workInProgress, Component) {
+  if (Component) {
+    !!Component.childContextTypes ? warningWithoutStack$1(false, '%s(...): childContextTypes cannot be defined on a function component.', Component.displayName || Component.name || 'Component') : void 0;
+  }
+  if (workInProgress.ref !== null) {
+    var info = '';
+    var ownerName = getCurrentFiberOwnerNameInDevOrNull();
+    if (ownerName) {
+      info += '\n\nCheck the render method of `' + ownerName + '`.';
+    }
+
+    var warningKey = ownerName || workInProgress._debugID || '';
+    var debugSource = workInProgress._debugSource;
+    if (debugSource) {
+      warningKey = debugSource.fileName + ':' + debugSource.lineNumber;
+    }
+    if (!didWarnAboutFunctionRefs[warningKey]) {
+      didWarnAboutFunctionRefs[warningKey] = true;
+      warning$1(false, 'Function components cannot be given refs. ' + 'Attempts to access this ref will fail.%s', info);
+    }
+  }
+
+  if (typeof Component.getDerivedStateFromProps === 'function') {
+    var componentName = getComponentName(Component) || 'Unknown';
+
+    if (!didWarnAboutGetDerivedStateOnFunctionComponent[componentName]) {
+      warningWithoutStack$1(false, '%s: Function components do not support getDerivedStateFromProps.', componentName);
+      didWarnAboutGetDerivedStateOnFunctionComponent[componentName] = true;
+    }
+  }
+
+  if (typeof Component.contextType === 'object' && Component.contextType !== null) {
+    var _componentName = getComponentName(Component) || 'Unknown';
+
+    if (!didWarnAboutContextTypeOnFunctionComponent[_componentName]) {
+      warningWithoutStack$1(false, '%s: Function components do not support contextType.', _componentName);
+      didWarnAboutContextTypeOnFunctionComponent[_componentName] = true;
+    }
   }
 }
 
@@ -16019,6 +16307,7 @@ function updateSuspenseComponent(current$$1, workInProgress, renderExpirationTim
         next = child = reconcileChildFibers(workInProgress, _currentPrimaryChild, _nextPrimaryChildren2, renderExpirationTime);
       }
     }
+    workInProgress.stateNode = current$$1.stateNode;
   }
 
   workInProgress.memoizedState = nextState;
@@ -16289,10 +16578,21 @@ function beginWork(current$$1, workInProgress, renderExpirationTime) {
       return updateContextConsumer(current$$1, workInProgress, renderExpirationTime);
     case MemoComponent:
       {
-        var _type = workInProgress.type;
+        var _type2 = workInProgress.type;
         var _unresolvedProps3 = workInProgress.pendingProps;
-        var _resolvedProps3 = resolveDefaultProps(_type.type, _unresolvedProps3);
-        return updateMemoComponent(current$$1, workInProgress, _type, _resolvedProps3, updateExpirationTime, renderExpirationTime);
+        // Resolve outer props first, then resolve inner props.
+        var _resolvedProps3 = resolveDefaultProps(_type2, _unresolvedProps3);
+        {
+          if (workInProgress.type !== workInProgress.elementType) {
+            var outerPropTypes = _type2.propTypes;
+            if (outerPropTypes) {
+              checkPropTypes(outerPropTypes, _resolvedProps3, // Resolved for outer only
+              'prop', getComponentName(_type2), getCurrentFiberStackInDev);
+            }
+          }
+        }
+        _resolvedProps3 = resolveDefaultProps(_type2.type, _resolvedProps3);
+        return updateMemoComponent(current$$1, workInProgress, _type2, _resolvedProps3, updateExpirationTime, renderExpirationTime);
       }
     case SimpleMemoComponent:
       {
@@ -16851,7 +17151,7 @@ function completeWork(current, workInProgress, renderExpirationTime) {
   return null;
 }
 
-function shouldCaptureSuspense(current, workInProgress) {
+function shouldCaptureSuspense(workInProgress) {
   // In order to capture, the Suspense component must have a fallback prop.
   if (workInProgress.memoizedProps.fallback === undefined) {
     return false;
@@ -16933,6 +17233,8 @@ var didWarnAboutUndefinedSnapshotBeforeUpdate = null;
 {
   didWarnAboutUndefinedSnapshotBeforeUpdate = new Set();
 }
+
+var PossiblyWeakSet = typeof WeakSet === 'function' ? WeakSet : Set;
 
 function logError(boundary, errorInfo) {
   var source = errorInfo.source;
@@ -17038,9 +17340,9 @@ function commitBeforeMutationLifeCycles(current$$1, finishedWork) {
             // but instead we rely on them being set during last render.
             // TODO: revisit this when we implement resuming.
             {
-              if (finishedWork.type === finishedWork.elementType) {
-                !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected instance props to match memoized props before ' + 'getSnapshotBeforeUpdate. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
-                !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected instance state to match memoized state before ' + 'getSnapshotBeforeUpdate. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
+              if (finishedWork.type === finishedWork.elementType && !didWarnAboutReassigningProps) {
+                !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected %s props to match memoized props before ' + 'getSnapshotBeforeUpdate. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
+                !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected %s state to match memoized state before ' + 'getSnapshotBeforeUpdate. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
               }
             }
             var snapshot = instance.getSnapshotBeforeUpdate(finishedWork.elementType === finishedWork.type ? prevProps : resolveDefaultProps(finishedWork.type, prevProps), prevState);
@@ -17096,7 +17398,7 @@ function commitHookEffectList(unmountTag, mountTag, finishedWork) {
         if (typeof _destroy !== 'function') {
           {
             if (_destroy !== null && _destroy !== undefined) {
-              warningWithoutStack$1(false, 'useEffect function must return a cleanup function or ' + 'nothing.%s%s', typeof _destroy.then === 'function' ? ' Promises and useEffect(async () => ...) are not ' + 'supported, but you can call an async function inside an ' + 'effect.' : '', getStackByFiberInDevAndProd(finishedWork));
+              warningWithoutStack$1(false, 'useEffect function must return a cleanup function or ' + 'nothing.%s%s', typeof _destroy.then === 'function' ? '\n\nIt looks like you wrote useEffect(async () => ...) or returned a Promise. ' + 'Instead, you may write an async function separately ' + 'and then call it from inside the effect:\n\n' + 'async function fetchComment(commentId) {\n' + '  // You can await here\n' + '}\n\n' + 'useEffect(() => {\n' + '  fetchComment(commentId);\n' + '}, [commentId]);\n\n' + 'In the future, React will provide a more idiomatic solution for data fetching ' + "that doesn't involve writing effects manually." : '', getStackByFiberInDevAndProd(finishedWork));
             }
           }
           _destroy = null;
@@ -17132,9 +17434,9 @@ function commitLifeCycles(finishedRoot, current$$1, finishedWork, committedExpir
             // but instead we rely on them being set during last render.
             // TODO: revisit this when we implement resuming.
             {
-              if (finishedWork.type === finishedWork.elementType) {
-                !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected instance props to match memoized props before ' + 'componentDidMount. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
-                !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected instance state to match memoized state before ' + 'componentDidMount. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
+              if (finishedWork.type === finishedWork.elementType && !didWarnAboutReassigningProps) {
+                !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected %s props to match memoized props before ' + 'componentDidMount. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
+                !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected %s state to match memoized state before ' + 'componentDidMount. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
               }
             }
             instance.componentDidMount();
@@ -17147,9 +17449,9 @@ function commitLifeCycles(finishedRoot, current$$1, finishedWork, committedExpir
             // but instead we rely on them being set during last render.
             // TODO: revisit this when we implement resuming.
             {
-              if (finishedWork.type === finishedWork.elementType) {
-                !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected instance props to match memoized props before ' + 'componentDidUpdate. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
-                !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected instance state to match memoized state before ' + 'componentDidUpdate. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
+              if (finishedWork.type === finishedWork.elementType && !didWarnAboutReassigningProps) {
+                !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected %s props to match memoized props before ' + 'componentDidUpdate. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
+                !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected %s state to match memoized state before ' + 'componentDidUpdate. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
               }
             }
             instance.componentDidUpdate(prevProps, prevState, instance.__reactInternalSnapshotBeforeUpdate);
@@ -17159,9 +17461,9 @@ function commitLifeCycles(finishedRoot, current$$1, finishedWork, committedExpir
         var updateQueue = finishedWork.updateQueue;
         if (updateQueue !== null) {
           {
-            if (finishedWork.type === finishedWork.elementType) {
-              !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected instance props to match memoized props before ' + 'processing the update queue. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
-              !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected instance state to match memoized state before ' + 'processing the update queue. This is likely due to a bug in React. ' + 'Please file an issue.') : void 0;
+            if (finishedWork.type === finishedWork.elementType && !didWarnAboutReassigningProps) {
+              !(instance.props === finishedWork.memoizedProps) ? warning$1(false, 'Expected %s props to match memoized props before ' + 'processing the update queue. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
+              !(instance.state === finishedWork.memoizedState) ? warning$1(false, 'Expected %s state to match memoized state before ' + 'processing the update queue. ' + 'This might either be because of a bug in React, or because ' + 'a component reassigns its own `this.props`. ' + 'Please file an issue.', getComponentName(finishedWork.type) || 'instance') : void 0;
             }
           }
           // We could update instance props and state here,
@@ -17420,9 +17722,14 @@ function detachFiber(current$$1) {
   // itself will be GC:ed when the parent updates the next time.
   current$$1.return = null;
   current$$1.child = null;
-  if (current$$1.alternate) {
-    current$$1.alternate.child = null;
-    current$$1.alternate.return = null;
+  current$$1.memoizedState = null;
+  current$$1.updateQueue = null;
+  var alternate = current$$1.alternate;
+  if (alternate !== null) {
+    alternate.return = null;
+    alternate.child = null;
+    alternate.memoizedState = null;
+    alternate.updateQueue = null;
   }
 }
 
@@ -17711,6 +18018,8 @@ function commitWork(current$$1, finishedWork) {
       case MemoComponent:
       case SimpleMemoComponent:
         {
+          // Note: We currently never use MountMutation, but useLayout uses
+          // UnmountMutation.
           commitHookEffectList(UnmountMutation, MountMutation, finishedWork);
           return;
         }
@@ -17726,6 +18035,8 @@ function commitWork(current$$1, finishedWork) {
     case MemoComponent:
     case SimpleMemoComponent:
       {
+        // Note: We currently never use MountMutation, but useLayout uses
+        // UnmountMutation.
         commitHookEffectList(UnmountMutation, MountMutation, finishedWork);
         return;
       }
@@ -17795,6 +18106,30 @@ function commitWork(current$$1, finishedWork) {
         if (primaryChildParent !== null) {
           hideOrUnhideAllChildren(primaryChildParent, newDidTimeout);
         }
+
+        // If this boundary just timed out, then it will have a set of thenables.
+        // For each thenable, attach a listener so that when it resolves, React
+        // attempts to re-render the boundary in the primary (pre-timeout) state.
+        var thenables = finishedWork.updateQueue;
+        if (thenables !== null) {
+          finishedWork.updateQueue = null;
+          var retryCache = finishedWork.stateNode;
+          if (retryCache === null) {
+            retryCache = finishedWork.stateNode = new PossiblyWeakSet();
+          }
+          thenables.forEach(function (thenable) {
+            // Memoize using the boundary fiber to prevent redundant listeners.
+            var retry = retryTimedOutBoundary.bind(null, finishedWork, thenable);
+            if (enableSchedulerTracing) {
+              retry = tracing.unstable_wrap(retry);
+            }
+            if (!retryCache.has(thenable)) {
+              retryCache.add(thenable);
+              thenable.then(retry, retry);
+            }
+          });
+        }
+
         return;
       }
     case IncompleteClassComponent:
@@ -17814,6 +18149,8 @@ function commitResetTextContent(current$$1) {
   }
   resetTextContent(current$$1.stateNode);
 }
+
+var PossiblyWeakMap = typeof WeakMap === 'function' ? WeakMap : Map;
 
 function createRootErrorUpdate(fiber, errorInfo, expirationTime) {
   var update = createUpdate(expirationTime);
@@ -17918,19 +18255,16 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
     // Schedule the nearest Suspense to re-render the timed out view.
     _workInProgress = returnFiber;
     do {
-      if (_workInProgress.tag === SuspenseComponent && shouldCaptureSuspense(_workInProgress.alternate, _workInProgress)) {
+      if (_workInProgress.tag === SuspenseComponent && shouldCaptureSuspense(_workInProgress)) {
         // Found the nearest boundary.
 
-        // If the boundary is not in concurrent mode, we should not suspend, and
-        // likewise, when the promise resolves, we should ping synchronously.
-        var pingTime = (_workInProgress.mode & ConcurrentMode) === NoEffect ? Sync : renderExpirationTime;
-
-        // Attach a listener to the promise to "ping" the root and retry.
-        var onResolveOrReject = retrySuspendedRoot.bind(null, root, _workInProgress, sourceFiber, pingTime);
-        if (enableSchedulerTracing) {
-          onResolveOrReject = tracing.unstable_wrap(onResolveOrReject);
+        // Stash the promise on the boundary fiber. If the boundary times out, we'll
+        var thenables = _workInProgress.updateQueue;
+        if (thenables === null) {
+          _workInProgress.updateQueue = new Set([thenable]);
+        } else {
+          thenables.add(thenable);
         }
-        thenable.then(onResolveOrReject, onResolveOrReject);
 
         // If the boundary is outside of concurrent mode, we should *not*
         // suspend the commit. Pretend as if the suspended component rendered
@@ -17949,18 +18283,25 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
           sourceFiber.effectTag &= ~(LifecycleEffectMask | Incomplete);
 
           if (sourceFiber.tag === ClassComponent) {
-            var _current = sourceFiber.alternate;
-            if (_current === null) {
+            var currentSourceFiber = sourceFiber.alternate;
+            if (currentSourceFiber === null) {
               // This is a new mount. Change the tag so it's not mistaken for a
               // completed class component. For example, we should not call
               // componentWillUnmount if it is deleted.
               sourceFiber.tag = IncompleteClassComponent;
+            } else {
+              // When we try rendering again, we should not reuse the current fiber,
+              // since it's known to be in an inconsistent state. Use a force updte to
+              // prevent a bail out.
+              var update = createUpdate(Sync);
+              update.tag = ForceUpdate;
+              enqueueUpdate(sourceFiber, update);
             }
           }
 
-          // The source fiber did not complete. Mark it with the current
-          // render priority to indicate that it still has pending work.
-          sourceFiber.expirationTime = renderExpirationTime;
+          // The source fiber did not complete. Mark it with Sync priority to
+          // indicate that it still has pending work.
+          sourceFiber.expirationTime = Sync;
 
           // Exit without suspending.
           return;
@@ -17968,6 +18309,32 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
 
         // Confirmed that the boundary is in a concurrent mode tree. Continue
         // with the normal suspend path.
+
+        // Attach a listener to the promise to "ping" the root and retry. But
+        // only if one does not already exist for the current render expiration
+        // time (which acts like a "thread ID" here).
+        var pingCache = root.pingCache;
+        var threadIDs = void 0;
+        if (pingCache === null) {
+          pingCache = root.pingCache = new PossiblyWeakMap();
+          threadIDs = new Set();
+          pingCache.set(thenable, threadIDs);
+        } else {
+          threadIDs = pingCache.get(thenable);
+          if (threadIDs === undefined) {
+            threadIDs = new Set();
+            pingCache.set(thenable, threadIDs);
+          }
+        }
+        if (!threadIDs.has(renderExpirationTime)) {
+          // Memoize using the thread ID to prevent redundant listeners.
+          threadIDs.add(renderExpirationTime);
+          var ping = pingSuspendedRoot.bind(null, root, thenable, renderExpirationTime);
+          if (enableSchedulerTracing) {
+            ping = tracing.unstable_wrap(ping);
+          }
+          thenable.then(ping, ping);
+        }
 
         var absoluteTimeoutMs = void 0;
         if (earliestTimeoutMs === -1) {
@@ -18025,8 +18392,8 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
           var _errorInfo = value;
           workInProgress.effectTag |= ShouldCapture;
           workInProgress.expirationTime = renderExpirationTime;
-          var update = createRootErrorUpdate(workInProgress, _errorInfo, renderExpirationTime);
-          enqueueCapturedUpdate(workInProgress, update);
+          var _update = createRootErrorUpdate(workInProgress, _errorInfo, renderExpirationTime);
+          enqueueCapturedUpdate(workInProgress, _update);
           return;
         }
       case ClassComponent:
@@ -18038,8 +18405,8 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
           workInProgress.effectTag |= ShouldCapture;
           workInProgress.expirationTime = renderExpirationTime;
           // Schedule the error boundary to re-render using updated state
-          var _update = createClassErrorUpdate(workInProgress, errorInfo, renderExpirationTime);
-          enqueueCapturedUpdate(workInProgress, _update);
+          var _update2 = createClassErrorUpdate(workInProgress, errorInfo, renderExpirationTime);
+          enqueueCapturedUpdate(workInProgress, _update2);
           return;
         }
         break;
@@ -18140,7 +18507,6 @@ var Dispatcher = {
   useImperativeMethods: useImperativeMethods,
   useLayoutEffect: useLayoutEffect,
   useMemo: useMemo,
-  useMutationEffect: useMutationEffect,
   useReducer: useReducer,
   useRef: useRef,
   useState: useState
@@ -19415,56 +19781,54 @@ function renderDidError() {
   nextRenderDidError = true;
 }
 
-function retrySuspendedRoot(root, boundaryFiber, sourceFiber, suspendedTime) {
-  var retryTime = void 0;
+function pingSuspendedRoot(root, thenable, pingTime) {
+  // A promise that previously suspended React from committing has resolved.
+  // If React is still suspended, try again at the previous level (pingTime).
 
-  if (isPriorityLevelSuspended(root, suspendedTime)) {
-    // Ping at the original level
-    retryTime = suspendedTime;
+  var pingCache = root.pingCache;
+  if (pingCache !== null) {
+    // The thenable resolved, so we no longer need to memoize, because it will
+    // never be thrown again.
+    pingCache.delete(thenable);
+  }
 
-    markPingedPriorityLevel(root, retryTime);
+  if (nextRoot !== null && nextRenderExpirationTime === pingTime) {
+    // Received a ping at the same priority level at which we're currently
+    // rendering. Restart from the root.
+    nextRoot = null;
   } else {
-    // Suspense already timed out. Compute a new expiration time
-    var currentTime = requestCurrentTime();
-    retryTime = computeExpirationForFiber(currentTime, boundaryFiber);
+    // Confirm that the root is still suspended at this level. Otherwise exit.
+    if (isPriorityLevelSuspended(root, pingTime)) {
+      // Ping at the original level
+      markPingedPriorityLevel(root, pingTime);
+      var rootExpirationTime = root.expirationTime;
+      if (rootExpirationTime !== NoWork) {
+        requestWork(root, rootExpirationTime);
+      }
+    }
+  }
+}
+
+function retryTimedOutBoundary(boundaryFiber, thenable) {
+  // The boundary fiber (a Suspense component) previously timed out and was
+  // rendered in its fallback state. One of the promises that suspended it has
+  // resolved, which means at least part of the tree was likely unblocked. Try
+  var retryCache = boundaryFiber.stateNode;
+  if (retryCache !== null) {
+    // The thenable resolved, so we no longer need to memoize, because it will
+    // never be thrown again.
+    retryCache.delete(thenable);
+  }
+
+  var currentTime = requestCurrentTime();
+  var retryTime = computeExpirationForFiber(currentTime, boundaryFiber);
+  var root = scheduleWorkToRoot(boundaryFiber, retryTime);
+  if (root !== null) {
     markPendingPriorityLevel(root, retryTime);
-  }
-
-  // TODO: If the suspense fiber has already rendered the primary children
-  // without suspending (that is, all of the promises have already resolved),
-  // we should not trigger another update here. One case this happens is when
-  // we are in sync mode and a single promise is thrown both on initial render
-  // and on update; we attach two .then(retrySuspendedRoot) callbacks and each
-  // one performs Sync work, rerendering the Suspense.
-
-  if ((boundaryFiber.mode & ConcurrentMode) !== NoContext) {
-    if (root === nextRoot && nextRenderExpirationTime === suspendedTime) {
-      // Received a ping at the same priority level at which we're currently
-      // rendering. Restart from the root.
-      nextRoot = null;
+    var rootExpirationTime = root.expirationTime;
+    if (rootExpirationTime !== NoWork) {
+      requestWork(root, rootExpirationTime);
     }
-  }
-
-  scheduleWorkToRoot(boundaryFiber, retryTime);
-  if ((boundaryFiber.mode & ConcurrentMode) === NoContext) {
-    // Outside of concurrent mode, we must schedule an update on the source
-    // fiber, too, since it already committed in an inconsistent state and
-    // therefore does not have any pending work.
-    scheduleWorkToRoot(sourceFiber, retryTime);
-    var sourceTag = sourceFiber.tag;
-    if (sourceTag === ClassComponent && sourceFiber.stateNode !== null) {
-      // When we try rendering again, we should not reuse the current fiber,
-      // since it's known to be in an inconsistent state. Use a force updte to
-      // prevent a bail out.
-      var update = createUpdate(retryTime);
-      update.tag = ForceUpdate;
-      enqueueUpdate(sourceFiber, update);
-    }
-  }
-
-  var rootExpirationTime = root.expirationTime;
-  if (rootExpirationTime !== NoWork) {
-    requestWork(root, rootExpirationTime);
   }
 }
 
@@ -20354,10 +20718,40 @@ function findHostInstanceWithNoPortals(fiber) {
   return hostFiber.stateNode;
 }
 
+var overrideProps = null;
+
+{
+  var copyWithSetImpl = function (obj, path, idx, value) {
+    if (idx >= path.length) {
+      return value;
+    }
+    var key = path[idx];
+    var updated = Array.isArray(obj) ? obj.slice() : _assign({}, obj);
+    // $FlowFixMe number or string is fine here
+    updated[key] = copyWithSetImpl(obj[key], path, idx + 1, value);
+    return updated;
+  };
+
+  var copyWithSet = function (obj, path, value) {
+    return copyWithSetImpl(obj, path, 0, value);
+  };
+
+  // Support DevTools props for function components, forwardRef, memo, host components, etc.
+  overrideProps = function (fiber, path, value) {
+    flushPassiveEffects();
+    fiber.pendingProps = copyWithSet(fiber.memoizedProps, path, value);
+    if (fiber.alternate) {
+      fiber.alternate.pendingProps = fiber.pendingProps;
+    }
+    scheduleWork(fiber, Sync);
+  };
+}
+
 function injectIntoDevTools(devToolsConfig) {
   var findFiberByHostInstance = devToolsConfig.findFiberByHostInstance;
 
   return injectInternals(_assign({}, devToolsConfig, {
+    overrideProps: overrideProps,
     findHostInstanceByFiber: function (fiber) {
       var hostFiber = findCurrentHostFiber(fiber);
       if (hostFiber === null) {
@@ -20395,7 +20789,7 @@ implementation) {
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.6.3';
+var ReactVersion = '16.7.0';
 
 // TODO: This type is shared between the reconciler and ReactDOM, but will
 // eventually be lifted out to the renderer.
@@ -20753,7 +21147,7 @@ function legacyRenderSubtreeIntoContainer(parentComponent, children, container, 
   return getPublicRootInstance(root._internalRoot);
 }
 
-function createPortal(children, container) {
+function createPortal$$1(children, container) {
   var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
   !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
@@ -20762,7 +21156,7 @@ function createPortal(children, container) {
 }
 
 var ReactDOM = {
-  createPortal: createPortal,
+  createPortal: createPortal$$1,
 
   findDOMNode: function (componentOrElement) {
     {
@@ -20837,7 +21231,7 @@ var ReactDOM = {
       didWarnAboutUnstableCreatePortal = true;
       lowPriorityWarning$1(false, 'The ReactDOM.unstable_createPortal() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactDOM.createPortal() instead. It has the exact same API, ' + 'but without the "unstable_" prefix.');
     }
-    return createPortal.apply(undefined, arguments);
+    return createPortal$$1.apply(undefined, arguments);
   },
 
 
@@ -20847,6 +21241,7 @@ var ReactDOM = {
 
   flushSync: flushSync,
 
+  unstable_createRoot: createRoot,
   unstable_flushControlled: flushControlled,
 
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
@@ -20865,8 +21260,7 @@ function createRoot(container, options) {
 
 if (enableStableConcurrentModeAPIs) {
   ReactDOM.createRoot = createRoot;
-} else {
-  ReactDOM.unstable_createRoot = createRoot;
+  ReactDOM.unstable_createRoot = undefined;
 }
 
 var foundDevTools = injectIntoDevTools({
@@ -20961,7 +21355,7 @@ if (false) {} else {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.6.1
+/** @license React v16.7.0
  * react-is.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -21060,7 +21454,6 @@ var lowPriorityWarning$1 = lowPriorityWarning;
 function typeOf(object) {
   if (typeof object === 'object' && object !== null) {
     var $$typeof = object.$$typeof;
-
     switch ($$typeof) {
       case REACT_ELEMENT_TYPE:
         var type = object.type;
@@ -21071,6 +21464,7 @@ function typeOf(object) {
           case REACT_FRAGMENT_TYPE:
           case REACT_PROFILER_TYPE:
           case REACT_STRICT_MODE_TYPE:
+          case REACT_SUSPENSE_TYPE:
             return type;
           default:
             var $$typeofType = type && type.$$typeof;
@@ -21084,6 +21478,8 @@ function typeOf(object) {
                 return $$typeof;
             }
         }
+      case REACT_LAZY_TYPE:
+      case REACT_MEMO_TYPE:
       case REACT_PORTAL_TYPE:
         return $$typeof;
     }
@@ -21100,9 +21496,12 @@ var ContextProvider = REACT_PROVIDER_TYPE;
 var Element = REACT_ELEMENT_TYPE;
 var ForwardRef = REACT_FORWARD_REF_TYPE;
 var Fragment = REACT_FRAGMENT_TYPE;
-var Profiler = REACT_PROFILER_TYPE;
+var Lazy = REACT_LAZY_TYPE;
+var Memo = REACT_MEMO_TYPE;
 var Portal = REACT_PORTAL_TYPE;
+var Profiler = REACT_PROFILER_TYPE;
 var StrictMode = REACT_STRICT_MODE_TYPE;
+var Suspense = REACT_SUSPENSE_TYPE;
 
 var hasWarnedAboutDeprecatedIsAsyncMode = false;
 
@@ -21134,14 +21533,23 @@ function isForwardRef(object) {
 function isFragment(object) {
   return typeOf(object) === REACT_FRAGMENT_TYPE;
 }
-function isProfiler(object) {
-  return typeOf(object) === REACT_PROFILER_TYPE;
+function isLazy(object) {
+  return typeOf(object) === REACT_LAZY_TYPE;
+}
+function isMemo(object) {
+  return typeOf(object) === REACT_MEMO_TYPE;
 }
 function isPortal(object) {
   return typeOf(object) === REACT_PORTAL_TYPE;
 }
+function isProfiler(object) {
+  return typeOf(object) === REACT_PROFILER_TYPE;
+}
 function isStrictMode(object) {
   return typeOf(object) === REACT_STRICT_MODE_TYPE;
+}
+function isSuspense(object) {
+  return typeOf(object) === REACT_SUSPENSE_TYPE;
 }
 
 exports.typeOf = typeOf;
@@ -21152,9 +21560,12 @@ exports.ContextProvider = ContextProvider;
 exports.Element = Element;
 exports.ForwardRef = ForwardRef;
 exports.Fragment = Fragment;
-exports.Profiler = Profiler;
+exports.Lazy = Lazy;
+exports.Memo = Memo;
 exports.Portal = Portal;
+exports.Profiler = Profiler;
 exports.StrictMode = StrictMode;
+exports.Suspense = Suspense;
 exports.isValidElementType = isValidElementType;
 exports.isAsyncMode = isAsyncMode;
 exports.isConcurrentMode = isConcurrentMode;
@@ -21163,9 +21574,12 @@ exports.isContextProvider = isContextProvider;
 exports.isElement = isElement;
 exports.isForwardRef = isForwardRef;
 exports.isFragment = isFragment;
-exports.isProfiler = isProfiler;
+exports.isLazy = isLazy;
+exports.isMemo = isMemo;
 exports.isPortal = isPortal;
+exports.isProfiler = isProfiler;
 exports.isStrictMode = isStrictMode;
+exports.isSuspense = isSuspense;
   })();
 }
 
@@ -21189,92 +21603,132 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/react-redux/es/components/Provider.js":
-/*!************************************************************!*\
-  !*** ./node_modules/react-redux/es/components/Provider.js ***!
-  \************************************************************/
-/*! exports provided: createProvider, default */
+/***/ "./node_modules/react-redux/es/components/Context.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-redux/es/components/Context.js ***!
+  \***********************************************************/
+/*! exports provided: ReactReduxContext, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return createProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReactReduxContext", function() { return ReactReduxContext; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var ReactReduxContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(null);
+/* harmony default export */ __webpack_exports__["default"] = (ReactReduxContext);
+
+/***/ }),
+
+/***/ "./node_modules/react-redux/es/components/Provider.js":
+/*!************************************************************!*\
+  !*** ./node_modules/react-redux/es/components/Provider.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/PropTypes */ "./node_modules/react-redux/es/utils/PropTypes.js");
-/* harmony import */ var _utils_warning__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/warning */ "./node_modules/react-redux/es/utils/warning.js");
+/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Context */ "./node_modules/react-redux/es/components/Context.js");
 
 
 
 
 
-var didWarnAboutReceivingStore = false;
+var Provider =
+/*#__PURE__*/
+function (_Component) {
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Provider, _Component);
 
-function warnAboutReceivingStore() {
-  if (didWarnAboutReceivingStore) {
-    return;
+  function Provider(props) {
+    var _this;
+
+    _this = _Component.call(this, props) || this;
+    var store = props.store;
+    _this.state = {
+      storeState: store.getState(),
+      store: store
+    };
+    return _this;
   }
 
-  didWarnAboutReceivingStore = true;
-  Object(_utils_warning__WEBPACK_IMPORTED_MODULE_4__["default"])('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reduxjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
-}
+  var _proto = Provider.prototype;
 
-function createProvider(storeKey) {
-  var _Provider$childContex;
-
-  if (storeKey === void 0) {
-    storeKey = 'store';
-  }
-
-  var subscriptionKey = storeKey + "Subscription";
-
-  var Provider =
-  /*#__PURE__*/
-  function (_Component) {
-    Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Provider, _Component);
-
-    var _proto = Provider.prototype;
-
-    _proto.getChildContext = function getChildContext() {
-      var _ref;
-
-      return _ref = {}, _ref[storeKey] = this[storeKey], _ref[subscriptionKey] = null, _ref;
-    };
-
-    function Provider(props, context) {
-      var _this;
-
-      _this = _Component.call(this, props, context) || this;
-      _this[storeKey] = props.store;
-      return _this;
-    }
-
-    _proto.render = function render() {
-      return react__WEBPACK_IMPORTED_MODULE_1__["Children"].only(this.props.children);
-    };
-
-    return Provider;
-  }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
-
-  if (true) {
-    Provider.prototype.componentWillReceiveProps = function (nextProps) {
-      if (this[storeKey] !== nextProps.store) {
-        warnAboutReceivingStore();
-      }
-    };
-  }
-
-  Provider.propTypes = {
-    store: _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__["storeShape"].isRequired,
-    children: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.element.isRequired
+  _proto.componentDidMount = function componentDidMount() {
+    this._isMounted = true;
+    this.subscribe();
   };
-  Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[storeKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__["storeShape"].isRequired, _Provider$childContex[subscriptionKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_3__["subscriptionShape"], _Provider$childContex);
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    if (this.unsubscribe) this.unsubscribe();
+    this._isMounted = false;
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    if (this.props.store !== prevProps.store) {
+      if (this.unsubscribe) this.unsubscribe();
+      this.subscribe();
+    }
+  };
+
+  _proto.subscribe = function subscribe() {
+    var _this2 = this;
+
+    var store = this.props.store;
+    this.unsubscribe = store.subscribe(function () {
+      var newStoreState = store.getState();
+
+      if (!_this2._isMounted) {
+        return;
+      }
+
+      _this2.setState(function (providerState) {
+        // If the value is the same, skip the unnecessary state update.
+        if (providerState.storeState === newStoreState) {
+          return null;
+        }
+
+        return {
+          storeState: newStoreState
+        };
+      });
+    }); // Actions might have been dispatched between render and mount - handle those
+
+    var postMountStoreState = store.getState();
+
+    if (postMountStoreState !== this.state.storeState) {
+      this.setState({
+        storeState: postMountStoreState
+      });
+    }
+  };
+
+  _proto.render = function render() {
+    var Context = this.props.context || _Context__WEBPACK_IMPORTED_MODULE_3__["ReactReduxContext"];
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Context.Provider, {
+      value: this.state
+    }, this.props.children);
+  };
+
   return Provider;
-}
-/* harmony default export */ __webpack_exports__["default"] = (createProvider());
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+Provider.propTypes = {
+  store: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+    subscribe: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
+    dispatch: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
+    getState: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired
+  }),
+  context: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object,
+  children: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.any
+};
+/* harmony default export */ __webpack_exports__["default"] = (Provider);
 
 /***/ }),
 
@@ -21300,8 +21754,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
 /* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_is__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _utils_Subscription__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/Subscription */ "./node_modules/react-redux/es/utils/Subscription.js");
-/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/PropTypes */ "./node_modules/react-redux/es/utils/PropTypes.js");
+/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Context */ "./node_modules/react-redux/es/components/Context.js");
 
 
 
@@ -21310,33 +21763,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-var hotReloadingVersion = 0;
-var dummyState = {};
-
-function noop() {}
-
-function makeSelectorStateful(sourceSelector, store) {
-  // wrap the selector in an object that tracks its results between runs.
-  var selector = {
-    run: function runComponentSelector(props) {
-      try {
-        var nextProps = sourceSelector(store.getState(), props);
-
-        if (nextProps !== selector.props || selector.error) {
-          selector.shouldComponentUpdate = true;
-          selector.props = nextProps;
-          selector.error = null;
-        }
-      } catch (error) {
-        selector.shouldComponentUpdate = true;
-        selector.error = error;
-      }
-    }
-  };
-  return selector;
-}
 
 function connectAdvanced(
 /*
@@ -21355,8 +21781,6 @@ function connectAdvanced(
 */
 selectorFactory, // options object:
 _ref) {
-  var _contextTypes, _childContextTypes;
-
   if (_ref === void 0) {
     _ref = {};
   }
@@ -21376,14 +21800,22 @@ _ref) {
       storeKey = _ref2$storeKey === void 0 ? 'store' : _ref2$storeKey,
       _ref2$withRef = _ref2.withRef,
       withRef = _ref2$withRef === void 0 ? false : _ref2$withRef,
-      connectOptions = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_3__["default"])(_ref2, ["getDisplayName", "methodName", "renderCountProp", "shouldHandleStateChanges", "storeKey", "withRef"]);
+      _ref2$forwardRef = _ref2.forwardRef,
+      forwardRef = _ref2$forwardRef === void 0 ? false : _ref2$forwardRef,
+      _ref2$context = _ref2.context,
+      context = _ref2$context === void 0 ? _Context__WEBPACK_IMPORTED_MODULE_8__["ReactReduxContext"] : _ref2$context,
+      connectOptions = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_3__["default"])(_ref2, ["getDisplayName", "methodName", "renderCountProp", "shouldHandleStateChanges", "storeKey", "withRef", "forwardRef", "context"]);
 
-  var subscriptionKey = storeKey + 'Subscription';
-  var version = hotReloadingVersion++;
-  var contextTypes = (_contextTypes = {}, _contextTypes[storeKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__["storeShape"], _contextTypes[subscriptionKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__["subscriptionShape"], _contextTypes);
-  var childContextTypes = (_childContextTypes = {}, _childContextTypes[subscriptionKey] = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_9__["subscriptionShape"], _childContextTypes);
+  invariant__WEBPACK_IMPORTED_MODULE_5___default()(renderCountProp === undefined, "renderCountProp is removed. render counting is built into the latest React dev tools profiling extension");
+  invariant__WEBPACK_IMPORTED_MODULE_5___default()(!withRef, 'withRef is removed. To access the wrapped instance, use a ref on the connected component');
+  var customStoreWarningMessage = 'To use a custom Redux store for specific components,  create a custom React context with ' + "React.createContext(), and pass the context object to React-Redux's Provider and specific components" + ' like:  <Provider context={MyContext}><ConnectedComponent context={MyContext} /></Provider>. ' + 'You may also pass a {context : MyContext} option to connect';
+  invariant__WEBPACK_IMPORTED_MODULE_5___default()(storeKey === 'store', 'storeKey has been removed and does not do anything. ' + customStoreWarningMessage);
+  var Context = context;
   return function wrapWithConnect(WrappedComponent) {
-    invariant__WEBPACK_IMPORTED_MODULE_5___default()(Object(react_is__WEBPACK_IMPORTED_MODULE_7__["isValidElementType"])(WrappedComponent), "You must pass a component to the function returned by " + (methodName + ". Instead received " + JSON.stringify(WrappedComponent)));
+    if (true) {
+      invariant__WEBPACK_IMPORTED_MODULE_5___default()(Object(react_is__WEBPACK_IMPORTED_MODULE_7__["isValidElementType"])(WrappedComponent), "You must pass a component to the function returned by " + (methodName + ". Instead received " + JSON.stringify(WrappedComponent)));
+    }
+
     var wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
     var displayName = getDisplayName(wrappedComponentName);
 
@@ -21393,203 +21825,118 @@ _ref) {
       renderCountProp: renderCountProp,
       shouldHandleStateChanges: shouldHandleStateChanges,
       storeKey: storeKey,
-      withRef: withRef,
       displayName: displayName,
       wrappedComponentName: wrappedComponentName,
-      WrappedComponent: WrappedComponent // TODO Actually fix our use of componentWillReceiveProps
-
-      /* eslint-disable react/no-deprecated */
-
+      WrappedComponent: WrappedComponent
     });
+
+    var pure = connectOptions.pure;
+    var OuterBaseComponent = react__WEBPACK_IMPORTED_MODULE_6__["Component"];
+    var FinalWrappedComponent = WrappedComponent;
+
+    if (pure) {
+      OuterBaseComponent = react__WEBPACK_IMPORTED_MODULE_6__["PureComponent"];
+    }
+
+    function makeDerivedPropsSelector() {
+      var lastProps;
+      var lastState;
+      var lastDerivedProps;
+      var lastStore;
+      var sourceSelector;
+      return function selectDerivedProps(state, props, store) {
+        if (pure && lastProps === props && lastState === state) {
+          return lastDerivedProps;
+        }
+
+        if (store !== lastStore) {
+          lastStore = store;
+          sourceSelector = selectorFactory(store.dispatch, selectorFactoryOptions);
+        }
+
+        lastProps = props;
+        lastState = state;
+        var nextProps = sourceSelector(state, props);
+
+        if (lastDerivedProps === nextProps) {
+          return lastDerivedProps;
+        }
+
+        lastDerivedProps = nextProps;
+        return lastDerivedProps;
+      };
+    }
+
+    function makeChildElementSelector() {
+      var lastChildProps, lastForwardRef, lastChildElement;
+      return function selectChildElement(childProps, forwardRef) {
+        if (childProps !== lastChildProps || forwardRef !== lastForwardRef) {
+          lastChildProps = childProps;
+          lastForwardRef = forwardRef;
+          lastChildElement = react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(FinalWrappedComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, childProps, {
+            ref: forwardRef
+          }));
+        }
+
+        return lastChildElement;
+      };
+    }
 
     var Connect =
     /*#__PURE__*/
-    function (_Component) {
-      Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Connect, _Component);
+    function (_OuterBaseComponent) {
+      Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Connect, _OuterBaseComponent);
 
-      function Connect(props, context) {
+      function Connect(props) {
         var _this;
 
-        _this = _Component.call(this, props, context) || this;
-        _this.version = version;
-        _this.state = {};
-        _this.renderCount = 0;
-        _this.store = props[storeKey] || context[storeKey];
-        _this.propsMode = Boolean(props[storeKey]);
-        _this.setWrappedInstance = _this.setWrappedInstance.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(_this)));
-        invariant__WEBPACK_IMPORTED_MODULE_5___default()(_this.store, "Could not find \"" + storeKey + "\" in either the context or props of " + ("\"" + displayName + "\". Either wrap the root component in a <Provider>, ") + ("or explicitly pass \"" + storeKey + "\" as a prop to \"" + displayName + "\"."));
-
-        _this.initSelector();
-
-        _this.initSubscription();
-
+        _this = _OuterBaseComponent.call(this, props) || this;
+        invariant__WEBPACK_IMPORTED_MODULE_5___default()(forwardRef ? !props.wrapperProps[storeKey] : !props[storeKey], 'Passing redux store in props has been removed and does not do anything. ' + customStoreWarningMessage);
+        _this.selectDerivedProps = makeDerivedPropsSelector();
+        _this.selectChildElement = makeChildElementSelector();
+        _this.renderWrappedComponent = _this.renderWrappedComponent.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(_this)));
         return _this;
       }
 
       var _proto = Connect.prototype;
 
-      _proto.getChildContext = function getChildContext() {
-        var _ref3;
+      _proto.renderWrappedComponent = function renderWrappedComponent(value) {
+        invariant__WEBPACK_IMPORTED_MODULE_5___default()(value, "Could not find \"store\" in the context of " + ("\"" + displayName + "\". Either wrap the root component in a <Provider>, ") + "or pass a custom React context provider to <Provider> and the corresponding " + ("React context consumer to " + displayName + " in connect options."));
+        var storeState = value.storeState,
+            store = value.store;
+        var wrapperProps = this.props;
+        var forwardedRef;
 
-        // If this component received store from props, its subscription should be transparent
-        // to any descendants receiving store+subscription from context; it passes along
-        // subscription passed to it. Otherwise, it shadows the parent subscription, which allows
-        // Connect to control ordering of notifications to flow top-down.
-        var subscription = this.propsMode ? null : this.subscription;
-        return _ref3 = {}, _ref3[subscriptionKey] = subscription || this.context[subscriptionKey], _ref3;
-      };
-
-      _proto.componentDidMount = function componentDidMount() {
-        if (!shouldHandleStateChanges) return; // componentWillMount fires during server side rendering, but componentDidMount and
-        // componentWillUnmount do not. Because of this, trySubscribe happens during ...didMount.
-        // Otherwise, unsubscription would never take place during SSR, causing a memory leak.
-        // To handle the case where a child component may have triggered a state change by
-        // dispatching an action in its componentWillMount, we have to re-run the select and maybe
-        // re-render.
-
-        this.subscription.trySubscribe();
-        this.selector.run(this.props);
-        if (this.selector.shouldComponentUpdate) this.forceUpdate();
-      };
-
-      _proto.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-        this.selector.run(nextProps);
-      };
-
-      _proto.shouldComponentUpdate = function shouldComponentUpdate() {
-        return this.selector.shouldComponentUpdate;
-      };
-
-      _proto.componentWillUnmount = function componentWillUnmount() {
-        if (this.subscription) this.subscription.tryUnsubscribe();
-        this.subscription = null;
-        this.notifyNestedSubs = noop;
-        this.store = null;
-        this.selector.run = noop;
-        this.selector.shouldComponentUpdate = false;
-      };
-
-      _proto.getWrappedInstance = function getWrappedInstance() {
-        invariant__WEBPACK_IMPORTED_MODULE_5___default()(withRef, "To access the wrapped instance, you need to specify " + ("{ withRef: true } in the options argument of the " + methodName + "() call."));
-        return this.wrappedInstance;
-      };
-
-      _proto.setWrappedInstance = function setWrappedInstance(ref) {
-        this.wrappedInstance = ref;
-      };
-
-      _proto.initSelector = function initSelector() {
-        var sourceSelector = selectorFactory(this.store.dispatch, selectorFactoryOptions);
-        this.selector = makeSelectorStateful(sourceSelector, this.store);
-        this.selector.run(this.props);
-      };
-
-      _proto.initSubscription = function initSubscription() {
-        if (!shouldHandleStateChanges) return; // parentSub's source should match where store came from: props vs. context. A component
-        // connected to the store via props shouldn't use subscription from context, or vice versa.
-
-        var parentSub = (this.propsMode ? this.props : this.context)[subscriptionKey];
-        this.subscription = new _utils_Subscription__WEBPACK_IMPORTED_MODULE_8__["default"](this.store, parentSub, this.onStateChange.bind(this)); // `notifyNestedSubs` is duplicated to handle the case where the component is unmounted in
-        // the middle of the notification loop, where `this.subscription` will then be null. An
-        // extra null check every change can be avoided by copying the method onto `this` and then
-        // replacing it with a no-op on unmount. This can probably be avoided if Subscription's
-        // listeners logic is changed to not call listeners that have been unsubscribed in the
-        // middle of the notification loop.
-
-        this.notifyNestedSubs = this.subscription.notifyNestedSubs.bind(this.subscription);
-      };
-
-      _proto.onStateChange = function onStateChange() {
-        this.selector.run(this.props);
-
-        if (!this.selector.shouldComponentUpdate) {
-          this.notifyNestedSubs();
-        } else {
-          this.componentDidUpdate = this.notifyNestedSubsOnComponentDidUpdate;
-          this.setState(dummyState);
+        if (forwardRef) {
+          wrapperProps = this.props.wrapperProps;
+          forwardedRef = this.props.forwardedRef;
         }
-      };
 
-      _proto.notifyNestedSubsOnComponentDidUpdate = function notifyNestedSubsOnComponentDidUpdate() {
-        // `componentDidUpdate` is conditionally implemented when `onStateChange` determines it
-        // needs to notify nested subs. Once called, it unimplements itself until further state
-        // changes occur. Doing it this way vs having a permanent `componentDidUpdate` that does
-        // a boolean check every time avoids an extra method call most of the time, resulting
-        // in some perf boost.
-        this.componentDidUpdate = undefined;
-        this.notifyNestedSubs();
-      };
-
-      _proto.isSubscribed = function isSubscribed() {
-        return Boolean(this.subscription) && this.subscription.isSubscribed();
-      };
-
-      _proto.addExtraProps = function addExtraProps(props) {
-        if (!withRef && !renderCountProp && !(this.propsMode && this.subscription)) return props; // make a shallow copy so that fields added don't leak to the original selector.
-        // this is especially important for 'ref' since that's a reference back to the component
-        // instance. a singleton memoized selector would then be holding a reference to the
-        // instance, preventing the instance from being garbage collected, and that would be bad
-
-        var withExtras = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, props);
-
-        if (withRef) withExtras.ref = this.setWrappedInstance;
-        if (renderCountProp) withExtras[renderCountProp] = this.renderCount++;
-        if (this.propsMode && this.subscription) withExtras[subscriptionKey] = this.subscription;
-        return withExtras;
+        var derivedProps = this.selectDerivedProps(storeState, wrapperProps, store);
+        return this.selectChildElement(derivedProps, forwardedRef);
       };
 
       _proto.render = function render() {
-        var selector = this.selector;
-        selector.shouldComponentUpdate = false;
-
-        if (selector.error) {
-          throw selector.error;
-        } else {
-          return Object(react__WEBPACK_IMPORTED_MODULE_6__["createElement"])(WrappedComponent, this.addExtraProps(selector.props));
-        }
+        var ContextToUse = this.props.context || Context;
+        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(ContextToUse.Consumer, null, this.renderWrappedComponent);
       };
 
       return Connect;
-    }(react__WEBPACK_IMPORTED_MODULE_6__["Component"]);
-    /* eslint-enable react/no-deprecated */
-
+    }(OuterBaseComponent);
 
     Connect.WrappedComponent = WrappedComponent;
     Connect.displayName = displayName;
-    Connect.childContextTypes = childContextTypes;
-    Connect.contextTypes = contextTypes;
-    Connect.propTypes = contextTypes;
 
-    if (true) {
-      Connect.prototype.componentWillUpdate = function componentWillUpdate() {
-        var _this2 = this;
-
-        // We are hot reloading!
-        if (this.version !== version) {
-          this.version = version;
-          this.initSelector(); // If any connected descendants don't hot reload (and resubscribe in the process), their
-          // listeners will be lost when we unsubscribe. Unfortunately, by copying over all
-          // listeners, this does mean that the old versions of connected descendants will still be
-          // notified of state changes; however, their onStateChange function is a no-op so this
-          // isn't a huge deal.
-
-          var oldListeners = [];
-
-          if (this.subscription) {
-            oldListeners = this.subscription.listeners.get();
-            this.subscription.tryUnsubscribe();
-          }
-
-          this.initSubscription();
-
-          if (shouldHandleStateChanges) {
-            this.subscription.trySubscribe();
-            oldListeners.forEach(function (listener) {
-              return _this2.subscription.listeners.subscribe(listener);
-            });
-          }
-        }
-      };
+    if (forwardRef) {
+      var forwarded = react__WEBPACK_IMPORTED_MODULE_6___default.a.forwardRef(function forwardConnectRef(props, ref) {
+        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Connect, {
+          wrapperProps: props,
+          forwardedRef: ref
+        });
+      });
+      forwarded.displayName = displayName;
+      forwarded.WrappedComponent = WrappedComponent;
+      return hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4___default()(forwarded, WrappedComponent);
     }
 
     return hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4___default()(Connect, WrappedComponent);
@@ -21994,7 +22341,7 @@ function wrapMapToPropsConstant(getConstant) {
 } // dependsOnOwnProps is used by createMapToPropsProxy to determine whether to pass props as args
 // to the mapToProps function being wrapped. It is also used by makePurePropsSelector to determine
 // whether mapToProps needs to be invoked when props have changed.
-// 
+//
 // A length of one signals that mapToProps does not depend on props from the parent component.
 // A length of zero is assumed to mean mapToProps is getting args via arguments or ...args and
 // therefore not reporting its length accurately..
@@ -22003,16 +22350,16 @@ function getDependsOnOwnProps(mapToProps) {
   return mapToProps.dependsOnOwnProps !== null && mapToProps.dependsOnOwnProps !== undefined ? Boolean(mapToProps.dependsOnOwnProps) : mapToProps.length !== 1;
 } // Used by whenMapStateToPropsIsFunction and whenMapDispatchToPropsIsFunction,
 // this function wraps mapToProps in a proxy function which does several things:
-// 
+//
 //  * Detects whether the mapToProps function being called depends on props, which
 //    is used by selectorFactory to decide if it should reinvoke on props changes.
-//    
+//
 //  * On first call, handles mapToProps if returns another function, and treats that
 //    new function as the true mapToProps for subsequent calls.
-//    
+//
 //  * On first call, verifies the first result is a plain object, in order to warn
 //    the developer that their mapToProps function is not returning a valid result.
-//    
+//
 
 function wrapMapToPropsFunc(mapToProps, methodName) {
   return function initProxySelector(dispatch, _ref) {
@@ -22050,7 +22397,7 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 /*!**********************************************!*\
   !*** ./node_modules/react-redux/es/index.js ***!
   \**********************************************/
-/*! exports provided: Provider, createProvider, connectAdvanced, connect */
+/*! exports provided: Provider, connectAdvanced, ReactReduxContext, connect */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22058,145 +22405,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Provider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Provider */ "./node_modules/react-redux/es/components/Provider.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return _components_Provider__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return _components_Provider__WEBPACK_IMPORTED_MODULE_0__["createProvider"]; });
-
 /* harmony import */ var _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/connectAdvanced */ "./node_modules/react-redux/es/components/connectAdvanced.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _connect_connect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./connect/connect */ "./node_modules/react-redux/es/connect/connect.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return _connect_connect__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+/* harmony import */ var _components_Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Context */ "./node_modules/react-redux/es/components/Context.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ReactReduxContext", function() { return _components_Context__WEBPACK_IMPORTED_MODULE_2__["ReactReduxContext"]; });
+
+/* harmony import */ var _connect_connect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./connect/connect */ "./node_modules/react-redux/es/connect/connect.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return _connect_connect__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
 
 
 
-
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/utils/PropTypes.js":
-/*!********************************************************!*\
-  !*** ./node_modules/react-redux/es/utils/PropTypes.js ***!
-  \********************************************************/
-/*! exports provided: subscriptionShape, storeShape */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscriptionShape", function() { return subscriptionShape; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storeShape", function() { return storeShape; });
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
-
-var subscriptionShape = prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-  trySubscribe: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
-  tryUnsubscribe: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
-  notifyNestedSubs: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
-  isSubscribed: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired
-});
-var storeShape = prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-  subscribe: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
-  dispatch: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired,
-  getState: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func.isRequired
-});
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/utils/Subscription.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/react-redux/es/utils/Subscription.js ***!
-  \***********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Subscription; });
-// encapsulates the subscription logic for connecting a component to the redux store, as
-// well as nesting subscriptions of descendant components, so that we can ensure the
-// ancestor components re-render before descendants
-var CLEARED = null;
-var nullListeners = {
-  notify: function notify() {}
-};
-
-function createListenerCollection() {
-  // the current/next pattern is copied from redux's createStore code.
-  // TODO: refactor+expose that code to be reusable here?
-  var current = [];
-  var next = [];
-  return {
-    clear: function clear() {
-      next = CLEARED;
-      current = CLEARED;
-    },
-    notify: function notify() {
-      var listeners = current = next;
-
-      for (var i = 0; i < listeners.length; i++) {
-        listeners[i]();
-      }
-    },
-    get: function get() {
-      return next;
-    },
-    subscribe: function subscribe(listener) {
-      var isSubscribed = true;
-      if (next === current) next = current.slice();
-      next.push(listener);
-      return function unsubscribe() {
-        if (!isSubscribed || current === CLEARED) return;
-        isSubscribed = false;
-        if (next === current) next = current.slice();
-        next.splice(next.indexOf(listener), 1);
-      };
-    }
-  };
-}
-
-var Subscription =
-/*#__PURE__*/
-function () {
-  function Subscription(store, parentSub, onStateChange) {
-    this.store = store;
-    this.parentSub = parentSub;
-    this.onStateChange = onStateChange;
-    this.unsubscribe = null;
-    this.listeners = nullListeners;
-  }
-
-  var _proto = Subscription.prototype;
-
-  _proto.addNestedSub = function addNestedSub(listener) {
-    this.trySubscribe();
-    return this.listeners.subscribe(listener);
-  };
-
-  _proto.notifyNestedSubs = function notifyNestedSubs() {
-    this.listeners.notify();
-  };
-
-  _proto.isSubscribed = function isSubscribed() {
-    return Boolean(this.unsubscribe);
-  };
-
-  _proto.trySubscribe = function trySubscribe() {
-    if (!this.unsubscribe) {
-      this.unsubscribe = this.parentSub ? this.parentSub.addNestedSub(this.onStateChange) : this.store.subscribe(this.onStateChange);
-      this.listeners = createListenerCollection();
-    }
-  };
-
-  _proto.tryUnsubscribe = function tryUnsubscribe() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-      this.unsubscribe = null;
-      this.listeners.clear();
-      this.listeners = nullListeners;
-    }
-  };
-
-  return Subscription;
-}();
 
 
 
@@ -22340,7 +22560,7 @@ function warning(message) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.6.1
+/** @license React v16.7.0
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -22362,7 +22582,7 @@ var checkPropTypes = __webpack_require__(/*! prop-types/checkPropTypes */ "./nod
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.6.3';
+var ReactVersion = '16.7.0';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -22418,6 +22638,9 @@ var enableHooks = false;
 
 // Trace which interactions trigger each commit.
 
+
+// Only used in www builds.
+ // TODO: true? Here it might just be false.
 
 // Only used in www builds.
 
@@ -23710,13 +23933,51 @@ function createContext(defaultValue, calculateChangedBits) {
 }
 
 function lazy(ctor) {
-  return {
+  var lazyType = {
     $$typeof: REACT_LAZY_TYPE,
     _ctor: ctor,
     // React uses these fields to store the result.
     _status: -1,
     _result: null
   };
+
+  {
+    // In production, this would just set it on the object.
+    var defaultProps = void 0;
+    var propTypes = void 0;
+    Object.defineProperties(lazyType, {
+      defaultProps: {
+        configurable: true,
+        get: function () {
+          return defaultProps;
+        },
+        set: function (newDefaultProps) {
+          warning$1(false, 'React.lazy(...): It is not supported to assign `defaultProps` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
+          defaultProps = newDefaultProps;
+          // Match production behavior more closely:
+          Object.defineProperty(lazyType, 'defaultProps', {
+            enumerable: true
+          });
+        }
+      },
+      propTypes: {
+        configurable: true,
+        get: function () {
+          return propTypes;
+        },
+        set: function (newPropTypes) {
+          warning$1(false, 'React.lazy(...): It is not supported to assign `propTypes` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
+          propTypes = newPropTypes;
+          // Match production behavior more closely:
+          Object.defineProperty(lazyType, 'propTypes', {
+            enumerable: true
+          });
+        }
+      }
+    });
+  }
+
+  return lazyType;
 }
 
 function forwardRef(render) {
@@ -23803,11 +24064,6 @@ function useRef(initialValue) {
 function useEffect(create, inputs) {
   var dispatcher = resolveDispatcher();
   return dispatcher.useEffect(create, inputs);
-}
-
-function useMutationEffect(create, inputs) {
-  var dispatcher = resolveDispatcher();
-  return dispatcher.useMutationEffect(create, inputs);
 }
 
 function useLayoutEffect(create, inputs) {
@@ -23972,16 +24228,17 @@ function validateChildKeys(node, parentType) {
  */
 function validatePropTypes(element) {
   var type = element.type;
-  var name = void 0,
-      propTypes = void 0;
+  if (type === null || type === undefined || typeof type === 'string') {
+    return;
+  }
+  var name = getComponentName(type);
+  var propTypes = void 0;
   if (typeof type === 'function') {
-    // Class or function component
-    name = type.displayName || type.name;
     propTypes = type.propTypes;
-  } else if (typeof type === 'object' && type !== null && type.$$typeof === REACT_FORWARD_REF_TYPE) {
-    // ForwardRef
-    var functionName = type.render.displayName || type.render.name || '';
-    name = type.displayName || (functionName !== '' ? 'ForwardRef(' + functionName + ')' : 'ForwardRef');
+  } else if (typeof type === 'object' && (type.$$typeof === REACT_FORWARD_REF_TYPE ||
+  // Note: Memo only checks outer props here.
+  // Inner props are checked in the reconciler.
+  type.$$typeof === REACT_MEMO_TYPE)) {
     propTypes = type.propTypes;
   } else {
     return;
@@ -24141,15 +24398,22 @@ var React = {
 
   version: ReactVersion,
 
+  unstable_ConcurrentMode: REACT_CONCURRENT_MODE_TYPE,
+  unstable_Profiler: REACT_PROFILER_TYPE,
+
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: ReactSharedInternals
 };
+
+// Note: some APIs are added with feature flags.
+// Make sure that stable builds for open source
+// don't modify the React object to avoid deopts.
+// Also let's not expose their names in stable builds.
 
 if (enableStableConcurrentModeAPIs) {
   React.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
   React.Profiler = REACT_PROFILER_TYPE;
-} else {
-  React.unstable_ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
-  React.unstable_Profiler = REACT_PROFILER_TYPE;
+  React.unstable_ConcurrentMode = undefined;
+  React.unstable_Profiler = undefined;
 }
 
 if (enableHooks) {
@@ -24159,7 +24423,6 @@ if (enableHooks) {
   React.useImperativeMethods = useImperativeMethods;
   React.useLayoutEffect = useLayoutEffect;
   React.useMemo = useMemo;
-  React.useMutationEffect = useMutationEffect;
   React.useReducer = useReducer;
   React.useRef = useRef;
   React.useState = useState;
@@ -24865,7 +25128,7 @@ if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.6.1
+/** @license React v0.12.0
  * scheduler-tracing.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -24905,6 +25168,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 // Trace which interactions trigger each commit.
 var enableSchedulerTracing = true;
+
+// Only used in www builds.
+ // TODO: true? Here it might just be false.
 
 // Only used in www builds.
 
@@ -25297,7 +25563,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.6.1
+/* WEBPACK VAR INJECTION */(function(global) {/** @license React v0.12.0
  * scheduler.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -25315,6 +25581,44 @@ if (true) {
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
+
+// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
+
+
+// In some cases, StrictMode should also double-render lifecycles.
+// This can be confusing for tests though,
+// And it can be bad for performance in production.
+// This feature flag can be used to control the behavior:
+
+
+// To preserve the "Pause on caught exceptions" behavior of the debugger, we
+// replay the begin phase of a failed component inside invokeGuardedCallback.
+
+
+// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
+
+
+// Gather advanced timing metrics for Profiler subtrees.
+
+
+// Trace which interactions trigger each commit.
+
+
+// Only used in www builds.
+ // TODO: true? Here it might just be false.
+
+// Only used in www builds.
+var enableSchedulerDebugging = true;
+
+// Only used in www builds.
+
+
+// React Fire: prevent the value and checked attributes from syncing
+// with their related DOM properties
+
+
+// These APIs will no longer be "unstable" in the upcoming 16.7 release,
+// Control this behavior with a flag to support 16.6 minor releases in the meanwhile.
 
 /* eslint-disable no-var */
 
@@ -25343,6 +25647,9 @@ var IDLE_PRIORITY = maxSigned31BitInt;
 var firstCallbackNode = null;
 
 var currentDidTimeout = false;
+// Pausing the scheduler is useful for debugging.
+var isSchedulerPaused = false;
+
 var currentPriorityLevel = NormalPriority;
 var currentEventStartTime = -1;
 var currentExpirationTime = -1;
@@ -25477,13 +25784,20 @@ function flushImmediateWork() {
 }
 
 function flushWork(didTimeout) {
+  // Exit right away if we're currently paused
+
+  if (enableSchedulerDebugging && isSchedulerPaused) {
+    return;
+  }
+
   isExecutingCallback = true;
   var previousDidTimeout = currentDidTimeout;
   currentDidTimeout = didTimeout;
   try {
     if (didTimeout) {
       // Flush all the expired callbacks without yielding.
-      while (firstCallbackNode !== null) {
+      while (firstCallbackNode !== null && !(enableSchedulerDebugging && isSchedulerPaused)) {
+        // TODO Wrap i nfeature flag
         // Read the current time. Flush all the callbacks that expire at or
         // earlier than that time. Then read the current time again and repeat.
         // This optimizes for as few performance.now calls as possible.
@@ -25491,7 +25805,7 @@ function flushWork(didTimeout) {
         if (firstCallbackNode.expirationTime <= currentTime) {
           do {
             flushFirstCallback();
-          } while (firstCallbackNode !== null && firstCallbackNode.expirationTime <= currentTime);
+          } while (firstCallbackNode !== null && firstCallbackNode.expirationTime <= currentTime && !(enableSchedulerDebugging && isSchedulerPaused));
           continue;
         }
         break;
@@ -25500,6 +25814,9 @@ function flushWork(didTimeout) {
       // Keep flushing callbacks until we run out of time in the frame.
       if (firstCallbackNode !== null) {
         do {
+          if (enableSchedulerDebugging && isSchedulerPaused) {
+            break;
+          }
           flushFirstCallback();
         } while (firstCallbackNode !== null && !shouldYieldToHost());
       }
@@ -25638,6 +25955,21 @@ function unstable_scheduleCallback(callback, deprecated_options) {
   return newNode;
 }
 
+function unstable_pauseExecution() {
+  isSchedulerPaused = true;
+}
+
+function unstable_continueExecution() {
+  isSchedulerPaused = false;
+  if (firstCallbackNode !== null) {
+    ensureHostCallbackIsScheduled();
+  }
+}
+
+function unstable_getFirstCallbackNode() {
+  return firstCallbackNode;
+}
+
 function unstable_cancelCallback(callbackNode) {
   var next = callbackNode.next;
   if (next === null) {
@@ -25731,41 +26063,45 @@ var requestHostCallback;
 var cancelHostCallback;
 var shouldYieldToHost;
 
-if (typeof window !== 'undefined' && window._schedMock) {
+var globalValue = null;
+if (typeof window !== 'undefined') {
+  globalValue = window;
+} else if (typeof global !== 'undefined') {
+  globalValue = global;
+}
+
+if (globalValue && globalValue._schedMock) {
   // Dynamic injection, only for testing purposes.
-  var impl = window._schedMock;
-  requestHostCallback = impl[0];
-  cancelHostCallback = impl[1];
-  shouldYieldToHost = impl[2];
+  var globalImpl = globalValue._schedMock;
+  requestHostCallback = globalImpl[0];
+  cancelHostCallback = globalImpl[1];
+  shouldYieldToHost = globalImpl[2];
+  exports.unstable_now = globalImpl[3];
 } else if (
 // If Scheduler runs in a non-DOM environment, it falls back to a naive
 // implementation using setTimeout.
 typeof window === 'undefined' ||
-// "addEventListener" might not be available on the window object
-// if this is a mocked "window" object. So we need to validate that too.
-typeof window.addEventListener !== 'function') {
+// Check if MessageChannel is supported, too.
+typeof MessageChannel !== 'function') {
+  // If this accidentally gets imported in a non-browser environment, e.g. JavaScriptCore,
+  // fallback to a naive implementation.
   var _callback = null;
-  var _currentTime = -1;
-  var _flushCallback = function (didTimeout, ms) {
+  var _flushCallback = function (didTimeout) {
     if (_callback !== null) {
-      var cb = _callback;
-      _callback = null;
       try {
-        _currentTime = ms;
-        cb(didTimeout);
+        _callback(didTimeout);
       } finally {
-        _currentTime = -1;
+        _callback = null;
       }
     }
   };
   requestHostCallback = function (cb, ms) {
-    if (_currentTime !== -1) {
+    if (_callback !== null) {
       // Protect against re-entrancy.
-      setTimeout(requestHostCallback, 0, cb, ms);
+      setTimeout(requestHostCallback, 0, cb);
     } else {
       _callback = cb;
-      setTimeout(_flushCallback, ms, true, ms);
-      setTimeout(_flushCallback, maxSigned31BitInt, false, maxSigned31BitInt);
+      setTimeout(_flushCallback, 0, false);
     }
   };
   cancelHostCallback = function () {
@@ -25773,9 +26109,6 @@ typeof window.addEventListener !== 'function') {
   };
   shouldYieldToHost = function () {
     return false;
-  };
-  exports.unstable_now = function () {
-    return _currentTime === -1 ? 0 : _currentTime;
   };
 } else {
   if (typeof console !== 'undefined') {
@@ -25808,12 +26141,9 @@ typeof window.addEventListener !== 'function') {
   };
 
   // We use the postMessage trick to defer idle work until after the repaint.
-  var messageKey = '__reactIdleCallback$' + Math.random().toString(36).slice(2);
-  var idleTick = function (event) {
-    if (event.source !== window || event.data !== messageKey) {
-      return;
-    }
-
+  var channel = new MessageChannel();
+  var port = channel.port2;
+  channel.port1.onmessage = function (event) {
     isMessageEventScheduled = false;
 
     var prevScheduledCallback = scheduledHostCallback;
@@ -25854,9 +26184,6 @@ typeof window.addEventListener !== 'function') {
       }
     }
   };
-  // Assumes that we have addEventListener in this environment. Might need
-  // something better for old IE.
-  window.addEventListener('message', idleTick, false);
 
   var animationTick = function (rafTime) {
     if (scheduledHostCallback !== null) {
@@ -25896,7 +26223,7 @@ typeof window.addEventListener !== 'function') {
     frameDeadline = rafTime + activeFrameTime;
     if (!isMessageEventScheduled) {
       isMessageEventScheduled = true;
-      window.postMessage(messageKey, '*');
+      port.postMessage(undefined);
     }
   };
 
@@ -25905,7 +26232,7 @@ typeof window.addEventListener !== 'function') {
     timeoutTime = absoluteTimeout;
     if (isFlushingHostCallback || absoluteTimeout < 0) {
       // Don't wait for the next frame. Continue working ASAP, in a new event.
-      window.postMessage(messageKey, '*');
+      port.postMessage(undefined);
     } else if (!isAnimationFrameScheduled) {
       // If rAF didn't already schedule one, we need to schedule a frame.
       // TODO: If this rAF doesn't materialize because the browser throttles, we
@@ -25934,9 +26261,13 @@ exports.unstable_cancelCallback = unstable_cancelCallback;
 exports.unstable_wrapCallback = unstable_wrapCallback;
 exports.unstable_getCurrentPriorityLevel = unstable_getCurrentPriorityLevel;
 exports.unstable_shouldYield = unstable_shouldYield;
+exports.unstable_continueExecution = unstable_continueExecution;
+exports.unstable_pauseExecution = unstable_pauseExecution;
+exports.unstable_getFirstCallbackNode = unstable_getFirstCallbackNode;
   })();
 }
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -26053,7 +26384,7 @@ g = (function() {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
+	g = g || new Function("return this")();
 } catch (e) {
 	// This works if the window reference is available
 	if (typeof window === "object") g = window;
@@ -26186,7 +26517,7 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "App App-fade",
         style: {
-          display: this.props.visible ? "block" : "none"
+          display: this.props.visible ? 'block' : 'none'
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
         className: "App-header"
@@ -26314,6 +26645,7 @@ function (_React$Component) {
       this.setState({
         hasError: true
       });
+      console.log(error, info);
     }
   }, {
     key: "render",
@@ -26381,7 +26713,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === "dispatch") {
+  if (request.action === 'dispatch') {
     _store__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(request.data);
   }
 
@@ -26391,16 +26723,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 document.onreadystatechange = function () {
-  if (document.readyState === "interactive") {
-    var container = document.createElement("div");
-    container.id = "app-container";
-    container.style = "box-shadow:initial;position:fixed;overflow:initial;right:0;top:0;bottom:initial;padding:initial;float:right;z-index:2147483647";
+  if (document.readyState === 'interactive') {
+    var container = document.createElement('div');
+    container.id = 'app-container';
+    container.style = 'box-shadow:initial;position:fixed;overflow:initial;right:0;top:0;bottom:initial;padding:initial;float:right;z-index:2147483647';
     document.body.appendChild(container);
     var shadowRoot = container.attachShadow({
-      mode: "open"
+      mode: 'open'
     });
-    var style = document.createElement("style");
-    style.type = "text/css";
+    var style = document.createElement('style');
+    style.type = 'text/css';
     style.appendChild(document.createTextNode(_App_css__WEBPACK_IMPORTED_MODULE_4___default.a));
     Object(react_dom__WEBPACK_IMPORTED_MODULE_2__["render"])(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_1__["Provider"], {
       store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
@@ -26435,7 +26767,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleApp", function() { return toggleApp; });
 var toggleApp = function toggleApp(payload) {
   return {
-    type: "TOGGLE_APP",
+    type: 'TOGGLE_APP',
     payload: payload
   };
 };
@@ -26454,6 +26786,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers */ "./src/content/store/reducers.js");
 
+
+
+if (true) {
+  __webpack_require__(/*! react-devtools */ "./node_modules/react-devtools/index.js");
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
@@ -26480,7 +26817,7 @@ var initialState = {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case "TOGGLE_APP":
+    case 'TOGGLE_APP':
       return _objectSpread({}, state, action.payload);
 
     default:

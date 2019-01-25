@@ -1,14 +1,14 @@
-let clicked = false;
+let clicked = false
 
 chrome.browserAction.onClicked.addListener((tab) => {
-  clicked = !clicked;
+  clicked = !clicked
   chrome.tabs.sendMessage(tab.id, {
-    action: "dispatch",
+    action: 'dispatch',
     data: {
-      type: "TOGGLE_APP",
+      type: 'TOGGLE_APP',
       payload: { visible: clicked }
     }
   }, (response) => {
-    console.log(`Message was successful delivered to content script!`);
-  });
-});
+    console.log(`Message was successful delivered to content script!`)
+  })
+})

@@ -1,6 +1,6 @@
-const path = require('path');
-const webpackMerge = require('webpack-merge');
-const webpackCommon = require('./webpack.common');
+const path = require('path')
+const webpackMerge = require('webpack-merge')
+const webpackCommon = require('./webpack.common')
 
 module.exports = webpackMerge(webpackCommon, {
   output: {
@@ -10,5 +10,5 @@ module.exports = webpackMerge(webpackCommon, {
   },
 
   mode: 'development',
-  devtool: 'cheap-module-source-map',
-});
+  devtool: 'cheap-module-source-map'
+})

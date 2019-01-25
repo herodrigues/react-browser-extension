@@ -1,4 +1,8 @@
-import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./reducers";
+import { createStore } from 'redux'
+import rootReducer from './reducers'
 
-export default createStore(rootReducer);
+if (process.env.NODE_ENV !== 'production') {
+  require('react-devtools')
+}
+
+export default createStore(rootReducer)

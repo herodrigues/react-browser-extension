@@ -1,6 +1,7 @@
-const path = require('path');
-const webpackMerge = require('webpack-merge');
-const webpackCommon = require('./webpack.common');
+const path = require('path')
+const webpackMerge = require('webpack-merge')
+const webpackCommon = require('./webpack.common')
+const { DefinePlugin } = require('webpack')
 
 module.exports = webpackMerge(webpackCommon, {
   output: {
@@ -12,16 +13,16 @@ module.exports = webpackMerge(webpackCommon, {
   mode: 'production',
 
   optimization: {
-    minimize: {
-      sourceMap: false,
-    },
+    minimize: true
   },
 
   plugins: [
+
     new DefinePlugin({
+
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     })
   ]
-});
+})

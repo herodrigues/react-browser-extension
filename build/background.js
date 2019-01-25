@@ -97,9 +97,9 @@ var clicked = false;
 chrome.browserAction.onClicked.addListener(function (tab) {
   clicked = !clicked;
   chrome.tabs.sendMessage(tab.id, {
-    action: "dispatch",
+    action: 'dispatch',
     data: {
-      type: "TOGGLE_APP",
+      type: 'TOGGLE_APP',
       payload: {
         visible: clicked
       }

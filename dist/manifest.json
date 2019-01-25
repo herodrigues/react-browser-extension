@@ -1,5 +1,5 @@
 {
-  "name": "ChromeReactRedux",
+  "name": "Chrome React Minimal",
   "version": "1.0.0",
   "description": "Chrome extension with React/Redux",
   "manifest_version": 2,
@@ -28,17 +28,14 @@
     ]
   },
   "icons": {
-    "48": "icons/icon-48.png"
+    "48": "icon-48.png"
   },
   "browser_action": {
     "default_icon": {
-      "19": "icons/icon-19.png",
-      "38": "icons/icon-38.png"
+      "19": "icon-19.png",
+      "38": "icon-38.png"
     },
     "default_title": "ChromeReactRedux"
   },
-  "content_security_policy": "script-src 'self'; object-src 'self'",
-  "web_accessible_resources": [
-    "assets/css/*.css"
-  ]
+  "content_security_policy": "script-src 'self'; object-src 'self'"
 }
