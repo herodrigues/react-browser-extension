@@ -1,6 +1,9 @@
 import React from 'react'
 import browser from 'webextension-polyfill'
 
+// import { connectToDevTools } from 'react-devtools-core'
+// connectToDevTools()
+
 const initialState = {
   visible: false
 }
@@ -17,21 +20,24 @@ function reducer (state = initialState, action) {
   }
 }
 
-export const Store = React.createContext()
+export const StoreContext = React.createContext()
+export const StoreConsumer = StoreContext.StoreConsumer
 
-export function StoreProvider (props) {
+export const StoreProvider = (props) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
   const value = { state, dispatch }
 
-  browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'TOGGLE_APP') {
-      dispatch(request)
+  browser.runtime.onMessage.addListener((action, sender, sendResponse) => {
+    if (action.type === 'TOGGLE_APP') {
+      dispatch(action)
     }
   })
 
   return (
-    <Store.Provider value={value}>
+    <StoreContext.Provider value={value}>
       {props.children}
-    </Store.Provider>
+    </StoreContext.Provider>
   )
 }
+
+export default { StoreContext, StoreConsumer, StoreProvider }

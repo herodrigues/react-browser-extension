@@ -1,10 +1,14 @@
 import React from 'react'
 import logo from './logo.svg'
 
-const App = (props) => {
-  // if (!props.visible) {
-  //   return null
-  // }
+import { StoreContext } from './Store'
+
+export default () => {
+  const { state, dispatch } = React.useContext(StoreContext) // eslint-disable-line
+
+  if (!state.visible) {
+    return null
+  }
 
   return (
     <div className='App App-fade'>
@@ -18,5 +22,3 @@ const App = (props) => {
     </div>
   )
 }
-
-export default App
