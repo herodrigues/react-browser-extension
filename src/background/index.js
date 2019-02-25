@@ -1,14 +1,13 @@
+import browser from 'webextension-polyfill'
+
 let clicked = false
 
-chrome.browserAction.onClicked.addListener((tab) => {
+browser.browserAction.onClicked.addListener((tab) => {
   clicked = !clicked
   chrome.tabs.sendMessage(tab.id, {
-    action: 'dispatch',
-    data: {
-      type: 'TOGGLE_APP',
-      payload: { visible: clicked }
-    }
-  }, (response) => {
+    type: 'TOGGLE_APP',
+    payload: { visible: clicked }
+  }).then((response) => {
     console.log(`Message was successful delivered to content script!`)
   })
 })

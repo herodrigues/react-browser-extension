@@ -1,38 +1,36 @@
 import React from 'react'
-import { Provider } from 'react-redux'
+import 'react-devtools'
 import { render } from 'react-dom'
 
-import AppContainer from './AppContainer'
+import ErrorBoundary from './ErrorBoundary'
+import App from './App'
+import Wrapper from './Wrapper'
+
 import AppCSS from './App.css'
 
-import store from './store'
+// import { StoreProvider } from './Store'
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === 'dispatch') {
-    store.dispatch(request.data)
-  }
-  sendResponse({ data: request.data })
-})
+window.addEventListener('DOMContentLoaded', function () {
+  let container = document.getElementById('webext-root')
 
-document.onreadystatechange = function () {
-  if (document.readyState === 'interactive') {
-    const container = document.createElement('div')
-    container.id = 'app-container'
-    container.style = 'box-shadow:initial;position:fixed;overflow:initial;right:0;top:0;bottom:initial;padding:initial;float:right;z-index:2147483647'
+  if (!container) {
+    container = document.createElement('div')
+    container.id = 'webext-root'
+    const zIndex = process.env.NODE_ENV === 'development' ? 9999999 : 2147483648
+    container.style = `position:fixed;right:0;top:0;float:right;z-index:${zIndex};`
     document.body.appendChild(container)
 
-    const shadowRoot = container.attachShadow({ mode: 'open' })
     const style = document.createElement('style')
     style.type = 'text/css'
     style.appendChild(document.createTextNode(AppCSS))
 
     render(
-      <Provider store={store}>
-        <AppContainer />
-      </Provider>,
-      shadowRoot, function () {
-        shadowRoot.appendChild(style)
-      }
+      <ErrorBoundary>
+        <Wrapper rootElement={container} style={style}>
+          <App />
+        </Wrapper>
+      </ErrorBoundary>,
+      container
     )
   }
-}
+})
