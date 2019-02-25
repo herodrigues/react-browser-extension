@@ -1,12 +1,11 @@
 {
-  "name": "Chrome React Minimal",
+  "name": "React Browser Extension",
   "version": "1.0.0",
-  "description": "Chrome extension with React/Redux",
+  "description": "Simple browser extension using React",
   "manifest_version": 2,
   "minimum_chrome_version": "27",
   "permissions": [
-    "http://*/*",
-    "https://*/*"
+    "activeTab"
   ],
   "content_scripts": [
     {
@@ -28,14 +27,14 @@
     ]
   },
   "icons": {
-    "48": "icon-48.png"
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
   },
   "browser_action": {
     "default_icon": {
       "19": "icon-19.png",
       "38": "icon-38.png"
-    },
-    "default_title": "ChromeReactRedux"
-  },
-  "content_security_policy": "script-src 'self'; object-src 'self'"
+    }
+  }
 }

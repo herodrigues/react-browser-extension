@@ -86,261 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _inheritsLoose; });
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js ***!
-  \*********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright 2015, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
-var REACT_STATICS = {
-    childContextTypes: true,
-    contextType: true,
-    contextTypes: true,
-    defaultProps: true,
-    displayName: true,
-    getDefaultProps: true,
-    getDerivedStateFromError: true,
-    getDerivedStateFromProps: true,
-    mixins: true,
-    propTypes: true,
-    type: true
-};
-
-var KNOWN_STATICS = {
-    name: true,
-    length: true,
-    prototype: true,
-    caller: true,
-    callee: true,
-    arguments: true,
-    arity: true
-};
-
-var FORWARD_REF_STATICS = {
-    '$$typeof': true,
-    render: true,
-    defaultProps: true,
-    displayName: true,
-    propTypes: true
-};
-
-var TYPE_STATICS = {};
-TYPE_STATICS[ReactIs.ForwardRef] = FORWARD_REF_STATICS;
-
-var defineProperty = Object.defineProperty;
-var getOwnPropertyNames = Object.getOwnPropertyNames;
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-var getPrototypeOf = Object.getPrototypeOf;
-var objectPrototype = Object.prototype;
-
-function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
-    if (typeof sourceComponent !== 'string') {
-        // don't hoist over string (html) components
-
-        if (objectPrototype) {
-            var inheritedComponent = getPrototypeOf(sourceComponent);
-            if (inheritedComponent && inheritedComponent !== objectPrototype) {
-                hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
-            }
-        }
-
-        var keys = getOwnPropertyNames(sourceComponent);
-
-        if (getOwnPropertySymbols) {
-            keys = keys.concat(getOwnPropertySymbols(sourceComponent));
-        }
-
-        var targetStatics = TYPE_STATICS[targetComponent['$$typeof']] || REACT_STATICS;
-        var sourceStatics = TYPE_STATICS[sourceComponent['$$typeof']] || REACT_STATICS;
-
-        for (var i = 0; i < keys.length; ++i) {
-            var key = keys[i];
-            if (!KNOWN_STATICS[key] && !(blacklist && blacklist[key]) && !(sourceStatics && sourceStatics[key]) && !(targetStatics && targetStatics[key])) {
-                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
-                try {
-                    // Avoid failures from read-only properties
-                    defineProperty(targetComponent, key, descriptor);
-                } catch (e) {}
-            }
-        }
-
-        return targetComponent;
-    }
-
-    return targetComponent;
-}
-
-module.exports = hoistNonReactStatics;
-
-
-/***/ }),
-
-/***/ "./node_modules/invariant/browser.js":
-/*!*******************************************!*\
-  !*** ./node_modules/invariant/browser.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (true) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-};
-
-module.exports = invariant;
-
-
-/***/ }),
-
 /***/ "./node_modules/object-assign/index.js":
 /*!*********************************************!*\
   !*** ./node_modules/object-assign/index.js ***!
@@ -465,6 +210,7 @@ var printWarning = function() {};
 if (true) {
   var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
   var loggedTypeFailures = {};
+  var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
   printWarning = function(text) {
     var message = 'Warning: ' + text;
@@ -494,7 +240,7 @@ if (true) {
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   if (true) {
     for (var typeSpecName in typeSpecs) {
-      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+      if (has(typeSpecs, typeSpecName)) {
         var error;
         // Prop type validation may throw. In case they do, we don't want to
         // fail the render phase where it didn't fail before. So we log it.
@@ -522,8 +268,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
             'You may have forgotten to pass an argument to the type checker ' +
             'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
             'shape all require an argument).'
-          )
-
+          );
         }
         if (error instanceof Error && !(error.message in loggedTypeFailures)) {
           // Only monitor this failure once because there tends to be a lot of the
@@ -538,6 +283,17 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
         }
       }
     }
+  }
+}
+
+/**
+ * Resets warning cache when testing.
+ *
+ * @private
+ */
+checkPropTypes.resetWarningCache = function() {
+  if (true) {
+    loggedTypeFailures = {};
   }
 }
 
@@ -563,11 +319,13 @@ module.exports = checkPropTypes;
 
 
 
+var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
 var assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
 
 var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
 var checkPropTypes = __webpack_require__(/*! ./checkPropTypes */ "./node_modules/prop-types/checkPropTypes.js");
 
+var has = Function.call.bind(Object.prototype.hasOwnProperty);
 var printWarning = function() {};
 
 if (true) {
@@ -678,6 +436,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     any: createAnyTypeChecker(),
     arrayOf: createArrayOfTypeChecker,
     element: createElementTypeChecker(),
+    elementType: createElementTypeTypeChecker(),
     instanceOf: createInstanceTypeChecker,
     node: createNodeChecker(),
     objectOf: createObjectOfTypeChecker,
@@ -831,6 +590,18 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     return createChainableTypeChecker(validate);
   }
 
+  function createElementTypeTypeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      if (!ReactIs.isValidElementType(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement type.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
   function createInstanceTypeChecker(expectedClass) {
     function validate(props, propName, componentName, location, propFullName) {
       if (!(props[propName] instanceof expectedClass)) {
@@ -845,7 +616,16 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
   function createEnumTypeChecker(expectedValues) {
     if (!Array.isArray(expectedValues)) {
-       true ? printWarning('Invalid argument supplied to oneOf, expected an instance of array.') : undefined;
+      if (true) {
+        if (arguments.length > 1) {
+          printWarning(
+            'Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + ' arguments. ' +
+            'A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).'
+          );
+        } else {
+          printWarning('Invalid argument supplied to oneOf, expected an array.');
+        }
+      }
       return emptyFunctionThatReturnsNull;
     }
 
@@ -857,8 +637,14 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         }
       }
 
-      var valuesString = JSON.stringify(expectedValues);
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
+      var valuesString = JSON.stringify(expectedValues, function replacer(key, value) {
+        var type = getPreciseType(value);
+        if (type === 'symbol') {
+          return String(value);
+        }
+        return value;
+      });
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
     }
     return createChainableTypeChecker(validate);
   }
@@ -874,7 +660,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
       }
       for (var key in propValue) {
-        if (propValue.hasOwnProperty(key)) {
+        if (has(propValue, key)) {
           var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
           if (error instanceof Error) {
             return error;
@@ -1031,6 +817,11 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return true;
     }
 
+    // falsy value can't be a Symbol
+    if (!propValue) {
+      return false;
+    }
+
     // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
     if (propValue['@@toStringTag'] === 'Symbol') {
       return true;
@@ -1105,6 +896,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   }
 
   ReactPropTypes.checkPropTypes = checkPropTypes;
+  ReactPropTypes.resetWarningCache = checkPropTypes.resetWarningCache;
   ReactPropTypes.PropTypes = ReactPropTypes;
 
   return ReactPropTypes;
@@ -1128,21 +920,12 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
  */
 
 if (true) {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
+  var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
 
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(/*! ./factoryWithTypeCheckers */ "./node_modules/prop-types/factoryWithTypeCheckers.js")(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(/*! ./factoryWithTypeCheckers */ "./node_modules/prop-types/factoryWithTypeCheckers.js")(ReactIs.isElement, throwOnDirectAccess);
 } else {}
 
 
@@ -1172,39 +955,6 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
-/***/ "./node_modules/react-devtools-core/build/backend.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/react-devtools-core/build/backend.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-!function(e,t){ true?module.exports=t():undefined}(window,function(){return function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=8)}([function(e,t,n){var r,o,i;!function(a,s){"use strict";o=[n(54)],void 0===(i="function"==typeof(r=function(e){var t=/(^|@)\S+\:\d+/,n=/^\s*at .*(\S+\:\d+|\(native\))/m,r=/^(eval@)?(\[native code\])?$/;return{parse:function(e){if(void 0!==e.stacktrace||void 0!==e["opera#sourceloc"])return this.parseOpera(e);if(e.stack&&e.stack.match(n))return this.parseV8OrIE(e);if(e.stack)return this.parseFFOrSafari(e);throw new Error("Cannot parse given Error object")},extractLocation:function(e){if(-1===e.indexOf(":"))return[e];var t=/(.+?)(?:\:(\d+))?(?:\:(\d+))?$/.exec(e.replace(/[\(\)]/g,""));return[t[1],t[2]||void 0,t[3]||void 0]},parseV8OrIE:function(t){var r=t.stack.split("\n").filter(function(e){return!!e.match(n)},this);return r.map(function(t){t.indexOf("(eval ")>-1&&(t=t.replace(/eval code/g,"eval").replace(/(\(eval at [^\()]*)|(\)\,.*$)/g,""));var n=t.replace(/^\s+/,"").replace(/\(eval code/g,"(").split(/\s+/).slice(1),r=this.extractLocation(n.pop()),o=n.join(" ")||void 0,i=["eval","<anonymous>"].indexOf(r[0])>-1?void 0:r[0];return new e({functionName:o,fileName:i,lineNumber:r[1],columnNumber:r[2],source:t})},this)},parseFFOrSafari:function(t){var n=t.stack.split("\n").filter(function(e){return!e.match(r)},this);return n.map(function(t){if(t.indexOf(" > eval")>-1&&(t=t.replace(/ line (\d+)(?: > eval line \d+)* > eval\:\d+\:\d+/g,":$1")),-1===t.indexOf("@")&&-1===t.indexOf(":"))return new e({functionName:t});var n=/((.*".+"[^@]*)?[^@]*)(?:@)/,r=t.match(n),o=r&&r[1]?r[1]:void 0,i=this.extractLocation(t.replace(n,""));return new e({functionName:o,fileName:i[0],lineNumber:i[1],columnNumber:i[2],source:t})},this)},parseOpera:function(e){return!e.stacktrace||e.message.indexOf("\n")>-1&&e.message.split("\n").length>e.stacktrace.split("\n").length?this.parseOpera9(e):e.stack?this.parseOpera11(e):this.parseOpera10(e)},parseOpera9:function(t){for(var n=/Line (\d+).*script (?:in )?(\S+)/i,r=t.message.split("\n"),o=[],i=2,a=r.length;i<a;i+=2){var s=n.exec(r[i]);s&&o.push(new e({fileName:s[2],lineNumber:s[1],source:r[i]}))}return o},parseOpera10:function(t){for(var n=/Line (\d+).*script (?:in )?(\S+)(?:: In function (\S+))?$/i,r=t.stacktrace.split("\n"),o=[],i=0,a=r.length;i<a;i+=2){var s=n.exec(r[i]);s&&o.push(new e({functionName:s[3]||void 0,fileName:s[2],lineNumber:s[1],source:r[i]}))}return o},parseOpera11:function(n){var r=n.stack.split("\n").filter(function(e){return!!e.match(t)&&!e.match(/^Error created at/)},this);return r.map(function(t){var n,r=t.split("@"),o=this.extractLocation(r.pop()),i=r.shift()||"",a=i.replace(/<anonymous function(: (\w+))?>/,"$2").replace(/\([^\)]*\)/g,"")||void 0;i.match(/\(([^\)]*)\)/)&&(n=i.replace(/^[^\(]+\(([^\)]*)\)$/,"$1"));var s=void 0===n||"[arguments not available]"===n?void 0:n.split(",");return new e({functionName:a,args:s,fileName:o[0],lineNumber:o[1],columnNumber:o[2],source:t})},this)}}})?r.apply(t,o):r)||(e.exports=i)}()},function(e,t,n){"use strict";var r=Object.prototype.hasOwnProperty,o=Object.prototype.propertyIsEnumerable;e.exports=Object.assign||function(e,t){for(var n,i,a=function(e){if(null==e)throw new TypeError("Object.assign cannot be called with null or undefined");return Object(e)}(e),s=1;s<arguments.length;s++){for(var u in n=Object(arguments[s]))r.call(n,u)&&(a[u]=n[u]);if(Object.getOwnPropertySymbols){i=Object.getOwnPropertySymbols(n);for(var c=0;c<i.length;c++)o.call(n,i[c])&&(a[i[c]]=n[i[c]])}}return a}},function(e,t,n){"use strict";function r(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function o(e,t,n,i){if(n>=t.length)return i;var a=t[n],s=Array.isArray(e)?e.slice():function(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},o=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(o=o.concat(Object.getOwnPropertySymbols(n).filter(function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),o.forEach(function(t){r(e,t,n[t])})}return e}({},e);return s[a]=o(e[a],t,n+1,i),s}e.exports=function(e,t,n){return o(e,t,0,n)}},function(e,t){function n(e){return function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}var r=Object.prototype.hasOwnProperty;e.exports=function(e,t){return t.reduce(function(e,t){if(e){if(r.call(e,t))return e[t];if("function"==typeof e[Symbol.iterator])return n(e)[t]}return null},e)}},function(e,t,n){"use strict";var r=n(14);e.exports={name:r("name"),type:r("type"),inspected:r("inspected"),meta:r("meta"),proto:r("proto")}},function(e,t,n){"use strict";var r=/^(.*) \[from (.*)\]$/,o=new WeakMap;e.exports=function(e){var t,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"Unknown",i=o.get(e);if(null!=i)return i;"string"==typeof e.displayName&&(t=e.displayName),t||(t=e.name||n);var a=t.match(r);if(a){var s=a[1],u=a[2];s&&u&&(u===s||u.startsWith(s+"."))&&(t=s)}return o.set(e,t),t}},function(e,t){var n,r,o=e.exports={};function i(){throw new Error("setTimeout has not been defined")}function a(){throw new Error("clearTimeout has not been defined")}function s(e){if(n===setTimeout)return setTimeout(e,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i}catch(e){n=i}try{r="function"==typeof clearTimeout?clearTimeout:a}catch(e){r=a}}();var u,c=[],l=!1,f=-1;function p(){l&&u&&(l=!1,u.length?c=u.concat(c):f=-1,c.length&&d())}function d(){if(!l){var e=s(p);l=!0;for(var t=c.length;t;){for(u=c,c=[];++f<t;)u&&u[f].run();f=-1,t=c.length}u=null,l=!1,function(e){if(r===clearTimeout)return clearTimeout(e);if((r===a||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(e);try{r(e)}catch(t){try{return r.call(null,e)}catch(t){return r.call(this,e)}}}(e)}}function h(e,t){this.fun=e,this.array=t}function m(){}o.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];c.push(new h(e,t)),1!==c.length||l||s(d)},h.prototype.run=function(){this.fun.apply(null,this.array)},o.title="browser",o.browser=!0,o.env={},o.argv=[],o.version="",o.versions={},o.on=m,o.addListener=m,o.once=m,o.off=m,o.removeListener=m,o.removeAllListeners=m,o.emit=m,o.prependListener=m,o.prependOnceListener=m,o.listeners=function(e){return[]},o.binding=function(e){throw new Error("process.binding is not supported")},o.cwd=function(){return"/"},o.chdir=function(e){throw new Error("process.chdir is not supported")},o.umask=function(){return 0}},function(e,t){function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var r;r=function(){return this}();try{r=r||Function("return this")()||(0,eval)("this")}catch(e){"object"===("undefined"==typeof window?"undefined":n(window))&&(r=window)}e.exports=r},function(e,t,n){"use strict";var r=n(9),o=n(13),i=n(37),a=n(38),s=n(39),u=n(48),c=n(52),l=n(61).default,f=n(55);a(window),window.document&&window.__REACT_DEVTOOLS_GLOBAL_HOOK__.on("react-devtools",function(e){n(56)(e)}),e.exports={connectToDevTools:function e(t){var n=t||{},a=n.host,p=void 0===a?"localhost":a,d=n.port,h=void 0===d?8097:d,m=n.websocket,y=n.resolveRNStyle,v=void 0===y?null:y,g=n.isAppActive;function b(){setTimeout(function(){return e(t)},2e3)}if((void 0===g?function(){return!0}:g)()){var _=[],w=[],S="ws://"+p+":"+h,E=m||new window.WebSocket(S);E.onclose=x,E.onerror=x,E.onmessage=function(e){var t;try{u("string"==typeof e.data),t=JSON.parse(e.data)}catch(t){return void console.error("failed to parse json: "+String(e.data))}_.forEach(function(e){try{e(t)}catch(e){throw console.log(t),e}})},E.onopen=function(){!function(e,t){e.onClose(function(){a&&a.emit("shutdown"),window.__REACT_DEVTOOLS_GLOBAL_HOOK__.emit("shutdown"),n=null,a=null,console.log("closing devtools")});var n=new o(e),a=new r(window,{rnStyle:!!t,rnStyleMeasure:!!t});a.addBridge(n),t&&c(n,a,t),f(n,a,window.__REACT_DEVTOOLS_GLOBAL_HOOK__),l(n,a);var u=setTimeout(function(){console.warn("react-devtools agent got no connection")},2e4);a.once("connected",function(){a&&(s(window.__REACT_DEVTOOLS_GLOBAL_HOOK__,a),clearTimeout(u))}),i.init(a)}({listen:function(e){_.push(e)},onClose:function(e){w.push(e)},send:function(e){E.send(JSON.stringify(e))}},v)};var O=!1}else b();function x(){O||(O=!0,b(),w.forEach(function(e){return e()}))}}}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function i(e){return(i=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function a(e,t){return(a=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function s(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}var u=n(10).EventEmitter,c=n(1),l=n(11).default,f=n(12),p=n(3),d=function(e){function t(e,n){var o,a,u,l;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t),a=this,u=i(t).call(this),(o=!u||"object"!==r(u)&&"function"!=typeof u?s(a):u).global=e,o.internalInstancesById=new Map,o.idsByInternalInstances=new WeakMap,o.renderers=new Map,o.elementData=new Map,o.roots=new Set,o.reactInternals={},o.on("selected",function(e){var t=o.elementData.get(e);t&&t.publicInstance&&o.global.$r===l&&(o.global.$r=t.publicInstance,l=t.publicInstance)}),o._prevSelected=null,o._scrollUpdate=!1;var f=window.document&&"function"==typeof window.document.createElement;return o.capabilities=c({scroll:f&&"function"==typeof window.document.body.scrollIntoView,dom:f,editTextContent:!1},n),f&&(o._updateScroll=o._updateScroll.bind(s(s(o))),window.addEventListener("scroll",o._onScroll.bind(s(s(o))),!0),window.addEventListener("click",o._onClick.bind(s(s(o))),!0),window.addEventListener("mouseover",o._onMouseOver.bind(s(s(o))),!0),window.addEventListener("resize",o._onResize.bind(s(s(o))),!0)),o}var n,d,h;return function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&a(e,t)}(t,u),n=t,(d=[{key:"sub",value:function(e,t){var n=this;return this.on(e,t),function(){n.removeListener(e,t)}}},{key:"setReactInternals",value:function(e,t){this.reactInternals[e]=t}},{key:"addBridge",value:function(e){var t=this;e.on("requestCapabilities",function(){e.send("capabilities",t.capabilities),t.emit("connected")}),e.on("setState",this._setState.bind(this)),e.on("setProps",this._setProps.bind(this)),e.on("setContext",this._setContext.bind(this)),e.on("makeGlobal",this._makeGlobal.bind(this)),e.on("highlight",function(e){return t.highlight(e)}),e.on("highlightMany",function(e){return t.highlightMany(e)}),e.on("hideHighlight",function(){return t.emit("hideHighlight")}),e.on("startInspecting",function(){return t.emit("startInspecting")}),e.on("stopInspecting",function(){return t.emit("stopInspecting")}),e.on("selected",function(e){return t.emit("selected",e)}),e.on("isRecording",function(e){return t.emit("isRecording",e)}),e.on("setInspectEnabled",function(e){t._inspectEnabled=e,t.emit("stopInspecting")}),e.on("shutdown",function(){return t.emit("shutdown")}),e.on("changeTextContent",function(e){var n=e.id,r=e.text,o=t.getNodeForID(n);o&&(o.textContent=r)}),e.on("putSelectedNode",function(e){window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$node=t.getNodeForID(e)}),e.on("putSelectedInstance",function(e){var n=t.elementData.get(e);window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$type=n?n.type:null,n&&n.publicInstance?window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$inst=n.publicInstance:window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$inst=null}),e.on("checkSelection",function(){var e=window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$0;e!==t._prevSelected&&(t._prevSelected=e,e!==window.__REACT_DEVTOOLS_GLOBAL_HOOK__.$node&&t.selectFromDOMNode(e,!0))}),e.on("scrollToNode",function(e){return t.scrollToNode(e)}),e.on("traceupdatesstatechange",function(e){return t.emit("traceupdatesstatechange",e)}),e.on("colorizerchange",function(e){return t.emit("colorizerchange",e)}),this.on("root",function(t){return e.send("root",t)}),this.on("mount",function(t){return e.send("mount",t)}),this.on("update",function(t){return e.send("update",t)}),this.on("updateProfileTimes",function(t){return e.send("updateProfileTimes",t)}),this.on("unmount",function(t){e.send("unmount",t),e.forget(t)}),this.on("setSelection",function(t){return e.send("select",t)}),this.on("setInspectEnabled",function(t){return e.send("setInspectEnabled",t)}),this.on("isRecording",function(t){return e.send("isRecording",t)}),this.on("storeSnapshot",function(t){return e.send("storeSnapshot",t)}),this.on("clearSnapshots",function(){return e.send("clearSnapshots")})}},{key:"scrollToNode",value:function(e){var t=this.getNodeForID(e);if(t){var n=t.nodeType===Node.ELEMENT_NODE?t:t.parentElement;n?("function"==typeof n.scrollIntoViewIfNeeded?n.scrollIntoViewIfNeeded():"function"==typeof n.scrollIntoView&&n.scrollIntoView(),this.highlight(e)):console.warn("unable to get the domElement for scrolling")}else console.warn("unable to get the node for scrolling")}},{key:"highlight",value:function(e){var t=this.elementData.get(e),n=this.getNodeForID(e);t&&n&&this.emit("highlight",{node:n,name:t.name,props:t.props})}},{key:"highlightMany",value:function(e){var t=this,n=[];e.forEach(function(e){var r=t.getNodeForID(e);r&&n.push(r)}),n.length&&this.emit("highlightMany",n)}},{key:"getNodeForID",value:function(e){var t=this.internalInstancesById.get(e);if(!t)return null;var n=this.renderers.get(e);return n&&this.reactInternals[n].getNativeFromReactElement?this.reactInternals[n].getNativeFromReactElement(t):null}},{key:"selectFromDOMNode",value:function(e,t){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=this.getIDForNode(e);r&&this.emit("setSelection",{id:r,quiet:t,offsetFromLeaf:n})}},{key:"selectFromReactInstance",value:function(e,t){var n=this.getId(e);n?this.emit("setSelection",{id:n,quiet:t}):console.log("no instance id",e)}},{key:"getIDForNode",value:function(e){if(!this.reactInternals)return null;var t;for(var n in this.reactInternals){try{t=this.reactInternals[n].getReactElementFromNative(e)}catch(e){}if(t)return this.getId(t)}return null}},{key:"_setProps",value:function(e){var t=e.id,n=e.path,r=e.value,o=this.elementData.get(t);o&&o.updater&&"function"==typeof o.updater.setInProps?o.updater.setInProps(n,r):console.warn("trying to set props on a component that doesn't support it")}},{key:"_setState",value:function(e){var t=e.id,n=e.path,r=e.value,o=this.elementData.get(t);o&&o.updater&&"function"==typeof o.updater.setInState?o.updater.setInState(n,r):console.warn("trying to set state on a component that doesn't support it")}},{key:"_setContext",value:function(e){var t=e.id,n=e.path,r=e.value,o=this.elementData.get(t);o&&o.updater&&"function"==typeof o.updater.setInContext?o.updater.setInContext(n,r):console.warn("trying to set context on a component that doesn't support it")}},{key:"_makeGlobal",value:function(e){var t,n=e.id,r=e.path,o=this.elementData.get(n);o&&(t="instance"===r?o.publicInstance:p(o,r),this.global.$tmp=t,console.log("$tmp =",t))}},{key:"getId",value:function(e){return"object"===r(e)&&e?(this.idsByInternalInstances.has(e)||(this.idsByInternalInstances.set(e,f()),this.internalInstancesById.set(l(this.idsByInternalInstances.get(e)),e)),l(this.idsByInternalInstances.get(e))):e}},{key:"addRoot",value:function(e,t){var n=this.getId(t);this.roots.add(n),this.emit("root",n)}},{key:"rootCommitted",value:function(e,t,n){var r=this.getId(t);this.emit("rootCommitted",r,t,n)}},{key:"onMounted",value:function(e,t,n){var r=this,o=this.getId(t);this.renderers.set(o,e),this.elementData.set(o,n);var i=c({},n);i.children&&i.children.map&&(i.children=i.children.map(function(e){return r.getId(e)})),i.id=o,i.canUpdate=i.updater&&i.updater.canUpdate,delete i.type,delete i.updater,this.emit("mount",i)}},{key:"onUpdated",value:function(e,t){var n=this,r=this.getId(e);this.elementData.set(r,t);var o=c({},t);o.children&&o.children.map&&(o.children=o.children.map(function(e){return n.getId(e)})),o.id=r,o.canUpdate=o.updater&&o.updater.canUpdate,delete o.type,delete o.updater,this.emit("update",o)}},{key:"onUpdatedProfileTimes",value:function(e,t){var n=this,r=this.getId(e);this.elementData.set(r,t);var o=c({},t);o.children&&o.children.map&&(o.children=o.children.map(function(e){return n.getId(e)})),o.id=r,o.canUpdate=o.updater&&o.updater.canUpdate,delete o.type,delete o.updater,this.emit("updateProfileTimes",o)}},{key:"onUnmounted",value:function(e){var t=this.getId(e);this.elementData.delete(t),this.roots.has(t)&&(this.roots.delete(t),this.emit("rootUnmounted",t)),this.renderers.delete(t),this.emit("unmount",t),this.idsByInternalInstances.delete(e)}},{key:"_onScroll",value:function(){this._scrollUpdate||(this._scrollUpdate=!0,window.requestAnimationFrame(this._updateScroll))}},{key:"_updateScroll",value:function(){this.emit("refreshMultiOverlay"),this.emit("stopInspecting"),this._scrollUpdate=!1}},{key:"_onClick",value:function(e){if(this._inspectEnabled){var t=this.getIDForNode(e.target);t&&(e.stopPropagation(),e.preventDefault(),this.emit("setSelection",{id:t}),this.emit("setInspectEnabled",!1))}}},{key:"_onMouseOver",value:function(e){if(this._inspectEnabled){var t=this.getIDForNode(e.target);if(!t)return;this.highlight(t)}}},{key:"_onResize",value:function(e){this.emit("stopInspecting")}}])&&o(n.prototype,d),h&&o(n,h),t}();e.exports=d},function(e,t){function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function r(){this._events=this._events||{},this._maxListeners=this._maxListeners||void 0}function o(e){return"function"==typeof e}function i(e){return"object"===n(e)&&null!==e}function a(e){return void 0===e}e.exports=r,r.EventEmitter=r,r.prototype._events=void 0,r.prototype._maxListeners=void 0,r.defaultMaxListeners=10,r.prototype.setMaxListeners=function(e){if("number"!=typeof e||e<0||isNaN(e))throw TypeError("n must be a positive number");return this._maxListeners=e,this},r.prototype.emit=function(e){var t,n,r,s,u,c;if(this._events||(this._events={}),"error"===e&&(!this._events.error||i(this._events.error)&&!this._events.error.length)){if((t=arguments[1])instanceof Error)throw t;var l=new Error('Uncaught, unspecified "error" event. ('+t+")");throw l.context=t,l}if(a(n=this._events[e]))return!1;if(o(n))switch(arguments.length){case 1:n.call(this);break;case 2:n.call(this,arguments[1]);break;case 3:n.call(this,arguments[1],arguments[2]);break;default:s=Array.prototype.slice.call(arguments,1),n.apply(this,s)}else if(i(n))for(s=Array.prototype.slice.call(arguments,1),r=(c=n.slice()).length,u=0;u<r;u++)c[u].apply(this,s);return!0},r.prototype.addListener=function(e,t){var n;if(!o(t))throw TypeError("listener must be a function");return this._events||(this._events={}),this._events.newListener&&this.emit("newListener",e,o(t.listener)?t.listener:t),this._events[e]?i(this._events[e])?this._events[e].push(t):this._events[e]=[this._events[e],t]:this._events[e]=t,i(this._events[e])&&!this._events[e].warned&&(n=a(this._maxListeners)?r.defaultMaxListeners:this._maxListeners)&&n>0&&this._events[e].length>n&&(this._events[e].warned=!0,console.error("(node) warning: possible EventEmitter memory leak detected. %d listeners added. Use emitter.setMaxListeners() to increase limit.",this._events[e].length),"function"==typeof console.trace&&console.trace()),this},r.prototype.on=r.prototype.addListener,r.prototype.once=function(e,t){if(!o(t))throw TypeError("listener must be a function");var n=!1;function r(){this.removeListener(e,r),n||(n=!0,t.apply(this,arguments))}return r.listener=t,this.on(e,r),this},r.prototype.removeListener=function(e,t){var n,r,a,s;if(!o(t))throw TypeError("listener must be a function");if(!this._events||!this._events[e])return this;if(a=(n=this._events[e]).length,r=-1,n===t||o(n.listener)&&n.listener===t)delete this._events[e],this._events.removeListener&&this.emit("removeListener",e,t);else if(i(n)){for(s=a;s-- >0;)if(n[s]===t||n[s].listener&&n[s].listener===t){r=s;break}if(r<0)return this;1===n.length?(n.length=0,delete this._events[e]):n.splice(r,1),this._events.removeListener&&this.emit("removeListener",e,t)}return this},r.prototype.removeAllListeners=function(e){var t,n;if(!this._events)return this;if(!this._events.removeListener)return 0===arguments.length?this._events={}:this._events[e]&&delete this._events[e],this;if(0===arguments.length){for(t in this._events)"removeListener"!==t&&this.removeAllListeners(t);return this.removeAllListeners("removeListener"),this._events={},this}if(o(n=this._events[e]))this.removeListener(e,n);else if(n)for(;n.length;)this.removeListener(e,n[n.length-1]);return delete this._events[e],this},r.prototype.listeners=function(e){return this._events&&this._events[e]?o(this._events[e])?[this._events[e]]:this._events[e].slice():[]},r.prototype.listenerCount=function(e){if(this._events){var t=this._events[e];if(o(t))return 1;if(t)return t.length}return 0},r.listenerCount=function(e,t){return e.listenerCount(t)}},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=function(e){if(null!=e)return e;throw new Error("Got unexpected null or undefined")}},function(e,t,n){"use strict";e.exports=function(){return"g"+Math.random().toString(16).substr(2)}},function(e,t,n){"use strict";function r(e){return function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}function o(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function i(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var a=n(4),s=n(32),u=n(33),c=n(3),l=n(34);function f(e,t){return-1===String(window[e]).indexOf("[native code]")?t:window[e]}var p=5,d=f("cancelIdleCallback",clearTimeout),h=f("requestIdleCallback",function(e,t){var n=3e3*p;return n>500&&(n=500),setTimeout(function(){var t=l();e({didTimeout:!1,timeRemaining:function(){return 1/0}});var n=l();p=(n-t)/1e3},n)}),m=function(){function e(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this._cbs=new Map,this._inspectables=new Map,this._cid=0,this._listeners={},this._buffer=[],this._flushHandle=null,this._callers={},this._paused=!1,this._wall=t,t.listen(this._handleMessage.bind(this))}var t,n,l;return t=e,(n=[{key:"inspect",value:function(e,t,n){var r=this._cid++;this._cbs.set(r,function(e,t,r,o){t.length&&s(e,t),r&&o.length&&s(r,o),r&&(e[a.proto]=r),n(e)}),this._wall.send({type:"inspect",callback:r,path:t,id:e})}},{key:"call",value:function(e,t,n){var r=this._cid++;this._cbs.set(r,n),this._wall.send({type:"call",callback:r,args:t,name:e})}},{key:"onCall",value:function(e,t){if(this._callers[e])throw new Error("only one call handler per call name allowed");this._callers[e]=t}},{key:"pause",value:function(){this._wall.send({type:"pause"})}},{key:"resume",value:function(){this._wall.send({type:"resume"})}},{key:"setInspectable",value:function(e,t){var n=this._inspectables.get(e);n?this._inspectables.set(e,function(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},r=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(r=r.concat(Object.getOwnPropertySymbols(n).filter(function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),r.forEach(function(t){o(e,t,n[t])})}return e}({},n,t)):this._inspectables.set(e,t)}},{key:"send",value:function(e,t){this._buffer.push({evt:e,data:t}),this.scheduleFlush()}},{key:"scheduleFlush",value:function(){if(!this._flushHandle&&this._buffer.length){var e=this._paused?5e3:500;this._flushHandle=h(this.flushBufferWhileIdle.bind(this),{timeout:e})}}},{key:"cancelFlush",value:function(){this._flushHandle&&(d(this._flushHandle),this._flushHandle=null)}},{key:"flushBufferWhileIdle",value:function(e){this._flushHandle=null;for(var t=this._paused?20:10,n=Math.round(this._buffer.length/t),r=this._paused?50:100;this._buffer.length&&(e.timeRemaining()>0||e.didTimeout);){var o=Math.min(this._buffer.length,Math.max(r,n)),i=this._buffer.splice(0,o);this.flushBufferSlice(i)}this._buffer.length&&this.scheduleFlush()}},{key:"flushBufferSlice",value:function(e){var t=this,n=e.map(function(e){var n=e.evt,r=e.data,o=[],i=u(r,o);return o.length&&t.setInspectable(r.id,r),{type:"event",evt:n,data:i,cleaned:o}});this._wall.send({type:"many-events",events:n})}},{key:"forget",value:function(e){this._inspectables.delete(e)}},{key:"on",value:function(e,t){this._listeners[e]?this._listeners[e].push(t):this._listeners[e]=[t]}},{key:"off",value:function(e,t){if(this._listeners[e]){var n=this._listeners[e].indexOf(t);-1!==n&&this._listeners[e].splice(n,1)}}},{key:"once",value:function(e,t){var n=this;this.on(e,function r(){t.apply(this,arguments),n.off(e,r)})}},{key:"_handleMessage",value:function(e){var t=this;if("resume"===e.type)return this._paused=!1,void this.scheduleFlush();if("pause"===e.type)return this._paused=!0,void this.cancelFlush();if("callback"!==e.type)if("call"!==e.type)if("inspect"!==e.type){if("event"===e.type){e.cleaned&&s(e.data,e.cleaned);var n=this._listeners[e.evt],o=e.data;n&&n.forEach(function(e){return e(o)})}"many-events"===e.type&&e.events.forEach(function(e){e.cleaned&&s(e.data,e.cleaned);var n=t._listeners[e.evt];n&&n.forEach(function(t){return t(e.data)})})}else this._inspectResponse(e.id,e.path,e.callback);else this._handleCall(e.name,e.args,e.callback);else{var i=this._cbs.get(e.id);i&&(i.apply(void 0,r(e.args)),this._cbs.delete(e.id))}}},{key:"_handleCall",value:function(e,t,n){if(this._callers[e]){var r;t=Array.isArray(t)?t:[t];try{r=this._callers[e].apply(null,t)}catch(e){return void console.error("Failed to call",e)}this._wall.send({type:"callback",id:n,args:[r]})}else console.warn('unknown call: "'+e+'"')}},{key:"_inspectResponse",value:function(e,t,n){var r=this._inspectables.get(e),o={},i=[],a=null,s=[];if(r){var l=c(r,t),f=!1,p="function"==typeof l;if(l&&"function"==typeof l[Symbol.iterator]){var d=Object.create({}),h=0,m=!0,y=!1,v=void 0;try{for(var g,b=l[Symbol.iterator]();!(m=(g=b.next()).done);m=!0){var _=g.value;if(h>100)break;d[h]=_,h++}}catch(e){y=!0,v=e}finally{try{m||null==b.return||b.return()}finally{if(y)throw v}}l=d}if(Object.getOwnPropertyNames(l).forEach(function(e){"__proto__"===e&&(f=!0),(!p||"arguments"!==e&&"callee"!==e&&"caller"!==e)&&(o[e]=u(l[e],i,[e]))}),!f&&l.__proto__&&"Object"!==l.constructor.name){var w={},S="function"==typeof l.__proto__;Object.getOwnPropertyNames(l.__proto__).forEach(function(e){(!S||"arguments"!==e&&"callee"!==e&&"caller"!==e)&&(w[e]=u(l.__proto__[e],s,[e]))}),a=w}}this._wall.send({type:"callback",id:n,args:[o,i,a,s]})}}])&&i(t.prototype,n),l&&i(t,l),e}();e.exports=m},function(e,t,n){"use strict";e.exports=n(15)()?Symbol:n(16)},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}e.exports=function(){var e;if("function"!=typeof Symbol)return!1;e=Symbol("test symbol");try{String(e)}catch(e){return!1}return"symbol"===r(Symbol.iterator)||"object"===r(Symbol.isConcatSpreadable)&&("object"===r(Symbol.iterator)&&("object"===r(Symbol.toPrimitive)&&("object"===r(Symbol.toStringTag)&&"object"===r(Symbol.unscopables))))}},function(e,t,n){"use strict";var r,o,i,a=n(17),s=n(30),u=Object.create,c=Object.defineProperties,l=Object.defineProperty,f=Object.prototype,p=u(null);"function"==typeof Symbol&&(r=Symbol);var d,h=(d=u(null),function(e){for(var t,n,r=0;d[e+(r||"")];)++r;return d[e+=r||""]=!0,l(f,t="@@"+e,a.gs(null,function(e){n||(n=!0,l(this,t,a(e)),n=!1)})),t});i=function(e){if(this instanceof i)throw new TypeError("TypeError: Symbol is not a constructor");return o(e)},e.exports=o=function e(t){var n;if(this instanceof e)throw new TypeError("TypeError: Symbol is not a constructor");return n=u(i.prototype),t=void 0===t?"":String(t),c(n,{__description__:a("",t),__name__:a("",h(t))})},c(o,{for:a(function(e){return p[e]?p[e]:p[e]=o(String(e))}),keyFor:a(function(e){var t;for(t in s(e),p)if(p[t]===e)return t}),hasInstance:a("",r&&r.hasInstance||o("hasInstance")),isConcatSpreadable:a("",r&&r.isConcatSpreadable||o("isConcatSpreadable")),iterator:a("",r&&r.iterator||o("iterator")),match:a("",r&&r.match||o("match")),replace:a("",r&&r.replace||o("replace")),search:a("",r&&r.search||o("search")),species:a("",r&&r.species||o("species")),split:a("",r&&r.split||o("split")),toPrimitive:a("",r&&r.toPrimitive||o("toPrimitive")),toStringTag:a("",r&&r.toStringTag||o("toStringTag")),unscopables:a("",r&&r.unscopables||o("unscopables"))}),c(i.prototype,{constructor:a(o),toString:a("",function(){return this.__name__})}),c(o.prototype,{toString:a(function(){return"Symbol ("+s(this).__description__+")"}),valueOf:a(function(){return s(this)})}),l(o.prototype,o.toPrimitive,a("",function(){return s(this)})),l(o.prototype,o.toStringTag,a("c","Symbol")),l(i.prototype,o.toStringTag,a("c",o.prototype[o.toStringTag])),l(i.prototype,o.toPrimitive,a("c",o.prototype[o.toPrimitive]))},function(e,t,n){"use strict";var r=n(18),o=n(25),i=n(26),a=n(27);(e.exports=function(e,t){var n,i,s,u,c;return arguments.length<2||"string"!=typeof e?(u=t,t=e,e=null):u=arguments[2],null==e?(n=s=!0,i=!1):(n=a.call(e,"c"),i=a.call(e,"e"),s=a.call(e,"w")),c={value:t,configurable:n,enumerable:i,writable:s},u?r(o(u),c):c}).gs=function(e,t,n){var s,u,c,l;return"string"!=typeof e?(c=n,n=t,t=e,e=null):c=arguments[3],null==t?t=void 0:i(t)?null==n?n=void 0:i(n)||(c=n,n=void 0):(c=t,t=n=void 0),null==e?(s=!0,u=!1):(s=a.call(e,"c"),u=a.call(e,"e")),l={get:t,set:n,configurable:s,enumerable:u},c?r(o(c),l):l}},function(e,t,n){"use strict";e.exports=n(19)()?Object.assign:n(20)},function(e,t,n){"use strict";e.exports=function(){var e,t=Object.assign;return"function"==typeof t&&(t(e={foo:"raz"},{bar:"dwa"},{trzy:"trzy"}),e.foo+e.bar+e.trzy==="razdwatrzy")}},function(e,t,n){"use strict";var r=n(21),o=n(24),i=Math.max;e.exports=function(e,t){var n,a,s,u=i(arguments.length,2);for(e=Object(o(e)),s=function(r){try{e[r]=t[r]}catch(e){n||(n=e)}},a=1;a<u;++a)t=arguments[a],r(t).forEach(s);if(void 0!==n)throw n;return e}},function(e,t,n){"use strict";e.exports=n(22)()?Object.keys:n(23)},function(e,t,n){"use strict";e.exports=function(){try{return Object.keys("primitive"),!0}catch(e){return!1}}},function(e,t,n){"use strict";var r=Object.keys;e.exports=function(e){return r(null==e?e:Object(e))}},function(e,t,n){"use strict";e.exports=function(e){if(null==e)throw new TypeError("Cannot use null or undefined");return e}},function(e,t,n){"use strict";var r=Array.prototype.forEach,o=Object.create;e.exports=function(e){var t=o(null);return r.call(arguments,function(e){null!=e&&function(e,t){var n;for(n in e)t[n]=e[n]}(Object(e),t)}),t}},function(e,t,n){"use strict";e.exports=function(e){return"function"==typeof e}},function(e,t,n){"use strict";e.exports=n(28)()?String.prototype.contains:n(29)},function(e,t,n){"use strict";var r="razdwatrzy";e.exports=function(){return"function"==typeof r.contains&&(!0===r.contains("dwa")&&!1===r.contains("foo"))}},function(e,t,n){"use strict";var r=String.prototype.indexOf;e.exports=function(e){return r.call(this,e,arguments[1])>-1}},function(e,t,n){"use strict";var r=n(31);e.exports=function(e){if(!r(e))throw new TypeError(e+" is not a symbol");return e}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}e.exports=function(e){return e&&("symbol"===r(e)||"Symbol"===e["@@toStringTag"])||!1}},function(e,t,n){"use strict";var r=n(4);e.exports=function(e,t){t.forEach(function(t){var n=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);if(o&&o[n]){var i={};i[r.name]=o[n].name,i[r.type]=o[n].type,i[r.meta]=o[n].meta,i[r.inspected]=!1,o[n]=i}})}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o=2;function i(e,t,n,r){var o={};return"array"!==e&&"typed_array"!==e||(o.length=t.length),"iterator"!==e&&"typed_array"!==e||(o.readOnly=!0),n.push(r),{type:e,meta:o,name:t.constructor&&"Object"!==t.constructor.name?t.constructor.name:""}}e.exports=function e(t,n){var a=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[],s=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0,u=function(e){if(!e)return null;var t=r(e);if("object"===t){if(e._reactFragment)return"react_fragment";if(Array.isArray(e))return"array";if(ArrayBuffer.isView(e))return e instanceof DataView?"data_view":"typed_array";if(e instanceof ArrayBuffer)return"array_buffer";if("function"==typeof e[Symbol.iterator])return"iterator";if("[object Date]"===Object.prototype.toString.call(e))return"date"}return t}(t);switch(u){case"function":return n.push(a),{name:t.name,type:"function"};case"string":return t.length<=500?t:t.slice(0,500)+"...";case"symbol":return n.push(a),{type:"symbol",name:t.toString()};case"react_fragment":return"A React Fragment";case"array_buffer":case"data_view":return n.push(a),{type:u,name:"data_view"===u?"DataView":"ArrayBuffer",meta:{length:t.byteLength,uninspectable:!0}};case"array":return s>o?i(u,t,n,a):t.map(function(t,r){return e(t,n,a.concat([r]),s+1)});case"typed_array":case"iterator":return i(u,t,n,a);case"date":return n.push(a),{name:t.toString(),type:"date",meta:{uninspectable:!0}};case"object":if(s>o||t.constructor&&"function"==typeof t.constructor&&"Object"!==t.constructor.name)return i(u,t,n,a);var c={};for(var l in t)c[l]=e(t[l],n,a.concat([l]),s+1);return c;default:return t}}},function(e,t,n){"use strict";var r,o=n(35);r=o.now?function(){return o.now()}:function(){return Date.now()},e.exports=r},function(e,t,n){"use strict";var r;n(36).canUseDOM&&(r=window.performance||window.msPerformance||window.webkitPerformance),e.exports=r||{}},function(e,t,n){"use strict";var r=!("undefined"==typeof window||!window.document||!window.document.createElement),o={canUseDOM:r,canUseWorkers:"undefined"!=typeof Worker,canUseEventListeners:r&&!(!window.addEventListener&&!window.attachEvent),canUseViewport:r&&!!window.screen,isInWorker:!r};e.exports=o},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function o(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function i(e){return(i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var a="object"===("undefined"==typeof performance?"undefined":i(performance))&&"function"==typeof performance.now?function(){return performance.now()}:function(){return Date.now()},s=function(){function e(t){var n=this;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),o(this,"_committedNodes",new Set),o(this,"_isRecording",!1),o(this,"_maxActualDuration",0),o(this,"_recordingStartTime",0),o(this,"_onIsRecording",function(e){n._committedNodes=new Set,n._isRecording=e,n._recordingStartTime=e?a():0,e&&n._agent.emit("clearSnapshots")}),o(this,"_onMountOrUpdate",function(e){n._isRecording&&void 0!==e.actualDuration&&(n._committedNodes.add(e.id),n._maxActualDuration=Math.max(n._maxActualDuration,e.actualDuration))}),o(this,"_onRootCommitted",function(e,t,r){n._isRecording&&(n._takeCommitSnapshotForRoot(e,r),n._committedNodes=new Set,n._maxActualDuration=0)}),o(this,"_onUnmount",function(e){n._committedNodes.delete(e)}),this._agent=t,t.on("isRecording",this._onIsRecording),t.on("mount",this._onMountOrUpdate),t.on("rootCommitted",this._onRootCommitted),t.on("unmount",this._onUnmount),t.on("update",this._onMountOrUpdate)}var t,n,i;return t=e,(n=[{key:"_takeCommitSnapshotForRoot",value:function(e,t){var n=this,r={memoizedInteractions:(null!=t.memoizedInteractions?Array.from(t.memoizedInteractions):[]).map(function(e){return{name:e.name,timestamp:e.timestamp-n._recordingStartTime}}),committedNodes:Array.from(this._committedNodes),commitTime:a()-this._recordingStartTime,duration:this._maxActualDuration,root:e};this._agent.emit("storeSnapshot",r)}}])&&r(t.prototype,n),i&&r(t,i),e}();e.exports={init:function(e){return new s(e)}}},function(e,t,n){"use strict";e.exports=function(e){if(!e.__REACT_DEVTOOLS_GLOBAL_HOOK__){var t=!1,n={_renderers:{},helpers:{},checkDCE:function(e){try{Function.prototype.toString.call(e).indexOf("^_^")>-1&&(t=!0,setTimeout(function(){throw new Error("React is running in production mode, but dead code elimination has not been applied. Read how to correctly configure React for production: https://fb.me/react-perf-use-the-production-build")}))}catch(e){}},inject:function(e){var r=Math.random().toString(16).slice(2);n._renderers[r]=e;var o=t?"deadcode":function(e){try{if("string"==typeof e.version)return e.bundleType>0?"development":"production";var t=Function.prototype.toString;if(e.Mount&&e.Mount._renderNewRootComponent){var n=t.call(e.Mount._renderNewRootComponent);return 0!==n.indexOf("function")?"production":-1!==n.indexOf("storedMeasure")?"development":-1!==n.indexOf("should be a pure function")?-1!==n.indexOf("NODE_ENV")?"development":-1!==n.indexOf("development")?"development":-1!==n.indexOf("true")?"development":-1!==n.indexOf("nextElement")||-1!==n.indexOf("nextComponent")?"unminified":"development":-1!==n.indexOf("nextElement")||-1!==n.indexOf("nextComponent")?"unminified":"outdated"}}catch(e){}return"production"}(e);return n.emit("renderer",{id:r,renderer:e,reactBuildType:o}),r},_listeners:{},sub:function(e,t){return n.on(e,t),function(){return n.off(e,t)}},on:function(e,t){n._listeners[e]||(n._listeners[e]=[]),n._listeners[e].push(t)},off:function(e,t){if(n._listeners[e]){var r=n._listeners[e].indexOf(t);-1!==r&&n._listeners[e].splice(r,1),n._listeners[e].length||(n._listeners[e]=null)}},emit:function(e,t){n._listeners[e]&&n._listeners[e].map(function(e){return e(t)})},supportsFiber:!0,_fiberRoots:{},getFiberRoots:function(e){var t=n._fiberRoots;return t[e]||(t[e]=new Set),t[e]},onCommitFiberUnmount:function(e,t){n.helpers[e]&&n.helpers[e].handleCommitFiberUnmount(t)},onCommitFiberRoot:function(e,t){var r=n.getFiberRoots(e),o=t.current,i=r.has(t),a=null==o.memoizedState||null==o.memoizedState.element;i||a?i&&a&&r.delete(t):r.add(t),n.helpers[e]&&n.helpers[e].handleCommitFiberRoot(t)}};Object.defineProperty(e,"__REACT_DEVTOOLS_GLOBAL_HOOK__",{value:n})}}},function(e,t,n){"use strict";var r=n(40);e.exports=function(e,t){var n=[e.sub("renderer-attached",function(e){var n=e.id,r=(e.renderer,e.helpers);t.setReactInternals(n,r),r.walkTree(t.onMounted.bind(t,n),t.addRoot.bind(t,n))}),e.sub("mount",function(e){var n=e.renderer,r=e.internalInstance,o=e.data;return t.onMounted(n,r,o)}),e.sub("unmount",function(e){e.renderer;var n=e.internalInstance;return t.onUnmounted(n)}),e.sub("update",function(e){e.renderer;var n=e.internalInstance,r=e.data;return t.onUpdated(n,r)}),e.sub("root",function(e){var n=e.renderer,r=e.internalInstance;return t.addRoot(n,r)}),e.sub("rootCommitted",function(e){var n=e.renderer,r=e.internalInstance,o=e.data;return t.rootCommitted(n,r,o)}),e.sub("updateProfileTimes",function(e){e.renderer;var n=e.internalInstance,r=e.data;return t.onUpdatedProfileTimes(n,r)})];r(e)&&(e.emit("react-devtools",t),e.reactDevtoolsAgent=t,t.on("shutdown",function(){n.forEach(function(e){return e()}),e.reactDevtoolsAgent=null}))}},function(e,t,n){"use strict";var r=n(41);e.exports=function(e){var t=window.React&&window.React.__internals;for(var n in t&&0===Object.keys(e._renderers).length&&e.inject(t),e._renderers)e.helpers[n]=r(e,n,e._renderers[n]),e.emit("renderer-attached",{id:n,renderer:e._renderers[n],helpers:e.helpers[n]});e.on("renderer",function(t){var n=t.id,o=t.renderer;e.helpers[n]=r(e,n,o),e.emit("renderer-attached",{id:n,renderer:o,helpers:e.helpers[n]})});return e.on("shutdown",function t(){for(var n in e.helpers)e.helpers[n].cleanup();e.off("shutdown",t)}),!0}},function(e,t,n){"use strict";var r=n(42),o=n(45),i=n(46);function a(e,t,n){var i=n?o(e):r(e);i.children&&Array.isArray(i.children)&&i.children.forEach(function(e){return a(e,t,n)}),t(e,i)}function s(e,t,n){var r=e[t];return e[t]=function(e){var t=r.apply(this,arguments);return n(t),t},r}function u(e,t,n){var r=e[t];return e[t]=function(e){var t=r.apply(this,arguments);return n.apply(this,arguments),t},r}function c(e,t){var n={};for(var r in t)n[r]=u(e,r,t[r]);return n}function l(e,t){for(var n in t)e[n]=t[n]}e.exports=function(e,t,n){var u,f,p,d=new Map,h={},m=!n.Reconciler;return"function"==typeof n.findFiberByHostInstance?i(e,t,n):(n.Mount.findNodeHandle&&n.Mount.nativeTagToRootNodeID?(h.getNativeFromReactElement=function(e){return n.Mount.findNodeHandle(e)},h.getReactElementFromNative=function(e){var t=n.Mount.nativeTagToRootNodeID(e);return d.get(t)}):n.ComponentTree?(h.getNativeFromReactElement=function(e){return n.ComponentTree.getNodeFromInstance(e)},h.getReactElementFromNative=function(e){return n.ComponentTree.getClosestInstanceFromNode(e)}):n.Mount.getID&&n.Mount.getNode?(h.getNativeFromReactElement=function(e){try{return n.Mount.getNode(e._rootNodeID)}catch(e){return}},h.getReactElementFromNative=function(e){for(var t=n.Mount.getID(e);e&&e.parentNode&&!t;)e=e.parentNode,t=n.Mount.getID(e);return d.get(t)}):console.warn("Unknown react version (does not have getID), probably an unshimmed React Native"),n.Mount._renderNewRootComponent?p=s(n.Mount,"_renderNewRootComponent",function(n){e.emit("root",{renderer:t,internalInstance:n})}):n.Mount.renderComponent&&(f=s(n.Mount,"renderComponent",function(n){e.emit("root",{renderer:t,internalInstance:n._reactInternalInstance})})),n.Component?(console.error("You are using a version of React with limited support in this version of the devtools.\nPlease upgrade to use at least 0.13, or you can downgrade to use the old version of the devtools:\ninstructions here https://github.com/facebook/react-devtools/tree/devtools-next#how-do-i-use-this-for-react--013"),u=c(n.Component.Mixin,{mountComponent:function(){var n=this;d.set(this._rootNodeID,this),setTimeout(function(){e.emit("mount",{internalInstance:n,data:o(n),renderer:t})},0)},updateComponent:function(){var n=this;setTimeout(function(){e.emit("update",{internalInstance:n,data:o(n),renderer:t})},0)},unmountComponent:function(){e.emit("unmount",{internalInstance:this,renderer:t}),d.delete(this._rootNodeID)}})):n.Reconciler&&(u=c(n.Reconciler,{mountComponent:function(n,o,i,a){var s=r(n);d.set(n._rootNodeID,n),e.emit("mount",{internalInstance:n,data:s,renderer:t})},performUpdateIfNecessary:function(n,o,i,a){e.emit("update",{internalInstance:n,data:r(n),renderer:t})},receiveComponent:function(n,o,i,a){e.emit("update",{internalInstance:n,data:r(n),renderer:t})},unmountComponent:function(n){e.emit("unmount",{internalInstance:n,renderer:t}),d.delete(n._rootNodeID)}})),h.walkTree=function(e,t){!function(e,t,n,r){for(var o in e)a(e[o],t,r),n(e[o])}(n.Mount._instancesByReactRootID||n.Mount._instancesByContainerID,function(t,n){d.set(t._rootNodeID,t),e(t,n)},t,m)},h.cleanup=function(){u&&(n.Component?l(n.Component.Mixin,u):l(n.Reconciler,u)),p&&(n.Mount._renderNewRootComponent=p),f&&(n.Mount.renderComponent=f),u=null,p=null,f=null},h.renderer=null,h)}},function(e,t,n){"use strict";function r(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var i=n(2),a=n(5),s=n(43);function u(e,t,n){var r=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);o&&(o[r]=n)}function c(e){var t=[];for(var n in e)t.push(e[n]);return t}e.exports=function(e){var t=null,n=null,l=null,f=null,p=null,d=null,h=null,m=null,y=null,v=null,g=null,b=null,_="Native";if("object"!==o(e))_="Text",g=e+"";else if(null===e._currentElement||!1===e._currentElement)_="Empty";else if(e._renderedComponent)_="NativeWrapper",t=[e._renderedComponent],n=e._instance.props,l=e._instance.state,(f=e._instance.context)&&0===Object.keys(f).length&&(f=null);else if(e._renderedChildren)t=c(e._renderedChildren);else if(e._currentElement&&e._currentElement.props){var w=e._currentElement.props.children,S=[];s(w,"",function(e,t){var n=o(t);"string"!==n&&"number"!==n||S.push(t)}),t=S.length<=1?S.length?String(S[0]):void 0:S}if(!n&&e._currentElement&&e._currentElement.props&&(n=e._currentElement.props),null!=e._currentElement&&(h=e._currentElement.type,e._currentElement.key&&(m=String(e._currentElement.key)),v=e._currentElement._source,y=e._currentElement.ref,"string"==typeof h?(d=h,null!=e._nativeNode&&(b=e._nativeNode),null!=e._hostNode&&(b=e._hostNode)):"function"==typeof h?(_="Composite",d=a(h),e._renderedComponent&&(e._currentElement.props===e._renderedComponent._currentElement||e._currentElement.type.isReactTopLevelWrapper)&&(_="Wrapper"),null===d&&(d="No display name")):"string"==typeof e._stringText?(_="Text",g=e._stringText):d=a(h)),e._instance){var E=e._instance,O=E.forceUpdate||E.updater&&E.updater.enqueueForceUpdate&&function(e){E.updater.enqueueForceUpdate(this,e,"forceUpdate")};p={canUpdate:!0,setState:E.setState&&E.setState.bind(E),setInProps:O&&function(e,t,n,o){var a=e._currentElement;e._currentElement=function(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},o=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(o=o.concat(Object.getOwnPropertySymbols(n).filter(function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),o.forEach(function(t){r(e,t,n[t])})}return e}({},a,{props:i(a.props,n,o)}),t.call(e._instance)}.bind(null,e,O),setInState:E.forceUpdate&&function(e,t,n){u(e.state,t,n),e.forceUpdate()}.bind(null,E),setInContext:O&&function(e,t,n,r){u(e.context,n,r),t.call(e)}.bind(null,E,O)},"function"==typeof h&&(b=E),E._renderedChildren&&(t=c(E._renderedChildren))}return"function"==typeof e.setNativeProps&&(p={setNativeProps:function(t){e.setNativeProps(t)}}),{nodeType:_,type:h,key:m,ref:y,source:v,name:d,props:n,state:l,context:f,children:t,text:g,updater:p,publicInstance:b}}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o=n(44),i=".",a=":",s="@@iterator",u="function"==typeof Symbol&&Symbol.iterator,c="function"==typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103;function l(e,t){return"object"===r(e)&&null!==e&&null!=e.key?(n=e.key,o={"=":"=0",":":"=2"},"$"+(""+n).replace(/[=:]/g,function(e){return o[e]})):t.toString(36);var n,o}e.exports=function e(t,n,f,p){var d,h=r(t);if("undefined"!==h&&"boolean"!==h||(t=null),null===t||"string"===h||"number"===h||"object"===h&&t.$$typeof===c)return f(p,t,""===n?i+l(t,0):n),1;var m=0,y=""===n?i:n+a;if(Array.isArray(t))for(var v=0;v<t.length;v++)m+=e(d=t[v],y+l(d,v),f,p);else{var g=u&&t[u]||t[s];if("function"==typeof g)for(var b,_=g.call(t),w=0;!(b=_.next()).done;)m+=e(d=b.value,y+l(d,w++),f,p);else if("object"===h){var S=""+t;o(!1,"The React Devtools cannot render an object as a child. (found: %s).%s","[object Object]"===S?"object with keys {"+Object.keys(t).join(", ")+"}":S," If you meant to render a collection of children, use an array instead.")}}return m}},function(e,t,n){"use strict";e.exports=function(e,t,n,r,o,i,a,s){if(!e){var u;if(void 0===t)u=new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var c=[n,r,o,i,a,s],l=0;(u=new Error(t.replace(/%s/g,function(){return c[l++]}))).name="Invariant Violation"}throw u.framesToPop=1,u}}},function(e,t,n){"use strict";var r=n(2);function o(e,t,n){var r=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);o&&(o[r]=n)}e.exports=function(e){var t=null,n=e.props,i=e.state,a=e.context,s=null,u=null,c=null,l=null,f=null,p=null,d=null,h="Native";return e._renderedComponent?(h="Wrapper",t=[e._renderedComponent],a&&0===Object.keys(a).length&&(a=null)):e._renderedChildren?(u=e.constructor.displayName,t=function(e){var t=[];for(var n in e)t.push(e[n]);return t}(e._renderedChildren)):"string"==typeof n.children&&(u=e.constructor.displayName,t=n.children,h="Native"),!n&&e._currentElement&&e._currentElement.props&&(n=e._currentElement.props),e._currentElement&&(c=e._currentElement.type,e._currentElement.key&&(l=String(e._currentElement.key)),f=e._currentElement.ref,"string"==typeof c?u=c:(h="Composite",(u=c.displayName)||(u="No display name"))),u||(u=e.constructor.displayName||"No display name",h="Composite"),"string"==typeof n&&(h="Text",p=n,n=null,u=null),e.forceUpdate&&(s={canUpdate:!0,setState:e.setState.bind(e),setInProps:e.forceUpdate&&function(e,t,n){e.props=r(e.props,t,n),e.forceUpdate()}.bind(null,e),setInState:e.forceUpdate&&function(e,t,n){o(e.state,t,n),e.forceUpdate()}.bind(null,e),setInContext:e.forceUpdate&&function(e,t,n){o(e.context,t,n),e.forceUpdate()}.bind(null,e)},d=e),{nodeType:h,type:c,key:l,ref:f,source:null,name:u,props:n,state:i,context:a,children:t,text:p,updater:s,publicInstance:d}}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o=n(47),i=n(2),a=n(5);e.exports=function(e,t,n){var s,u=n.overrideProps,c=(s=n.version,{ReactTypeOfWork:o.gte(s,"16.6.0-beta.0")?{ClassComponent:1,ContextConsumer:9,ContextProvider:10,CoroutineComponent:-1,CoroutineHandlerPhase:-1,ForwardRef:11,Fragment:7,FunctionComponent:0,HostComponent:5,HostPortal:4,HostRoot:3,HostText:6,IncompleteClassComponent:17,IndeterminateComponent:2,LazyComponent:16,MemoComponent:14,Mode:8,Profiler:12,SimpleMemoComponent:15,SuspenseComponent:13,YieldComponent:-1}:o.gte(s,"16.4.3-alpha")?{ClassComponent:2,ContextConsumer:11,ContextProvider:12,CoroutineComponent:-1,CoroutineHandlerPhase:-1,ForwardRef:13,Fragment:9,FunctionComponent:0,HostComponent:7,HostPortal:6,HostRoot:5,HostText:8,IncompleteClassComponent:-1,IndeterminateComponent:4,LazyComponent:-1,MemoComponent:-1,Mode:10,Profiler:15,SimpleMemoComponent:-1,SuspenseComponent:16,YieldComponent:-1}:{ClassComponent:2,ContextConsumer:12,ContextProvider:13,CoroutineComponent:7,CoroutineHandlerPhase:8,ForwardRef:14,Fragment:10,FunctionComponent:1,HostComponent:5,HostPortal:4,HostRoot:3,HostText:6,IncompleteClassComponent:-1,IndeterminateComponent:0,LazyComponent:-1,MemoComponent:-1,Mode:11,Profiler:15,SimpleMemoComponent:-1,SuspenseComponent:16,YieldComponent:9},ReactSymbols:{CONCURRENT_MODE_NUMBER:60111,CONCURRENT_MODE_SYMBOL_STRING:"Symbol(react.concurrent_mode)",DEPRECATED_ASYNC_MODE_SYMBOL_STRING:"Symbol(react.async_mode)",CONTEXT_CONSUMER_NUMBER:60110,CONTEXT_CONSUMER_SYMBOL_STRING:"Symbol(react.context)",CONTEXT_PROVIDER_NUMBER:60109,CONTEXT_PROVIDER_SYMBOL_STRING:"Symbol(react.provider)",FORWARD_REF_NUMBER:60112,FORWARD_REF_SYMBOL_STRING:"Symbol(react.forward_ref)",MEMO_NUMBER:60115,MEMO_SYMBOL_STRING:"Symbol(react.memo)",PROFILER_NUMBER:60114,PROFILER_SYMBOL_STRING:"Symbol(react.profiler)",STRICT_MODE_NUMBER:60108,STRICT_MODE_SYMBOL_STRING:"Symbol(react.strict_mode)",SUSPENSE_NUMBER:60113,SUSPENSE_SYMBOL_STRING:"Symbol(react.suspense)",DEPRECATED_PLACEHOLDER_SYMBOL_STRING:"Symbol(react.placeholder)"},ReactTypeOfSideEffect:{PerformedWork:1}}),l=c.ReactTypeOfWork,f=c.ReactSymbols,p=c.ReactTypeOfSideEffect.PerformedWork,d=l.FunctionComponent,h=l.ClassComponent,m=l.ContextConsumer,y=l.Fragment,v=l.ForwardRef,g=l.HostRoot,b=l.HostPortal,_=l.HostComponent,w=l.HostText,S=l.IncompleteClassComponent,E=l.IndeterminateComponent,O=l.MemoComponent,x=l.SimpleMemoComponent,C=f.CONCURRENT_MODE_NUMBER,I=f.CONCURRENT_MODE_SYMBOL_STRING,N=f.DEPRECATED_ASYNC_MODE_SYMBOL_STRING,T=f.CONTEXT_CONSUMER_NUMBER,k=f.CONTEXT_CONSUMER_SYMBOL_STRING,R=f.CONTEXT_PROVIDER_NUMBER,j=f.CONTEXT_PROVIDER_SYMBOL_STRING,M=f.PROFILER_NUMBER,D=f.PROFILER_SYMBOL_STRING,P=f.STRICT_MODE_NUMBER,L=f.STRICT_MODE_SYMBOL_STRING,A=f.SUSPENSE_NUMBER,B=f.SUSPENSE_SYMBOL_STRING,F=f.DEPRECATED_PLACEHOLDER_SYMBOL_STRING;function U(e){var t=e.elementType,n=e.type,o=e.key,s=e.ref,c=e.tag,l=e._debugSource,f=null,p=null,m=null,U=null,H=null,$=null,G=null,W=null,q=null,Y=null,K=null,X=null,J=null,Z=null,Q=!1,ee=(c===d||c===x||c===v)&&!!e.memoizedState,te=n;switch("object"===r(n)&&null!==n&&"function"==typeof n.then&&(te=n._reactResult),"function"==typeof u&&($={canUpdate:!0,setState:null,setInProps:u.bind(null,e),setInState:null,setInContext:null}),c){case h:case d:case S:case E:G="Composite",W=a(te),f=e.stateNode,p=e.memoizedProps,m=e.memoizedState,null!=f&&(H=f.context)&&0===Object.keys(H).length&&(H=null);var ne=f;ne&&($={canUpdate:!0,setState:ne.setState&&ne.setState.bind(ne),setInProps:ne.forceUpdate&&function(e,t,n){var r=e.stateNode;e.pendingProps=i(r.props,t,n),e.alternate&&(e.alternate.pendingProps=e.pendingProps),e.stateNode.forceUpdate()}.bind(null,e),setInState:ne.forceUpdate&&function(e,t,n){z(e.state,t,n),e.forceUpdate()}.bind(null,ne),setInContext:ne.forceUpdate&&function(e,t,n){z(e.context,t,n),e.forceUpdate()}.bind(null,ne)}),U=[];break;case v:var re=a(te.render,"");G="Special",W=te.displayName||(""!==re?"ForwardRef(".concat(re,")"):"ForwardRef"),p=e.memoizedProps,m=e.memoizedState,U=[];break;case g:G="Wrapper",U=[],K=e.stateNode.memoizedInteractions;break;case b:G="Portal",W="ReactPortal",p={target:e.stateNode.containerInfo},U=[];break;case _:G="Native",W=(W=e.type).replace("topsecret-",""),f=e.stateNode,U="string"==typeof(p=e.memoizedProps).children||"number"==typeof p.children?p.children.toString():[],"function"==typeof e.stateNode.setNativeProps&&($={setNativeProps:function(t){e.stateNode.setNativeProps(t)}});break;case w:G="Text",q=e.memoizedProps;break;case y:G="Wrapper",U=[];break;case O:case x:if(G="Composite",t.displayName)W=t.displayName;else{var oe=n.displayName||n.name;W=oe?"Memo(".concat(oe,")"):"Memo"}p=e.memoizedProps,m=e.memoizedState,U=[];break;default:var ie="object"===r(n)&&null!==n?n.$$typeof:n;switch("symbol"===r(ie)?ie.toString():ie){case C:case I:case N:G="Special",W="ConcurrentMode",U=[];break;case R:case j:G="Special",p=e.memoizedProps,Y=e.type._context||e.type.context,W="".concat(Y.displayName||"Context",".Provider"),U=[];break;case T:case k:G="Special",p=e.memoizedProps,Y=e.type._context||e.type,W="".concat(Y.displayName||"Context",".Consumer"),U=[];break;case P:case L:G="Special",W="StrictMode",U=[];break;case A:case B:case F:G="Special",W="Suspense",p=e.memoizedProps,U=[],Q=null!==e.memoizedState;break;case M:case D:G="Special",p=e.memoizedProps,W="Profiler(".concat(e.memoizedProps.id,")"),U=[];break;default:G="Native",p=e.memoizedProps,W="TODO_NOT_IMPLEMENTED_YET",U=[]}}if(null!==p&&void 0!==r(e.elementType)&&e.type!==e.elementType&&(p=function(e,t){if(e&&e.defaultProps){var n=Object.assign({},t),r=e.defaultProps;for(var o in r)void 0===n[o]&&(n[o]=r[o]);return n}return t}(e.type,p)),Array.isArray(U))if(Q){var ae=e.child,se=ae.child,ue=ae.sibling.child;U.push(se),U.push(ue)}else for(var ce=e.child;ce;)U.push(V(ce)),ce=ce.sibling;return void 0!==e.actualDuration&&(X=e.actualDuration,J=e.actualStartTime,Z=e.treeBaseDuration),{nodeType:G,type:n,key:o,ref:s,source:l,name:W,props:p,state:m,context:H,children:U,text:q,updater:$,publicInstance:f,memoizedInteractions:K,actualDuration:X,actualStartTime:J,treeBaseDuration:Z,containsHooks:ee}}function z(e,t,n){var r=t.pop(),o=t.reduce(function(e,t){return e?e[t]:null},e);o&&(o[r]=n)}var H=new Set;function V(e){if(H.has(e))return e;var t=e.alternate;return null!=t&&H.has(t)?t:(H.add(e),e)}var $=[];function G(){var t=$;$=[];for(var n=0;n<t.length;n++){var r=t[n];e.emit(r.type,r)}}function W(e){$.push({internalInstance:V(e),data:U(e),renderer:t,type:"mount"}),e.tag===g&&$.push({internalInstance:V(e),renderer:t,type:"root"})}function q(e,n){var r,o,i=U(e);if(!n&&!function(e,t){switch(t.tag){case h:case d:case m:case O:case x:return(t.effectTag&p)===p;default:return e.memoizedProps!==t.memoizedProps||e.memoizedState!==t.memoizedState||e.ref!==t.ref}}(e.alternate,e))return r=e.alternate,o=e,void(void 0===r.actualDuration||r.actualDuration===o.actualDuration&&r.actualStartTime===o.actualStartTime&&r.treeBaseDuration===o.treeBaseDuration||$.push({internalInstance:V(e),data:i,renderer:t,type:"updateProfileTimes"}));$.push({internalInstance:V(e),data:i,renderer:t,type:"update"})}function Y(e){var n=e.tag===g,r=V(e),o={internalInstance:r,renderer:t,type:"unmount"};n?$.push(o):$.unshift(o),H.delete(r)}function K(e){$.push({internalInstance:V(e),data:U(e),renderer:t,type:"rootCommitted"})}function X(e){var t=e;e:for(;;)if(t.child)t.child.return=t,t=t.child;else{if(W(t),t==e)return;if(!t.sibling){for(;t.return;){if(W(t=t.return),t==e)return;if(t.sibling){t.sibling.return=t.return,t=t.sibling;continue e}}return}t.sibling.return=t.return,t=t.sibling}}return{getNativeFromReactElement:function(e){try{var t=e;return n.findHostInstanceByFiber(t)}catch(e){return null}},getReactElementFromNative:function(e){var t=n.findFiberByHostInstance(e);return null!=t?V(t):null},handleCommitFiberRoot:function(e){var t=e.current,n=t.alternate;if(n){var r=null!=n.memoizedState&&null!=n.memoizedState.element,o=null!=t.memoizedState&&null!=t.memoizedState.element;!r&&o?X(t):r&&o?function e(t,n){if(t.tag===l.SuspenseComponent&&null!==t.memoizedState){var r=t.child.sibling.child;r.alternate?e(r,r.alternate):X(r),q(t,!1)}else{var o=!1;if(t.child!==n.child){for(var i=t.child,a=n.child;i;){if(i.alternate){var s=i.alternate;e(i,s),o||s===a||(o=!0)}else X(i),o||(o=!0);i=i.sibling,o||null==a||(a=a.sibling)}o||null==a||(o=!0)}q(t,o)}}(t,n):r&&!o&&Y(t)}else X(t);K(t),G()},handleCommitFiberUnmount:function(e){Y(e)},cleanup:function(){},walkTree:function(){e.getFiberRoots(t).forEach(function(e){X(e.current),K(e.current)}),G()},renderer:n}}},function(e,t,n){(function(n){function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o;t=e.exports=K,o="object"===(void 0===n?"undefined":r(n))&&n.env&&n.env.NODE_DEBUG&&/\bsemver\b/i.test(n.env.NODE_DEBUG)?function(){var e=Array.prototype.slice.call(arguments,0);e.unshift("SEMVER"),console.log.apply(console,e)}:function(){},t.SEMVER_SPEC_VERSION="2.0.0";var i=256,a=Number.MAX_SAFE_INTEGER||9007199254740991,s=t.re=[],u=t.src=[],c=0,l=c++;u[l]="0|[1-9]\\d*";var f=c++;u[f]="[0-9]+";var p=c++;u[p]="\\d*[a-zA-Z-][a-zA-Z0-9-]*";var d=c++;u[d]="("+u[l]+")\\.("+u[l]+")\\.("+u[l]+")";var h=c++;u[h]="("+u[f]+")\\.("+u[f]+")\\.("+u[f]+")";var m=c++;u[m]="(?:"+u[l]+"|"+u[p]+")";var y=c++;u[y]="(?:"+u[f]+"|"+u[p]+")";var v=c++;u[v]="(?:-("+u[m]+"(?:\\."+u[m]+")*))";var g=c++;u[g]="(?:-?("+u[y]+"(?:\\."+u[y]+")*))";var b=c++;u[b]="[0-9A-Za-z-]+";var _=c++;u[_]="(?:\\+("+u[b]+"(?:\\."+u[b]+")*))";var w=c++,S="v?"+u[d]+u[v]+"?"+u[_]+"?";u[w]="^"+S+"$";var E="[v=\\s]*"+u[h]+u[g]+"?"+u[_]+"?",O=c++;u[O]="^"+E+"$";var x=c++;u[x]="((?:<|>)?=?)";var C=c++;u[C]=u[f]+"|x|X|\\*";var I=c++;u[I]=u[l]+"|x|X|\\*";var N=c++;u[N]="[v=\\s]*("+u[I]+")(?:\\.("+u[I]+")(?:\\.("+u[I]+")(?:"+u[v]+")?"+u[_]+"?)?)?";var T=c++;u[T]="[v=\\s]*("+u[C]+")(?:\\.("+u[C]+")(?:\\.("+u[C]+")(?:"+u[g]+")?"+u[_]+"?)?)?";var k=c++;u[k]="^"+u[x]+"\\s*"+u[N]+"$";var R=c++;u[R]="^"+u[x]+"\\s*"+u[T]+"$";var j=c++;u[j]="(?:^|[^\\d])(\\d{1,16})(?:\\.(\\d{1,16}))?(?:\\.(\\d{1,16}))?(?:$|[^\\d])";var M=c++;u[M]="(?:~>?)";var D=c++;u[D]="(\\s*)"+u[M]+"\\s+",s[D]=new RegExp(u[D],"g");var P=c++;u[P]="^"+u[M]+u[N]+"$";var L=c++;u[L]="^"+u[M]+u[T]+"$";var A=c++;u[A]="(?:\\^)";var B=c++;u[B]="(\\s*)"+u[A]+"\\s+",s[B]=new RegExp(u[B],"g");var F=c++;u[F]="^"+u[A]+u[N]+"$";var U=c++;u[U]="^"+u[A]+u[T]+"$";var z=c++;u[z]="^"+u[x]+"\\s*("+E+")$|^$";var H=c++;u[H]="^"+u[x]+"\\s*("+S+")$|^$";var V=c++;u[V]="(\\s*)"+u[x]+"\\s*("+E+"|"+u[N]+")",s[V]=new RegExp(u[V],"g");var $=c++;u[$]="^\\s*("+u[N]+")\\s+-\\s+("+u[N]+")\\s*$";var G=c++;u[G]="^\\s*("+u[T]+")\\s+-\\s+("+u[T]+")\\s*$";var W=c++;u[W]="(<|>)?=?\\s*\\*";for(var q=0;q<35;q++)o(q,u[q]),s[q]||(s[q]=new RegExp(u[q]));function Y(e,t){if(e instanceof K)return e;if("string"!=typeof e)return null;if(e.length>i)return null;if(!(t?s[O]:s[w]).test(e))return null;try{return new K(e,t)}catch(e){return null}}function K(e,t){if(e instanceof K){if(e.loose===t)return e;e=e.version}else if("string"!=typeof e)throw new TypeError("Invalid Version: "+e);if(e.length>i)throw new TypeError("version is longer than "+i+" characters");if(!(this instanceof K))return new K(e,t);o("SemVer",e,t),this.loose=t;var n=e.trim().match(t?s[O]:s[w]);if(!n)throw new TypeError("Invalid Version: "+e);if(this.raw=e,this.major=+n[1],this.minor=+n[2],this.patch=+n[3],this.major>a||this.major<0)throw new TypeError("Invalid major version");if(this.minor>a||this.minor<0)throw new TypeError("Invalid minor version");if(this.patch>a||this.patch<0)throw new TypeError("Invalid patch version");n[4]?this.prerelease=n[4].split(".").map(function(e){if(/^[0-9]+$/.test(e)){var t=+e;if(t>=0&&t<a)return t}return e}):this.prerelease=[],this.build=n[5]?n[5].split("."):[],this.format()}t.parse=Y,t.valid=function(e,t){var n=Y(e,t);return n?n.version:null},t.clean=function(e,t){var n=Y(e.trim().replace(/^[=v]+/,""),t);return n?n.version:null},t.SemVer=K,K.prototype.format=function(){return this.version=this.major+"."+this.minor+"."+this.patch,this.prerelease.length&&(this.version+="-"+this.prerelease.join(".")),this.version},K.prototype.toString=function(){return this.version},K.prototype.compare=function(e){return o("SemVer.compare",this.version,this.loose,e),e instanceof K||(e=new K(e,this.loose)),this.compareMain(e)||this.comparePre(e)},K.prototype.compareMain=function(e){return e instanceof K||(e=new K(e,this.loose)),J(this.major,e.major)||J(this.minor,e.minor)||J(this.patch,e.patch)},K.prototype.comparePre=function(e){if(e instanceof K||(e=new K(e,this.loose)),this.prerelease.length&&!e.prerelease.length)return-1;if(!this.prerelease.length&&e.prerelease.length)return 1;if(!this.prerelease.length&&!e.prerelease.length)return 0;var t=0;do{var n=this.prerelease[t],r=e.prerelease[t];if(o("prerelease compare",t,n,r),void 0===n&&void 0===r)return 0;if(void 0===r)return 1;if(void 0===n)return-1;if(n!==r)return J(n,r)}while(++t)},K.prototype.inc=function(e,t){switch(e){case"premajor":this.prerelease.length=0,this.patch=0,this.minor=0,this.major++,this.inc("pre",t);break;case"preminor":this.prerelease.length=0,this.patch=0,this.minor++,this.inc("pre",t);break;case"prepatch":this.prerelease.length=0,this.inc("patch",t),this.inc("pre",t);break;case"prerelease":0===this.prerelease.length&&this.inc("patch",t),this.inc("pre",t);break;case"major":0===this.minor&&0===this.patch&&0!==this.prerelease.length||this.major++,this.minor=0,this.patch=0,this.prerelease=[];break;case"minor":0===this.patch&&0!==this.prerelease.length||this.minor++,this.patch=0,this.prerelease=[];break;case"patch":0===this.prerelease.length&&this.patch++,this.prerelease=[];break;case"pre":if(0===this.prerelease.length)this.prerelease=[0];else{for(var n=this.prerelease.length;--n>=0;)"number"==typeof this.prerelease[n]&&(this.prerelease[n]++,n=-2);-1===n&&this.prerelease.push(0)}t&&(this.prerelease[0]===t?isNaN(this.prerelease[1])&&(this.prerelease=[t,0]):this.prerelease=[t,0]);break;default:throw new Error("invalid increment argument: "+e)}return this.format(),this.raw=this.version,this},t.inc=function(e,t,n,r){"string"==typeof n&&(r=n,n=void 0);try{return new K(e,n).inc(t,r).version}catch(e){return null}},t.diff=function(e,t){if(te(e,t))return null;var n=Y(e),r=Y(t);if(n.prerelease.length||r.prerelease.length){for(var o in n)if(("major"===o||"minor"===o||"patch"===o)&&n[o]!==r[o])return"pre"+o;return"prerelease"}for(var o in n)if(("major"===o||"minor"===o||"patch"===o)&&n[o]!==r[o])return o},t.compareIdentifiers=J;var X=/^[0-9]+$/;function J(e,t){var n=X.test(e),r=X.test(t);return n&&r&&(e=+e,t=+t),n&&!r?-1:r&&!n?1:e<t?-1:e>t?1:0}function Z(e,t,n){return new K(e,n).compare(new K(t,n))}function Q(e,t,n){return Z(e,t,n)>0}function ee(e,t,n){return Z(e,t,n)<0}function te(e,t,n){return 0===Z(e,t,n)}function ne(e,t,n){return 0!==Z(e,t,n)}function re(e,t,n){return Z(e,t,n)>=0}function oe(e,t,n){return Z(e,t,n)<=0}function ie(e,t,n,o){var i;switch(t){case"===":"object"===r(e)&&(e=e.version),"object"===r(n)&&(n=n.version),i=e===n;break;case"!==":"object"===r(e)&&(e=e.version),"object"===r(n)&&(n=n.version),i=e!==n;break;case"":case"=":case"==":i=te(e,n,o);break;case"!=":i=ne(e,n,o);break;case">":i=Q(e,n,o);break;case">=":i=re(e,n,o);break;case"<":i=ee(e,n,o);break;case"<=":i=oe(e,n,o);break;default:throw new TypeError("Invalid operator: "+t)}return i}function ae(e,t){if(e instanceof ae){if(e.loose===t)return e;e=e.value}if(!(this instanceof ae))return new ae(e,t);o("comparator",e,t),this.loose=t,this.parse(e),this.semver===se?this.value="":this.value=this.operator+this.semver.version,o("comp",this)}t.rcompareIdentifiers=function(e,t){return J(t,e)},t.major=function(e,t){return new K(e,t).major},t.minor=function(e,t){return new K(e,t).minor},t.patch=function(e,t){return new K(e,t).patch},t.compare=Z,t.compareLoose=function(e,t){return Z(e,t,!0)},t.rcompare=function(e,t,n){return Z(t,e,n)},t.sort=function(e,n){return e.sort(function(e,r){return t.compare(e,r,n)})},t.rsort=function(e,n){return e.sort(function(e,r){return t.rcompare(e,r,n)})},t.gt=Q,t.lt=ee,t.eq=te,t.neq=ne,t.gte=re,t.lte=oe,t.cmp=ie,t.Comparator=ae;var se={};function ue(e,t){if(e instanceof ue)return e.loose===t?e:new ue(e.raw,t);if(e instanceof ae)return new ue(e.value,t);if(!(this instanceof ue))return new ue(e,t);if(this.loose=t,this.raw=e,this.set=e.split(/\s*\|\|\s*/).map(function(e){return this.parseRange(e.trim())},this).filter(function(e){return e.length}),!this.set.length)throw new TypeError("Invalid SemVer Range: "+e);this.format()}function ce(e){return!e||"x"===e.toLowerCase()||"*"===e}function le(e,t,n,r,o,i,a,s,u,c,l,f,p){return((t=ce(n)?"":ce(r)?">="+n+".0.0":ce(o)?">="+n+"."+r+".0":">="+t)+" "+(s=ce(u)?"":ce(c)?"<"+(+u+1)+".0.0":ce(l)?"<"+u+"."+(+c+1)+".0":f?"<="+u+"."+c+"."+l+"-"+f:"<="+s)).trim()}function fe(e,t){for(var n=0;n<e.length;n++)if(!e[n].test(t))return!1;if(t.prerelease.length){for(n=0;n<e.length;n++)if(o(e[n].semver),e[n].semver!==se&&e[n].semver.prerelease.length>0){var r=e[n].semver;if(r.major===t.major&&r.minor===t.minor&&r.patch===t.patch)return!0}return!1}return!0}function pe(e,t,n){try{t=new ue(t,n)}catch(e){return!1}return t.test(e)}function de(e,t,n,r){var o,i,a,s,u;switch(e=new K(e,r),t=new ue(t,r),n){case">":o=Q,i=oe,a=ee,s=">",u=">=";break;case"<":o=ee,i=re,a=Q,s="<",u="<=";break;default:throw new TypeError('Must provide a hilo val of "<" or ">"')}if(pe(e,t,r))return!1;for(var c=0;c<t.set.length;++c){var l=t.set[c],f=null,p=null;if(l.forEach(function(e){e.semver===se&&(e=new ae(">=0.0.0")),f=f||e,p=p||e,o(e.semver,f.semver,r)?f=e:a(e.semver,p.semver,r)&&(p=e)}),f.operator===s||f.operator===u)return!1;if((!p.operator||p.operator===s)&&i(e,p.semver))return!1;if(p.operator===u&&a(e,p.semver))return!1}return!0}ae.prototype.parse=function(e){var t=this.loose?s[z]:s[H],n=e.match(t);if(!n)throw new TypeError("Invalid comparator: "+e);this.operator=n[1],"="===this.operator&&(this.operator=""),n[2]?this.semver=new K(n[2],this.loose):this.semver=se},ae.prototype.toString=function(){return this.value},ae.prototype.test=function(e){return o("Comparator.test",e,this.loose),this.semver===se||("string"==typeof e&&(e=new K(e,this.loose)),ie(e,this.operator,this.semver,this.loose))},ae.prototype.intersects=function(e,t){if(!(e instanceof ae))throw new TypeError("a Comparator is required");var n;if(""===this.operator)return n=new ue(e.value,t),pe(this.value,n,t);if(""===e.operator)return n=new ue(this.value,t),pe(e.semver,n,t);var r=!(">="!==this.operator&&">"!==this.operator||">="!==e.operator&&">"!==e.operator),o=!("<="!==this.operator&&"<"!==this.operator||"<="!==e.operator&&"<"!==e.operator),i=this.semver.version===e.semver.version,a=!(">="!==this.operator&&"<="!==this.operator||">="!==e.operator&&"<="!==e.operator),s=ie(this.semver,"<",e.semver,t)&&(">="===this.operator||">"===this.operator)&&("<="===e.operator||"<"===e.operator),u=ie(this.semver,">",e.semver,t)&&("<="===this.operator||"<"===this.operator)&&(">="===e.operator||">"===e.operator);return r||o||i&&a||s||u},t.Range=ue,ue.prototype.format=function(){return this.range=this.set.map(function(e){return e.join(" ").trim()}).join("||").trim(),this.range},ue.prototype.toString=function(){return this.range},ue.prototype.parseRange=function(e){var t=this.loose;e=e.trim(),o("range",e,t);var n=t?s[G]:s[$];e=e.replace(n,le),o("hyphen replace",e),e=e.replace(s[V],"$1$2$3"),o("comparator trim",e,s[V]),e=(e=(e=e.replace(s[D],"$1~")).replace(s[B],"$1^")).split(/\s+/).join(" ");var r=t?s[z]:s[H],i=e.split(" ").map(function(e){return function(e,t){return o("comp",e),e=function(e,t){return e.trim().split(/\s+/).map(function(e){return function(e,t){o("caret",e,t);var n=t?s[U]:s[F];return e.replace(n,function(t,n,r,i,a){var s;return o("caret",e,t,n,r,i,a),ce(n)?s="":ce(r)?s=">="+n+".0.0 <"+(+n+1)+".0.0":ce(i)?s="0"===n?">="+n+"."+r+".0 <"+n+"."+(+r+1)+".0":">="+n+"."+r+".0 <"+(+n+1)+".0.0":a?(o("replaceCaret pr",a),"-"!==a.charAt(0)&&(a="-"+a),s="0"===n?"0"===r?">="+n+"."+r+"."+i+a+" <"+n+"."+r+"."+(+i+1):">="+n+"."+r+"."+i+a+" <"+n+"."+(+r+1)+".0":">="+n+"."+r+"."+i+a+" <"+(+n+1)+".0.0"):(o("no pr"),s="0"===n?"0"===r?">="+n+"."+r+"."+i+" <"+n+"."+r+"."+(+i+1):">="+n+"."+r+"."+i+" <"+n+"."+(+r+1)+".0":">="+n+"."+r+"."+i+" <"+(+n+1)+".0.0"),o("caret return",s),s})}(e,t)}).join(" ")}(e,t),o("caret",e),e=function(e,t){return e.trim().split(/\s+/).map(function(e){return function(e,t){var n=t?s[L]:s[P];return e.replace(n,function(t,n,r,i,a){var s;return o("tilde",e,t,n,r,i,a),ce(n)?s="":ce(r)?s=">="+n+".0.0 <"+(+n+1)+".0.0":ce(i)?s=">="+n+"."+r+".0 <"+n+"."+(+r+1)+".0":a?(o("replaceTilde pr",a),"-"!==a.charAt(0)&&(a="-"+a),s=">="+n+"."+r+"."+i+a+" <"+n+"."+(+r+1)+".0"):s=">="+n+"."+r+"."+i+" <"+n+"."+(+r+1)+".0",o("tilde return",s),s})}(e,t)}).join(" ")}(e,t),o("tildes",e),e=function(e,t){return o("replaceXRanges",e,t),e.split(/\s+/).map(function(e){return function(e,t){e=e.trim();var n=t?s[R]:s[k];return e.replace(n,function(t,n,r,i,a,s){o("xRange",e,t,n,r,i,a,s);var u=ce(r),c=u||ce(i),l=c||ce(a),f=l;return"="===n&&f&&(n=""),u?t=">"===n||"<"===n?"<0.0.0":"*":n&&f?(c&&(i=0),l&&(a=0),">"===n?(n=">=",c?(r=+r+1,i=0,a=0):l&&(i=+i+1,a=0)):"<="===n&&(n="<",c?r=+r+1:i=+i+1),t=n+r+"."+i+"."+a):c?t=">="+r+".0.0 <"+(+r+1)+".0.0":l&&(t=">="+r+"."+i+".0 <"+r+"."+(+i+1)+".0"),o("xRange return",t),t})}(e,t)}).join(" ")}(e,t),o("xrange",e),e=function(e,t){return o("replaceStars",e,t),e.trim().replace(s[W],"")}(e,t),o("stars",e),e}(e,t)}).join(" ").split(/\s+/);return this.loose&&(i=i.filter(function(e){return!!e.match(r)})),i=i.map(function(e){return new ae(e,t)})},ue.prototype.intersects=function(e,t){if(!(e instanceof ue))throw new TypeError("a Range is required");return this.set.some(function(n){return n.every(function(n){return e.set.some(function(e){return e.every(function(e){return n.intersects(e,t)})})})})},t.toComparators=function(e,t){return new ue(e,t).set.map(function(e){return e.map(function(e){return e.value}).join(" ").trim().split(" ")})},ue.prototype.test=function(e){if(!e)return!1;"string"==typeof e&&(e=new K(e,this.loose));for(var t=0;t<this.set.length;t++)if(fe(this.set[t],e))return!0;return!1},t.satisfies=pe,t.maxSatisfying=function(e,t,n){var r=null,o=null;try{var i=new ue(t,n)}catch(e){return null}return e.forEach(function(e){i.test(e)&&(r&&-1!==o.compare(e)||(o=new K(r=e,n)))}),r},t.minSatisfying=function(e,t,n){var r=null,o=null;try{var i=new ue(t,n)}catch(e){return null}return e.forEach(function(e){i.test(e)&&(r&&1!==o.compare(e)||(o=new K(r=e,n)))}),r},t.validRange=function(e,t){try{return new ue(e,t).range||"*"}catch(e){return null}},t.ltr=function(e,t,n){return de(e,t,"<",n)},t.gtr=function(e,t,n){return de(e,t,">",n)},t.outside=de,t.prerelease=function(e,t){var n=Y(e,t);return n&&n.prerelease.length?n.prerelease:null},t.intersects=function(e,t,n){return e=new ue(e,n),t=new ue(t,n),e.intersects(t)},t.coerce=function(e){if(e instanceof K)return e;if("string"!=typeof e)return null;var t=e.match(s[j]);return null==t?null:Y((t[1]||"0")+"."+(t[2]||"0")+"."+(t[3]||"0"))}}).call(this,n(6))},function(e,t,n){"use strict";(function(t){
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){if(e===t)return 0;for(var n=e.length,r=t.length,o=0,i=Math.min(n,r);o<i;++o)if(e[o]!==t[o]){n=e[o],r=t[o];break}return n<r?-1:r<n?1:0}function i(e){return t.Buffer&&"function"==typeof t.Buffer.isBuffer?t.Buffer.isBuffer(e):!(null==e||!e._isBuffer)}var a=n(49),s=Object.prototype.hasOwnProperty,u=Array.prototype.slice,c="foo"===function(){}.name;function l(e){return Object.prototype.toString.call(e)}function f(e){return!i(e)&&("function"==typeof t.ArrayBuffer&&("function"==typeof ArrayBuffer.isView?ArrayBuffer.isView(e):!!e&&(e instanceof DataView||!!(e.buffer&&e.buffer instanceof ArrayBuffer))))}var p=e.exports=g,d=/\s*function\s+([^\(\s]*)\s*/;function h(e){if(a.isFunction(e)){if(c)return e.name;var t=e.toString().match(d);return t&&t[1]}}function m(e,t){return"string"==typeof e?e.length<t?e:e.slice(0,t):e}function y(e){if(c||!a.isFunction(e))return a.inspect(e);var t=h(e);return"[Function"+(t?": "+t:"")+"]"}function v(e,t,n,r,o){throw new p.AssertionError({message:n,actual:e,expected:t,operator:r,stackStartFunction:o})}function g(e,t){e||v(e,!0,t,"==",p.ok)}function b(e,t,n,s){if(e===t)return!0;if(i(e)&&i(t))return 0===o(e,t);if(a.isDate(e)&&a.isDate(t))return e.getTime()===t.getTime();if(a.isRegExp(e)&&a.isRegExp(t))return e.source===t.source&&e.global===t.global&&e.multiline===t.multiline&&e.lastIndex===t.lastIndex&&e.ignoreCase===t.ignoreCase;if(null!==e&&"object"===r(e)||null!==t&&"object"===r(t)){if(f(e)&&f(t)&&l(e)===l(t)&&!(e instanceof Float32Array||e instanceof Float64Array))return 0===o(new Uint8Array(e.buffer),new Uint8Array(t.buffer));if(i(e)!==i(t))return!1;var c=(s=s||{actual:[],expected:[]}).actual.indexOf(e);return-1!==c&&c===s.expected.indexOf(t)||(s.actual.push(e),s.expected.push(t),function(e,t,n,r){if(null==e||null==t)return!1;if(a.isPrimitive(e)||a.isPrimitive(t))return e===t;if(n&&Object.getPrototypeOf(e)!==Object.getPrototypeOf(t))return!1;var o=_(e),i=_(t);if(o&&!i||!o&&i)return!1;if(o)return e=u.call(e),t=u.call(t),b(e,t,n);var s,c,l=E(e),f=E(t);if(l.length!==f.length)return!1;for(l.sort(),f.sort(),c=l.length-1;c>=0;c--)if(l[c]!==f[c])return!1;for(c=l.length-1;c>=0;c--)if(s=l[c],!b(e[s],t[s],n,r))return!1;return!0}(e,t,n,s))}return n?e===t:e==t}function _(e){return"[object Arguments]"==Object.prototype.toString.call(e)}function w(e,t){if(!e||!t)return!1;if("[object RegExp]"==Object.prototype.toString.call(t))return t.test(e);try{if(e instanceof t)return!0}catch(e){}return!Error.isPrototypeOf(t)&&!0===t.call({},e)}function S(e,t,n,r){var o;if("function"!=typeof t)throw new TypeError('"block" argument must be a function');"string"==typeof n&&(r=n,n=null),o=function(e){var t;try{e()}catch(e){t=e}return t}(t),r=(n&&n.name?" ("+n.name+").":".")+(r?" "+r:"."),e&&!o&&v(o,n,"Missing expected exception"+r);var i="string"==typeof r,s=!e&&o&&!n;if((!e&&a.isError(o)&&i&&w(o,n)||s)&&v(o,n,"Got unwanted exception"+r),e&&o&&n&&!w(o,n)||!e&&o)throw o}p.AssertionError=function(e){var t;this.name="AssertionError",this.actual=e.actual,this.expected=e.expected,this.operator=e.operator,e.message?(this.message=e.message,this.generatedMessage=!1):(this.message=m(y((t=this).actual),128)+" "+t.operator+" "+m(y(t.expected),128),this.generatedMessage=!0);var n=e.stackStartFunction||v;if(Error.captureStackTrace)Error.captureStackTrace(this,n);else{var r=new Error;if(r.stack){var o=r.stack,i=h(n),a=o.indexOf("\n"+i);if(a>=0){var s=o.indexOf("\n",a+1);o=o.substring(s+1)}this.stack=o}}},a.inherits(p.AssertionError,Error),p.fail=v,p.ok=g,p.equal=function(e,t,n){e!=t&&v(e,t,n,"==",p.equal)},p.notEqual=function(e,t,n){e==t&&v(e,t,n,"!=",p.notEqual)},p.deepEqual=function(e,t,n){b(e,t,!1)||v(e,t,n,"deepEqual",p.deepEqual)},p.deepStrictEqual=function(e,t,n){b(e,t,!0)||v(e,t,n,"deepStrictEqual",p.deepStrictEqual)},p.notDeepEqual=function(e,t,n){b(e,t,!1)&&v(e,t,n,"notDeepEqual",p.notDeepEqual)},p.notDeepStrictEqual=function e(t,n,r){b(t,n,!0)&&v(t,n,r,"notDeepStrictEqual",e)},p.strictEqual=function(e,t,n){e!==t&&v(e,t,n,"===",p.strictEqual)},p.notStrictEqual=function(e,t,n){e===t&&v(e,t,n,"!==",p.notStrictEqual)},p.throws=function(e,t,n){S(!0,e,t,n)},p.doesNotThrow=function(e,t,n){S(!1,e,t,n)},p.ifError=function(e){if(e)throw e};var E=Object.keys||function(e){var t=[];for(var n in e)s.call(e,n)&&t.push(n);return t}}).call(this,n(7))},function(e,t,n){(function(e,r){function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var i=/%[sdj%]/g;t.format=function(e){if(!g(e)){for(var t=[],n=0;n<arguments.length;n++)t.push(u(arguments[n]));return t.join(" ")}n=1;for(var r=arguments,o=r.length,a=String(e).replace(i,function(e){if("%%"===e)return"%";if(n>=o)return e;switch(e){case"%s":return String(r[n++]);case"%d":return Number(r[n++]);case"%j":try{return JSON.stringify(r[n++])}catch(e){return"[Circular]"}default:return e}}),s=r[n];n<o;s=r[++n])y(s)||!w(s)?a+=" "+s:a+=" "+u(s);return a},t.deprecate=function(n,o){if(b(e.process))return function(){return t.deprecate(n,o).apply(this,arguments)};if(!0===r.noDeprecation)return n;var i=!1;return function(){if(!i){if(r.throwDeprecation)throw new Error(o);r.traceDeprecation?console.trace(o):console.error(o),i=!0}return n.apply(this,arguments)}};var a,s={};function u(e,n){var r={seen:[],stylize:l};return arguments.length>=3&&(r.depth=arguments[2]),arguments.length>=4&&(r.colors=arguments[3]),m(n)?r.showHidden=n:n&&t._extend(r,n),b(r.showHidden)&&(r.showHidden=!1),b(r.depth)&&(r.depth=2),b(r.colors)&&(r.colors=!1),b(r.customInspect)&&(r.customInspect=!0),r.colors&&(r.stylize=c),f(r,e,r.depth)}function c(e,t){var n=u.styles[t];return n?"["+u.colors[n][0]+"m"+e+"["+u.colors[n][1]+"m":e}function l(e,t){return e}function f(e,n,r){if(e.customInspect&&n&&O(n.inspect)&&n.inspect!==t.inspect&&(!n.constructor||n.constructor.prototype!==n)){var o=n.inspect(r,e);return g(o)||(o=f(e,o,r)),o}var i=function(e,t){if(b(t))return e.stylize("undefined","undefined");if(g(t)){var n="'"+JSON.stringify(t).replace(/^"|"$/g,"").replace(/'/g,"\\'").replace(/\\"/g,'"')+"'";return e.stylize(n,"string")}if(v(t))return e.stylize(""+t,"number");if(m(t))return e.stylize(""+t,"boolean");if(y(t))return e.stylize("null","null")}(e,n);if(i)return i;var a=Object.keys(n),s=function(e){var t={};return e.forEach(function(e,n){t[e]=!0}),t}(a);if(e.showHidden&&(a=Object.getOwnPropertyNames(n)),E(n)&&(a.indexOf("message")>=0||a.indexOf("description")>=0))return p(n);if(0===a.length){if(O(n)){var u=n.name?": "+n.name:"";return e.stylize("[Function"+u+"]","special")}if(_(n))return e.stylize(RegExp.prototype.toString.call(n),"regexp");if(S(n))return e.stylize(Date.prototype.toString.call(n),"date");if(E(n))return p(n)}var c,l="",w=!1,x=["{","}"];(h(n)&&(w=!0,x=["[","]"]),O(n))&&(l=" [Function"+(n.name?": "+n.name:"")+"]");return _(n)&&(l=" "+RegExp.prototype.toString.call(n)),S(n)&&(l=" "+Date.prototype.toUTCString.call(n)),E(n)&&(l=" "+p(n)),0!==a.length||w&&0!=n.length?r<0?_(n)?e.stylize(RegExp.prototype.toString.call(n),"regexp"):e.stylize("[Object]","special"):(e.seen.push(n),c=w?function(e,t,n,r,o){for(var i=[],a=0,s=t.length;a<s;++a)N(t,String(a))?i.push(d(e,t,n,r,String(a),!0)):i.push("");return o.forEach(function(o){o.match(/^\d+$/)||i.push(d(e,t,n,r,o,!0))}),i}(e,n,r,s,a):a.map(function(t){return d(e,n,r,s,t,w)}),e.seen.pop(),function(e,t,n){if(e.reduce(function(e,t){return 0,t.indexOf("\n")>=0&&0,e+t.replace(/\u001b\[\d\d?m/g,"").length+1},0)>60)return n[0]+(""===t?"":t+"\n ")+" "+e.join(",\n  ")+" "+n[1];return n[0]+t+" "+e.join(", ")+" "+n[1]}(c,l,x)):x[0]+l+x[1]}function p(e){return"["+Error.prototype.toString.call(e)+"]"}function d(e,t,n,r,o,i){var a,s,u;if((u=Object.getOwnPropertyDescriptor(t,o)||{value:t[o]}).get?s=u.set?e.stylize("[Getter/Setter]","special"):e.stylize("[Getter]","special"):u.set&&(s=e.stylize("[Setter]","special")),N(r,o)||(a="["+o+"]"),s||(e.seen.indexOf(u.value)<0?(s=y(n)?f(e,u.value,null):f(e,u.value,n-1)).indexOf("\n")>-1&&(s=i?s.split("\n").map(function(e){return"  "+e}).join("\n").substr(2):"\n"+s.split("\n").map(function(e){return"   "+e}).join("\n")):s=e.stylize("[Circular]","special")),b(a)){if(i&&o.match(/^\d+$/))return s;(a=JSON.stringify(""+o)).match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)?(a=a.substr(1,a.length-2),a=e.stylize(a,"name")):(a=a.replace(/'/g,"\\'").replace(/\\"/g,'"').replace(/(^"|"$)/g,"'"),a=e.stylize(a,"string"))}return a+": "+s}function h(e){return Array.isArray(e)}function m(e){return"boolean"==typeof e}function y(e){return null===e}function v(e){return"number"==typeof e}function g(e){return"string"==typeof e}function b(e){return void 0===e}function _(e){return w(e)&&"[object RegExp]"===x(e)}function w(e){return"object"===o(e)&&null!==e}function S(e){return w(e)&&"[object Date]"===x(e)}function E(e){return w(e)&&("[object Error]"===x(e)||e instanceof Error)}function O(e){return"function"==typeof e}function x(e){return Object.prototype.toString.call(e)}function C(e){return e<10?"0"+e.toString(10):e.toString(10)}t.debuglog=function(e){if(b(a)&&(a=r.env.NODE_DEBUG||""),e=e.toUpperCase(),!s[e])if(new RegExp("\\b"+e+"\\b","i").test(a)){var n=r.pid;s[e]=function(){var r=t.format.apply(t,arguments);console.error("%s %d: %s",e,n,r)}}else s[e]=function(){};return s[e]},t.inspect=u,u.colors={bold:[1,22],italic:[3,23],underline:[4,24],inverse:[7,27],white:[37,39],grey:[90,39],black:[30,39],blue:[34,39],cyan:[36,39],green:[32,39],magenta:[35,39],red:[31,39],yellow:[33,39]},u.styles={special:"cyan",number:"yellow",boolean:"yellow",undefined:"grey",null:"bold",string:"green",date:"magenta",regexp:"red"},t.isArray=h,t.isBoolean=m,t.isNull=y,t.isNullOrUndefined=function(e){return null==e},t.isNumber=v,t.isString=g,t.isSymbol=function(e){return"symbol"===o(e)},t.isUndefined=b,t.isRegExp=_,t.isObject=w,t.isDate=S,t.isError=E,t.isFunction=O,t.isPrimitive=function(e){return null===e||"boolean"==typeof e||"number"==typeof e||"string"==typeof e||"symbol"===o(e)||void 0===e},t.isBuffer=n(50);var I=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];function N(e,t){return Object.prototype.hasOwnProperty.call(e,t)}t.log=function(){var e,n;console.log("%s - %s",(e=new Date,n=[C(e.getHours()),C(e.getMinutes()),C(e.getSeconds())].join(":"),[e.getDate(),I[e.getMonth()],n].join(" ")),t.format.apply(t,arguments))},t.inherits=n(51),t._extend=function(e,t){if(!t||!w(t))return e;for(var n=Object.keys(t),r=n.length;r--;)e[n[r]]=t[n[r]];return e}}).call(this,n(7),n(6))},function(e,t){function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}e.exports=function(e){return e&&"object"===n(e)&&"function"==typeof e.copy&&"function"==typeof e.fill&&"function"==typeof e.readUInt8}},function(e,t){"function"==typeof Object.create?e.exports=function(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}:e.exports=function(e,t){e.super_=t;var n=function(){};n.prototype=t.prototype,e.prototype=new n,e.prototype.constructor=e}},function(e,t,n){"use strict";function r(e){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}var i=n(53),a={};e.exports=function(e,t,n){e.onCall("rn-style:get",function(e){var r=t.elementData.get(e);return r&&r.props?n(r.props.style):null}),e.on("rn-style:measure",function(r){u(t,e,n,r)}),e.on("rn-style:rename",function(i){var s=i.id,l=i.oldName,f=i.newName,p=i.val;!function(e,t,n,i,s){var u,l=e.elementData.get(t),f=i?(o(u={},n,void 0),o(u,i,s),u):o({},n,void 0);if(l&&l.updater&&"function"==typeof l.updater.setInProps){var p,d=l&&l.props&&l.props.style;if(Array.isArray(d)){var h=d.length-1;"object"!==r(d[h])||Array.isArray(d[h])?(d=d.concat([f]),l.updater.setInProps(["style"],d)):(delete(p=c(d[h]))[n],i?p[i]=s:p[n]=void 0,l.updater.setInProps(["style",h],p))}else"object"===r(d)?(delete(p=c(d))[n],i?p[i]=s:p[n]=void 0,l.updater.setInProps(["style"],p)):(d=[d,f],l.updater.setInProps(["style"],d))}else{if(!l||!l.updater||"function"!=typeof l.updater.setNativeProps)return;a[t]?Object.assign(a[t],f):a[t]=f,l.updater.setNativeProps({style:f})}e.emit("hideHighlight")}(t,s,l,f,p),setTimeout(function(){return u(t,e,n,s)})}),e.on("rn-style:set",function(i){var s=i.id,c=i.attr,l=i.val;!function(e,t,n,i){var s=e.elementData.get(t),u=o({},n,i);if(s&&s.updater&&"function"==typeof s.updater.setInProps){var c=s.props&&s.props.style;if(Array.isArray(c)){var l=c.length-1;"object"!==r(c[l])||Array.isArray(c[l])?(c=c.concat([u]),s.updater.setInProps(["style"],c)):s.updater.setInProps(["style",l,n],i)}else c=[c,u],s.updater.setInProps(["style"],c)}else{if(!s||!s.updater||"function"!=typeof s.updater.setNativeProps)return;a[t]?Object.assign(a[t],u):a[t]=u,s.updater.setNativeProps({style:u})}e.emit("hideHighlight")}(t,s,c,l),setTimeout(function(){return u(t,e,n,s)})})};var s={top:0,left:0,right:0,bottom:0};function u(e,t,n,r){var o=e.elementData.get(r);if(o&&o.props){var u=n(o.props.style);a[r]&&(u=Object.assign({},u,a[r]));var c=o.publicInstance;c&&c.measure?c.measure(function(e,n,r,o,a,c){if("number"==typeof e){var l=u&&i("margin",u)||s,f=u&&i("padding",u)||s;t.send("rn-style:measure",{style:u,measuredLayout:{x:e,y:n,width:r,height:o,left:a,top:c,margin:l,padding:f}})}else t.send("rn-style:measure",{style:u})}):t.send("rn-style:measure",{style:u})}else t.send("rn-style:measure",{})}function c(e){var t={};for(var n in e)t[n]=e[n];return t}},function(e,t){e.exports=function(e,t){var n={},r=["top","left","bottom","right"],o=!1;return r.forEach(function(r){n[r]=t[e]||0}),t[e]&&(o=!0),t[e+"Vertical"]&&(n.top=n.bottom=t[e+"Vertical"],o=!0),t[e+"Horizontal"]&&(n.left=n.right=t[e+"Horizontal"],o=!0),r.forEach(function(r){var i,a=t[e+(i=r,i[0].toUpperCase()+i.slice(1))];a&&(n[r]=a,o=!0)}),o?n:null}},function(e,t,n){var r,o,i;!function(n,a){"use strict";o=[],void 0===(i="function"==typeof(r=function(){function e(e){return!isNaN(parseFloat(e))&&isFinite(e)}function t(e){return e.charAt(0).toUpperCase()+e.substring(1)}function n(e){return function(){return this[e]}}var r=["isConstructor","isEval","isNative","isToplevel"],o=["columnNumber","lineNumber"],i=["fileName","functionName","source"],a=r.concat(o,i,["args"]);function s(e){if(e instanceof Object)for(var n=0;n<a.length;n++)e.hasOwnProperty(a[n])&&void 0!==e[a[n]]&&this["set"+t(a[n])](e[a[n]])}s.prototype={getArgs:function(){return this.args},setArgs:function(e){if("[object Array]"!==Object.prototype.toString.call(e))throw new TypeError("Args must be an Array");this.args=e},getEvalOrigin:function(){return this.evalOrigin},setEvalOrigin:function(e){if(e instanceof s)this.evalOrigin=e;else{if(!(e instanceof Object))throw new TypeError("Eval Origin must be an Object or StackFrame");this.evalOrigin=new s(e)}},toString:function(){var t=this.getFunctionName()||"{anonymous}",n="("+(this.getArgs()||[]).join(",")+")",r=this.getFileName()?"@"+this.getFileName():"",o=e(this.getLineNumber())?":"+this.getLineNumber():"",i=e(this.getColumnNumber())?":"+this.getColumnNumber():"";return t+n+r+o+i}};for(var u=0;u<r.length;u++)s.prototype["get"+t(r[u])]=n(r[u]),s.prototype["set"+t(r[u])]=function(e){return function(t){this[e]=Boolean(t)}}(r[u]);for(var c=0;c<o.length;c++)s.prototype["get"+t(o[c])]=n(o[c]),s.prototype["set"+t(o[c])]=function(t){return function(n){if(!e(n))throw new TypeError(t+" must be a Number");this[t]=Number(n)}}(o[c]);for(var l=0;l<i.length;l++)s.prototype["get"+t(i[l])]=n(i[l]),s.prototype["set"+t(i[l])]=function(e){return function(t){this[e]=String(t)}}(i[l]);return s})?r.apply(t,o):r)||(e.exports=i)}()},function(e,t,n){"use strict";var r=function(){};e.exports=function(e,t,n){var o=function(){var n=!1;t.roots.forEach(function(e){t.internalInstancesById.get(e).hasOwnProperty("treeBaseDuration")&&(n=!0)}),e.call("profiler:update",[n],r)};t.on("root",o),t.on("rootUnmounted",o),o()}},function(e,t,n){"use strict";var r=n(57);e.exports=function(e){var t=new r(window,function(t){e.selectFromDOMNode(t)});e.on("highlight",function(e){return t.highlight(e.node,e.name)}),e.on("highlightMany",function(e){return t.highlightMany(e)}),e.on("hideHighlight",function(){return t.hideHighlight()}),e.on("refreshMultiOverlay",function(){return t.refreshMultiOverlay()}),e.on("startInspecting",function(){return t.startInspecting()}),e.on("stopInspecting",function(){return t.stopInspecting()}),e.on("shutdown",function(){t.remove()})}},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var o=n(58),i=n(60),a=function(){function e(t,n){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this._win=t,this._onSelect=n,this._overlay=null,this._multiOverlay=null,this._subs=[]}var t,n,a;return t=e,(n=[{key:"startInspecting",value:function(){this._inspecting=!0,this._subs=[s(this._win,"mouseover",this.onHover.bind(this)),s(this._win,"mousedown",this.onMouseDown.bind(this)),s(this._win,"click",this.onClick.bind(this))]}},{key:"stopInspecting",value:function(){this._subs.forEach(function(e){return e()}),this.hideHighlight()}},{key:"remove",value:function(){this.stopInspecting(),this._button&&this._button.parentNode&&this._button.parentNode.removeChild(this._button)}},{key:"highlight",value:function(e,t){this.removeMultiOverlay(),e.nodeType!==Node.COMMENT_NODE&&(this._overlay||(this._overlay=new o(this._win)),this._overlay.inspect(e,t))}},{key:"highlightMany",value:function(e){this.removeOverlay(),this._multiOverlay||(this._multiOverlay=new i(this._win)),this._multiOverlay.highlightMany(e)}},{key:"hideHighlight",value:function(){this._inspecting=!1,this.removeOverlay(),this.removeMultiOverlay()}},{key:"refreshMultiOverlay",value:function(){this._multiOverlay&&this._multiOverlay.refresh()}},{key:"removeOverlay",value:function(){this._overlay&&(this._overlay.remove(),this._overlay=null)}},{key:"removeMultiOverlay",value:function(){this._multiOverlay&&(this._multiOverlay.remove(),this._multiOverlay=null)}},{key:"onMouseDown",value:function(e){this._inspecting&&(e.preventDefault(),e.stopPropagation(),e.cancelBubble=!0,this._onSelect(e.target))}},{key:"onClick",value:function(e){this._inspecting&&(this._subs.forEach(function(e){return e()}),e.preventDefault(),e.stopPropagation(),e.cancelBubble=!0,this.hideHighlight())}},{key:"onHover",value:function(e){this._inspecting&&(e.preventDefault(),e.stopPropagation(),e.cancelBubble=!0,this.highlight(e.target))}},{key:"injectButton",value:function(){var e;this._button=((e=window.document.createElement("button")).innerHTML="&#128269;",e.style.backgroundColor="transparent",e.style.border="none",e.style.outline="none",e.style.cursor="pointer",e.style.position="fixed",e.style.bottom="10px",e.style.right="10px",e.style.fontSize="30px",e.style.zIndex=1e7,e),this._button.onclick=this.startInspecting.bind(this),this._win.document.body.appendChild(this._button)}}])&&r(t.prototype,n),a&&r(t,a),e}();function s(e,t,n){return e.addEventListener(t,n,!0),function(){return e.removeEventListener(t,n,!0)}}e.exports=a},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var o=n(1),i=n(59).monospace,a=function(){function e(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e);var n=t.document;this.win=t,this.container=n.createElement("div"),this.node=n.createElement("div"),this.border=n.createElement("div"),this.padding=n.createElement("div"),this.content=n.createElement("div"),this.border.style.borderColor=d.border,this.padding.style.borderColor=d.padding,this.content.style.backgroundColor=d.background,o(this.node.style,{borderColor:d.margin,pointerEvents:"none",position:"fixed"}),this.tip=n.createElement("div"),o(this.tip.style,{backgroundColor:"#333740",borderRadius:"2px",fontFamily:i.family,fontWeight:"bold",padding:"3px 5px",position:"fixed",fontSize:i.sizes.normal+"px"}),this.nameSpan=n.createElement("span"),this.tip.appendChild(this.nameSpan),o(this.nameSpan.style,{color:"#ee78e6",borderRight:"1px solid #aaaaaa",paddingRight:"0.5rem",marginRight:"0.5rem"}),this.dimSpan=n.createElement("span"),this.tip.appendChild(this.dimSpan),o(this.dimSpan.style,{color:"#d7d7d7"}),this.container.style.zIndex=1e7,this.node.style.zIndex=1e7,this.tip.style.zIndex=1e7,this.container.appendChild(this.node),this.container.appendChild(this.tip),this.node.appendChild(this.border),this.border.appendChild(this.padding),this.padding.appendChild(this.content),n.body.appendChild(this.container)}var t,n,a;return t=e,(n=[{key:"remove",value:function(){this.container.parentNode&&this.container.parentNode.removeChild(this.container)}},{key:"inspect",value:function(e,t){if(e.nodeType===Node.ELEMENT_NODE){var n=function(e,t){var n=c(e);if(n&&n!==t){for(var r=[e.getBoundingClientRect()],o=n,i=!1;o;){var a=l(o);if(r.push(a),o=c(o),i)break;o&&u(o)===t&&(i=!0)}return f(r)}return e.getBoundingClientRect()}(e,this.win),r=s(e);p(r,"margin",this.node),p(r,"border",this.border),p(r,"padding",this.padding),o(this.content.style,{height:n.height-r.borderTop-r.borderBottom-r.paddingTop-r.paddingBottom+"px",width:n.width-r.borderLeft-r.borderRight-r.paddingLeft-r.paddingRight+"px"}),o(this.node.style,{top:n.top-r.marginTop+"px",left:n.left-r.marginLeft+"px"}),this.nameSpan.textContent=t||e.nodeName.toLowerCase(),this.dimSpan.textContent=n.width+"px × "+n.height+"px";var i=function(e,t){var n;n=e.top+e.height+20<=t.innerHeight?e.top+e.height<0?5:e.top+e.height+5:e.top-20<=t.innerHeight?e.top-20-5<5?5:e.top-20-5:t.innerHeight-20-5;if(n+="px",e.left<0)return{top:n,left:5};if(e.left+200>t.innerWidth)return{top:n,right:5};return{top:n,left:e.left+5+"px"}}({top:n.top-r.marginTop,left:n.left-r.marginLeft,height:n.height+r.marginTop+r.marginBottom,width:n.width+r.marginLeft+r.marginRight},this.win);o(this.tip.style,i)}}}])&&r(t.prototype,n),a&&r(t,a),e}();function s(e){var t=window.getComputedStyle(e);return{borderLeft:+t.borderLeftWidth.match(/[0-9]*/)[0],borderRight:+t.borderRightWidth.match(/[0-9]*/)[0],borderTop:+t.borderTopWidth.match(/[0-9]*/)[0],borderBottom:+t.borderBottomWidth.match(/[0-9]*/)[0],marginLeft:+t.marginLeft.match(/[0-9]*/)[0],marginRight:+t.marginRight.match(/[0-9]*/)[0],marginTop:+t.marginTop.match(/[0-9]*/)[0],marginBottom:+t.marginBottom.match(/[0-9]*/)[0],paddingLeft:+t.paddingLeft.match(/[0-9]*/)[0],paddingRight:+t.paddingRight.match(/[0-9]*/)[0],paddingTop:+t.paddingTop.match(/[0-9]*/)[0],paddingBottom:+t.paddingBottom.match(/[0-9]*/)[0]}}function u(e){return e.ownerDocument?e.ownerDocument.defaultView:null}function c(e){var t=u(e);return t?t.frameElement:null}function l(e){var t=s(e);return f([e.getBoundingClientRect(),{top:t.borderTop,left:t.borderLeft,bottom:t.borderBottom,right:t.borderRight,width:0,height:0}])}function f(e){return e.reduce(function(e,t){return null==e?t:{top:e.top+t.top,left:e.left+t.left,width:e.width,height:e.height,bottom:e.bottom+t.bottom,right:e.right+t.right}})}function p(e,t,n){o(n.style,{borderTopWidth:e[t+"Top"]+"px",borderLeftWidth:e[t+"Left"]+"px",borderRightWidth:e[t+"Right"]+"px",borderBottomWidth:e[t+"Bottom"]+"px",borderStyle:"solid"})}var d={background:"rgba(120, 170, 210, 0.7)",padding:"rgba(77, 200, 0, 0.3)",margin:"rgba(255, 155, 0, 0.3)",border:"rgba(255, 200, 50, 0.3)"};e.exports=a},function(e,t,n){"use strict";e.exports={monospace:{family:"Menlo, Consolas, monospace",sizes:{normal:11,large:14}},sansSerif:{family:'"Helvetica Neue", "Lucida Grande", -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, sans-serif',sizes:{small:10,normal:12,large:14}}}},function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var o=n(1),i=function(){function e(t){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this.win=t;var n=t.document;this.container=n.createElement("div"),n.body.appendChild(this.container),this._currentNodes=null}var t,n,i;return t=e,(n=[{key:"highlightMany",value:function(e){var t=this;this._currentNodes=e,this.container.innerHTML="",e.forEach(function(e){var n=t.win.document.createElement("div");if("function"==typeof e.getBoundingClientRect){var r=e.getBoundingClientRect();r.bottom<0||r.top>window.innerHeight||(o(n.style,{top:r.top+"px",left:r.left+"px",width:r.width+"px",height:r.height+"px",border:"2px dotted rgba(200, 100, 100, .8)",boxSizing:"border-box",backgroundColor:"rgba(200, 100, 100, .2)",position:"fixed",zIndex:1e7,pointerEvents:"none"}),t.container.appendChild(n))}})}},{key:"refresh",value:function(){this._currentNodes&&this.highlightMany(this._currentNodes)}},{key:"remove",value:function(){this.container.parentNode&&(this.container.parentNode.removeChild(this.container),this._currentNodes=null)}}])&&r(t.prototype,n),i&&r(t,i),e}();e.exports=i},function(e,t,n){"use strict";n.r(t);var r=n(0),o=n.n(r);function i(e){return(i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var a=10,s=11,u=0,c=15,l=[],f=null;function p(){if(null===f){var e,t=new Map;try{m.useContext({_currentValue:null}),m.useState(null),m.useReducer(function(e,t){return e},null),m.useRef(null),m.useLayoutEffect(function(){}),m.useEffect(function(){}),m.useImperativeHandle(void 0,function(){return null}),m.useCallback(function(){}),m.useMemo(function(){return null}),m.useDebugValue(null)}finally{e=l,l=[]}for(var n=0;n<e.length;n++){var r=e[n];t.set(r.primitive,o.a.parse(r.stackError))}f=t}return f}var d=null;function h(){var e=d;return null!==e&&(d=e.next),e}var m={readContext:function(e,t){return e._currentValue},useCallback:function(e,t){var n=h();return l.push({primitive:"Callback",stackError:new Error,value:null!==n?n.memoizedState[0]:e}),e},useContext:function(e,t){return l.push({primitive:"Context",stackError:new Error,value:e._currentValue}),e._currentValue},useEffect:function(e,t){h(),l.push({primitive:"Effect",stackError:new Error,value:e})},useImperativeHandle:function(e,t,n){h();var r=void 0;null!==e&&"object"===i(e)&&(r=e.current),l.push({primitive:"ImperativeHandle",stackError:new Error,value:r})},useDebugValue:function(e,t){l.push({primitive:"DebugValue",stackError:new Error,value:"function"==typeof t?t(e):e})},useLayoutEffect:function(e,t){h(),l.push({primitive:"LayoutEffect",stackError:new Error,value:e})},useMemo:function(e,t){var n=h(),r=null!==n?n.memoizedState[0]:e();return l.push({primitive:"Memo",stackError:new Error,value:r}),r},useReducer:function(e,t,n){var r=h(),o=null!==r?r.memoizedState:t;return l.push({primitive:"Reducer",stackError:new Error,value:o}),[o,function(e){}]},useRef:function(e){var t=h(),n=null!==t?t.memoizedState:{current:e};return l.push({primitive:"Ref",stackError:new Error,value:n.current}),n},useState:function(e){var t=h(),n=null!==t?t.memoizedState:"function"==typeof e?e():e;return l.push({primitive:"State",stackError:new Error,value:n}),[n,function(e){}]}},y=0;function v(e,t,n){var r=t[n].source;e:for(var o=0;o<e.length;o++)if(e[o].source===r){for(var i=n+1,a=o+1;i<t.length&&a<e.length;i++,a++)if(e[a].source!==t[i].source)continue e;return o}return-1}function g(e,t){if(!e)return!1;var n="use"+t;return!(e.length<n.length)&&e.lastIndexOf(n)===e.length-n.length}function b(e,t){var n=o.a.parse(t.stackError),r=function(e,t){var n=v(t,e,y);if(-1!==n)return n;for(var r=0;r<e.length&&r<5;r++)if(-1!==(n=v(t,e,r)))return y=r,n;return-1}(e,n),i=function(e,t){var n=p().get(t.primitive);if(void 0===n)return-1;for(var r=0;r<n.length&&r<e.length;r++)if(n[r].source!==e[r].source)return r<e.length-1&&g(e[r].functionName,t.primitive)&&r++,r<e.length-1&&g(e[r].functionName,t.primitive)&&r++,r;return-1}(n,t);return-1===r||-1===i||r-i<2?null:n.slice(i,r-1)}function _(e){if(!e)return"";var t=e.lastIndexOf(".");return-1===t&&(t=0),"use"===e.substr(t,3)&&(t+=3),e.substr(t)}function w(e,t){for(var n=[],r=null,o=n,i=[],a=0;a<t.length;a++){var s=t[a],u=b(e,s);if(null!==u){var c=0;if(null!==r){for(;c<u.length&&c<r.length;){if(u[u.length-c-1].source!==r[r.length-c-1].source)break;c++}for(var l=r.length-1;l>c;l--)o=i.pop()}for(var f=u.length-c-1;f>=1;f--){var p=[];o.push({name:_(u[f-1].functionName),value:void 0,subHooks:p}),i.push(o),o=p}r=u}o.push({name:s.primitive,value:s.value,subHooks:[]})}return function e(t,n){var r=[];for(var o=0;o<t.length;o++){var i=t[o];"DebugValue"===i.name&&0===i.subHooks.length?(t.splice(o,1),o--,r.push(i)):e(i.subHooks,i)}null!==n&&(1===r.length?n.value=r[0].value:r.length>1&&(n.value=r.map(function(e){var t=e.value;return t})))}(n,null),n}function S(e,t){if(e.tag!==u&&e.tag!==c&&e.tag!==s)throw new Error("Unknown Fiber. Needs to be a function component to inspect hooks.");p();var n=e.type,r=e.memoizedProps;n!==e.elementType&&(r=function(e,t){if(e&&e.defaultProps){var n=Object.assign({},t),r=e.defaultProps;for(var o in r)void 0===n[o]&&(n[o]=r[o]);return n}return t}(n,r)),d=e.memoizedState;var i=new Map;try{return function(e,t){for(var n=t;n;){if(n.tag===a){var r=n.type._context;e.has(r)||(e.set(r,r._currentValue),r._currentValue=n.memoizedProps.value)}n=n.return}}(i,e),e.tag===s?function(e,t,n,r){var i,a,s=r.current;r.current=m;try{a=new Error,e(t,n)}finally{i=l,l=[],r.current=s}return w(o.a.parse(a),i)}(n.render,r,e.ref,t):function(e,t,n){var r,i,a=n.current;n.current=m;try{i=new Error,e(t)}finally{r=l,l=[],n.current=a}return w(o.a.parse(i),r)}(n,r,t)}finally{d=null,function(e){e.forEach(function(e,t){return t._currentValue=e})}(i)}}function E(e,t){var n=null,r=null;function o(e){var n=t.elementData.get(e),r=t.internalInstancesById.get(e);if(r){var o=t.renderers.get(e);if(o){var i=t.reactInternals[o].renderer;if(i&&i.currentDispatcherRef)return{elementID:e,id:"hooksTree",hooksTree:S(n.state===r.memoizedState?r:r.alternate,i.currentDispatcherRef)}}}return null}t.on("selected",function(i){r=i;var a=t.elementData.get(i),s=null;a&&a.containsHooks&&(s=o(i)),n!==s&&(n=s,e.send("inspectedHooks",s))}),t.on("update",function(t){if(null!==r&&null!==n&&n.elementID===t.id){var i=o(t.id);n!==i&&(n=i,e.send("inspectedHooks",i))}})}n.d(t,"default",function(){return E})}])});
-
-/***/ }),
-
-/***/ "./node_modules/react-devtools/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/react-devtools/index.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var {connectToDevTools} = __webpack_require__(/*! react-devtools-core */ "./node_modules/react-devtools-core/build/backend.js");
-// Connect immediately with default options.
-// If you need more control, use `react-devtools-core` directly instead of `react-devtools`.
-connectToDevTools();
-
-
-/***/ }),
-
 /***/ "./node_modules/react-dom/cjs/react-dom.development.js":
 /*!*************************************************************!*\
   !*** ./node_modules/react-dom/cjs/react-dom.development.js ***!
@@ -1213,7 +963,7 @@ connectToDevTools();
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.7.0
+/** @license React v16.8.3
  * react-dom.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -1300,7 +1050,7 @@ var invokeGuardedCallbackImpl = function (name, func, context, a, b, c, d, e, f)
   // invokeGuardedCallback uses a try-catch, all user exceptions are treated
   // like caught exceptions, and the DevTools won't pause unless the developer
   // takes the extra step of enabling pause on caught exceptions. This is
-  // untintuitive, though, because even though React has caught the error, from
+  // unintuitive, though, because even though React has caught the error, from
   // the developer's perspective, the error is uncaught.
   //
   // To preserve the expected "Pause on exceptions" behavior, we don't use a
@@ -2057,6 +1807,7 @@ var MemoComponent = 14;
 var SimpleMemoComponent = 15;
 var LazyComponent = 16;
 var IncompleteClassComponent = 17;
+var DehydratedSuspenseComponent = 18;
 
 var randomKey = Math.random().toString(36).slice(2);
 var internalInstanceKey = '__reactInternalInstance$' + randomKey;
@@ -3599,6 +3350,15 @@ function updateValueIfChanged(node) {
 
 var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 
+// Prevent newer renderers from RTE when used with older react package versions.
+// Current owner and dispatcher used to share the same ref,
+// but PR #14548 split them out to better support the react-debug-tools package.
+if (!ReactSharedInternals.hasOwnProperty('ReactCurrentDispatcher')) {
+  ReactSharedInternals.ReactCurrentDispatcher = {
+    current: null
+  };
+}
+
 var BEFORE_SLASH_RE = /^(.*)[\\\/]/;
 
 var describeComponentFrame = function (name, source, ownerName) {
@@ -4109,12 +3869,15 @@ var capitalize = function (token) {
   attributeName, 'http://www.w3.org/XML/1998/namespace');
 });
 
-// Special case: this attribute exists both in HTML and SVG.
-// Its "tabindex" attribute name is case-sensitive in SVG so we can't just use
-// its React `tabIndex` name, like we do for attributes that exist only in HTML.
-properties.tabIndex = new PropertyInfoRecord('tabIndex', STRING, false, // mustUseProperty
-'tabindex', // attributeName
-null);
+// These attribute exists both in HTML and SVG.
+// The attribute name is case-sensitive in SVG so we can't just use
+// the React name like we do for attributes that exist only in HTML.
+['tabIndex', 'crossOrigin'].forEach(function (attributeName) {
+  properties[attributeName] = new PropertyInfoRecord(attributeName, STRING, false, // mustUseProperty
+  attributeName.toLowerCase(), // attributeName
+  null);
+} // attributeNamespace
+);
 
 /**
  * Get the value for a property on a node. Only used in DEV for SSR validation.
@@ -4330,7 +4093,6 @@ var ReactControlledValuePropTypes = {
 
 var enableUserTimingAPI = true;
 
-var enableHooks = false;
 // Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
 var debugRenderPhaseSideEffects = false;
 
@@ -4354,7 +4116,7 @@ var enableProfilerTimer = true;
 var enableSchedulerTracing = true;
 
 // Only used in www builds.
- // TODO: true? Here it might just be false.
+var enableSuspenseServerRenderer = false; // TODO: true? Here it might just be false.
 
 // Only used in www builds.
 
@@ -5165,26 +4927,16 @@ var EnterLeaveEventPlugin = {
   }
 };
 
-/*eslint-disable no-self-compare */
-
-var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
-
 /**
  * inlined Object.is polyfill to avoid requiring consumers ship their own
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
  */
 function is(x, y) {
-  // SameValue algorithm
-  if (x === y) {
-    // Steps 1-5, 7-10
-    // Steps 6.b-6.e: +0 != -0
-    // Added the nonzero y check to make Flow happy, but it is redundant
-    return x !== 0 || y !== 0 || 1 / x === 1 / y;
-  } else {
-    // Step 6.a: NaN == NaN
-    return x !== x && y !== y;
-  }
+  return x === y && (x !== 0 || 1 / x === 1 / y) || x !== x && y !== y // eslint-disable-line no-self-compare
+  ;
 }
+
+var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
 
 /**
  * Performs equality by iterating through keys on an object and returning false
@@ -9839,6 +9591,9 @@ var SUPPRESS_HYDRATION_WARNING = void 0;
   SUPPRESS_HYDRATION_WARNING = 'suppressHydrationWarning';
 }
 
+var SUSPENSE_START_DATA = '$';
+var SUSPENSE_END_DATA = '/$';
+
 var STYLE = 'style';
 
 var eventsEnabled = null;
@@ -9978,6 +9733,8 @@ var isPrimaryRenderer = true;
 var scheduleTimeout = typeof setTimeout === 'function' ? setTimeout : undefined;
 var cancelTimeout = typeof clearTimeout === 'function' ? clearTimeout : undefined;
 var noTimeout = -1;
+var schedulePassiveEffects = scheduler.unstable_scheduleCallback;
+var cancelPassiveEffects = scheduler.unstable_cancelCallback;
 
 // -------------------
 //     Mutation
@@ -10065,6 +9822,43 @@ function removeChildFromContainer(container, child) {
   }
 }
 
+function clearSuspenseBoundary(parentInstance, suspenseInstance) {
+  var node = suspenseInstance;
+  // Delete all nodes within this suspense boundary.
+  // There might be nested nodes so we need to keep track of how
+  // deep we are and only break out when we're back on top.
+  var depth = 0;
+  do {
+    var nextNode = node.nextSibling;
+    parentInstance.removeChild(node);
+    if (nextNode && nextNode.nodeType === COMMENT_NODE) {
+      var data = nextNode.data;
+      if (data === SUSPENSE_END_DATA) {
+        if (depth === 0) {
+          parentInstance.removeChild(nextNode);
+          return;
+        } else {
+          depth--;
+        }
+      } else if (data === SUSPENSE_START_DATA) {
+        depth++;
+      }
+    }
+    node = nextNode;
+  } while (node);
+  // TODO: Warn, we didn't find the end comment boundary.
+}
+
+function clearSuspenseBoundaryFromContainer(container, suspenseInstance) {
+  if (container.nodeType === COMMENT_NODE) {
+    clearSuspenseBoundary(container.parentNode, suspenseInstance);
+  } else if (container.nodeType === ELEMENT_NODE) {
+    clearSuspenseBoundary(container, suspenseInstance);
+  } else {
+    // Document nodes should never contain suspense boundaries.
+  }
+}
+
 function hideInstance(instance) {
   // TODO: Does this work for all element types? What about MathML? Should we
   // pass host context to this method?
@@ -10110,10 +9904,19 @@ function canHydrateTextInstance(instance, text) {
   return instance;
 }
 
+function canHydrateSuspenseInstance(instance) {
+  if (instance.nodeType !== COMMENT_NODE) {
+    // Empty strings are not parsed by HTML so there won't be a correct match here.
+    return null;
+  }
+  // This has now been refined to a suspense node.
+  return instance;
+}
+
 function getNextHydratableSibling(instance) {
   var node = instance.nextSibling;
   // Skip non-hydratable nodes.
-  while (node && node.nodeType !== ELEMENT_NODE && node.nodeType !== TEXT_NODE) {
+  while (node && node.nodeType !== ELEMENT_NODE && node.nodeType !== TEXT_NODE && (!enableSuspenseServerRenderer || node.nodeType !== COMMENT_NODE || node.data !== SUSPENSE_START_DATA)) {
     node = node.nextSibling;
   }
   return node;
@@ -10122,7 +9925,7 @@ function getNextHydratableSibling(instance) {
 function getFirstHydratableChild(parentInstance) {
   var next = parentInstance.firstChild;
   // Skip non-hydratable nodes.
-  while (next && next.nodeType !== ELEMENT_NODE && next.nodeType !== TEXT_NODE) {
+  while (next && next.nodeType !== ELEMENT_NODE && next.nodeType !== TEXT_NODE && (!enableSuspenseServerRenderer || next.nodeType !== COMMENT_NODE || next.data !== SUSPENSE_START_DATA)) {
     next = next.nextSibling;
   }
   return next;
@@ -10146,6 +9949,31 @@ function hydrateTextInstance(textInstance, text, internalInstanceHandle) {
   return diffHydratedText(textInstance, text);
 }
 
+function getNextHydratableInstanceAfterSuspenseInstance(suspenseInstance) {
+  var node = suspenseInstance.nextSibling;
+  // Skip past all nodes within this suspense boundary.
+  // There might be nested nodes so we need to keep track of how
+  // deep we are and only break out when we're back on top.
+  var depth = 0;
+  while (node) {
+    if (node.nodeType === COMMENT_NODE) {
+      var data = node.data;
+      if (data === SUSPENSE_END_DATA) {
+        if (depth === 0) {
+          return getNextHydratableSibling(node);
+        } else {
+          depth--;
+        }
+      } else if (data === SUSPENSE_START_DATA) {
+        depth++;
+      }
+    }
+    node = node.nextSibling;
+  }
+  // TODO: Warn, we didn't find the end comment boundary.
+  return null;
+}
+
 function didNotMatchHydratedContainerTextInstance(parentContainer, textInstance, text) {
   {
     warnForUnmatchedText(textInstance, text);
@@ -10162,6 +9990,8 @@ function didNotHydrateContainerInstance(parentContainer, instance) {
   {
     if (instance.nodeType === ELEMENT_NODE) {
       warnForDeletedHydratableElement(parentContainer, instance);
+    } else if (instance.nodeType === COMMENT_NODE) {
+      // TODO: warnForDeletedHydratableSuspenseBoundary
     } else {
       warnForDeletedHydratableText(parentContainer, instance);
     }
@@ -10172,6 +10002,8 @@ function didNotHydrateInstance(parentType, parentProps, parentInstance, instance
   if ( true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
     if (instance.nodeType === ELEMENT_NODE) {
       warnForDeletedHydratableElement(parentInstance, instance);
+    } else if (instance.nodeType === COMMENT_NODE) {
+      // TODO: warnForDeletedHydratableSuspenseBoundary
     } else {
       warnForDeletedHydratableText(parentInstance, instance);
     }
@@ -10190,6 +10022,8 @@ function didNotFindHydratableContainerTextInstance(parentContainer, text) {
   }
 }
 
+
+
 function didNotFindHydratableInstance(parentType, parentProps, parentInstance, type, props) {
   if ( true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
     warnForInsertedHydratedElement(parentInstance, type, props);
@@ -10199,6 +10033,12 @@ function didNotFindHydratableInstance(parentType, parentProps, parentInstance, t
 function didNotFindHydratableTextInstance(parentType, parentProps, parentInstance, text) {
   if ( true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
     warnForInsertedHydratedText(parentInstance, text);
+  }
+}
+
+function didNotFindHydratableSuspenseInstance(parentType, parentProps, parentInstance) {
+  if ( true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
+    // TODO: warnForInsertedHydratedSuspense(parentInstance);
   }
 }
 
@@ -10457,7 +10297,7 @@ function stopFailedWorkTimer(fiber) {
       return;
     }
     fiber._debugIsCurrentlyTiming = false;
-    var warning = fiber.tag === SuspenseComponent ? 'Rendering was suspended' : 'An error was thrown inside this error boundary';
+    var warning = fiber.tag === SuspenseComponent || fiber.tag === DehydratedSuspenseComponent ? 'Rendering was suspended' : 'An error was thrown inside this error boundary';
     endFiberMark(fiber, null, warning);
   }
 }
@@ -11078,7 +10918,7 @@ function FiberNode(tag, pendingProps, key, mode) {
   this.memoizedProps = null;
   this.updateQueue = null;
   this.memoizedState = null;
-  this.firstContextDependency = null;
+  this.contextDependencies = null;
 
   this.mode = mode;
 
@@ -11226,7 +11066,7 @@ function createWorkInProgress(current, pendingProps, expirationTime) {
   workInProgress.memoizedProps = current.memoizedProps;
   workInProgress.memoizedState = current.memoizedState;
   workInProgress.updateQueue = current.updateQueue;
-  workInProgress.firstContextDependency = current.firstContextDependency;
+  workInProgress.contextDependencies = current.contextDependencies;
 
   // These will be overridden during the parent's reconciliation
   workInProgress.sibling = current.sibling;
@@ -11441,7 +11281,7 @@ function assignFiberPropertiesInDEV(target, source) {
   target.memoizedProps = source.memoizedProps;
   target.updateQueue = source.updateQueue;
   target.memoizedState = source.memoizedState;
-  target.firstContextDependency = source.firstContextDependency;
+  target.contextDependencies = source.contextDependencies;
   target.mode = source.mode;
   target.effectTag = source.effectTag;
   target.nextEffect = source.nextEffect;
@@ -11653,7 +11493,7 @@ var ReactStrictModeWarnings = {
 
   ReactStrictModeWarnings.flushPendingUnsafeLifecycleWarnings = function () {
     pendingUnsafeLifecycleWarnings.forEach(function (lifecycleWarningsMap, strictRoot) {
-      var lifecyclesWarningMesages = [];
+      var lifecyclesWarningMessages = [];
 
       Object.keys(lifecycleWarningsMap).forEach(function (lifecycle) {
         var lifecycleWarnings = lifecycleWarningsMap[lifecycle];
@@ -11668,14 +11508,14 @@ var ReactStrictModeWarnings = {
           var suggestion = LIFECYCLE_SUGGESTIONS[lifecycle];
           var sortedComponentNames = setToSortedString(componentNames);
 
-          lifecyclesWarningMesages.push(formatted + ': Please update the following components to use ' + (suggestion + ' instead: ' + sortedComponentNames));
+          lifecyclesWarningMessages.push(formatted + ': Please update the following components to use ' + (suggestion + ' instead: ' + sortedComponentNames));
         }
       });
 
-      if (lifecyclesWarningMesages.length > 0) {
+      if (lifecyclesWarningMessages.length > 0) {
         var strictRootComponentStack = getStackByFiberInDevAndProd(strictRoot);
 
-        warningWithoutStack$1(false, 'Unsafe lifecycle methods were found within a strict-mode tree:%s' + '\n\n%s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-strict-mode-warnings', strictRootComponentStack, lifecyclesWarningMesages.join('\n\n'));
+        warningWithoutStack$1(false, 'Unsafe lifecycle methods were found within a strict-mode tree:%s' + '\n\n%s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-strict-mode-warnings', strictRootComponentStack, lifecyclesWarningMessages.join('\n\n'));
       }
     });
 
@@ -12084,1412 +11924,6 @@ function findNextExpirationTimeToWorkOn(completedExpirationTime, root) {
   root.expirationTime = expirationTime;
 }
 
-// UpdateQueue is a linked list of prioritized updates.
-//
-// Like fibers, update queues come in pairs: a current queue, which represents
-// the visible state of the screen, and a work-in-progress queue, which is
-// can be mutated and processed asynchronously before it is committed — a form
-// of double buffering. If a work-in-progress render is discarded before
-// finishing, we create a new work-in-progress by cloning the current queue.
-//
-// Both queues share a persistent, singly-linked list structure. To schedule an
-// update, we append it to the end of both queues. Each queue maintains a
-// pointer to first update in the persistent list that hasn't been processed.
-// The work-in-progress pointer always has a position equal to or greater than
-// the current queue, since we always work on that one. The current queue's
-// pointer is only updated during the commit phase, when we swap in the
-// work-in-progress.
-//
-// For example:
-//
-//   Current pointer:           A - B - C - D - E - F
-//   Work-in-progress pointer:              D - E - F
-//                                          ^
-//                                          The work-in-progress queue has
-//                                          processed more updates than current.
-//
-// The reason we append to both queues is because otherwise we might drop
-// updates without ever processing them. For example, if we only add updates to
-// the work-in-progress queue, some updates could be lost whenever a work-in
-// -progress render restarts by cloning from current. Similarly, if we only add
-// updates to the current queue, the updates will be lost whenever an already
-// in-progress queue commits and swaps with the current queue. However, by
-// adding to both queues, we guarantee that the update will be part of the next
-// work-in-progress. (And because the work-in-progress queue becomes the
-// current queue once it commits, there's no danger of applying the same
-// update twice.)
-//
-// Prioritization
-// --------------
-//
-// Updates are not sorted by priority, but by insertion; new updates are always
-// appended to the end of the list.
-//
-// The priority is still important, though. When processing the update queue
-// during the render phase, only the updates with sufficient priority are
-// included in the result. If we skip an update because it has insufficient
-// priority, it remains in the queue to be processed later, during a lower
-// priority render. Crucially, all updates subsequent to a skipped update also
-// remain in the queue *regardless of their priority*. That means high priority
-// updates are sometimes processed twice, at two separate priorities. We also
-// keep track of a base state, that represents the state before the first
-// update in the queue is applied.
-//
-// For example:
-//
-//   Given a base state of '', and the following queue of updates
-//
-//     A1 - B2 - C1 - D2
-//
-//   where the number indicates the priority, and the update is applied to the
-//   previous state by appending a letter, React will process these updates as
-//   two separate renders, one per distinct priority level:
-//
-//   First render, at priority 1:
-//     Base state: ''
-//     Updates: [A1, C1]
-//     Result state: 'AC'
-//
-//   Second render, at priority 2:
-//     Base state: 'A'            <-  The base state does not include C1,
-//                                    because B2 was skipped.
-//     Updates: [B2, C1, D2]      <-  C1 was rebased on top of B2
-//     Result state: 'ABCD'
-//
-// Because we process updates in insertion order, and rebase high priority
-// updates when preceding updates are skipped, the final result is deterministic
-// regardless of priority. Intermediate state may vary according to system
-// resources, but the final state is always the same.
-
-var UpdateState = 0;
-var ReplaceState = 1;
-var ForceUpdate = 2;
-var CaptureUpdate = 3;
-
-// Global state that is reset at the beginning of calling `processUpdateQueue`.
-// It should only be read right after calling `processUpdateQueue`, via
-// `checkHasForceUpdateAfterProcessing`.
-var hasForceUpdate = false;
-
-var didWarnUpdateInsideUpdate = void 0;
-var currentlyProcessingQueue = void 0;
-var resetCurrentlyProcessingQueue = void 0;
-{
-  didWarnUpdateInsideUpdate = false;
-  currentlyProcessingQueue = null;
-  resetCurrentlyProcessingQueue = function () {
-    currentlyProcessingQueue = null;
-  };
-}
-
-function createUpdateQueue(baseState) {
-  var queue = {
-    baseState: baseState,
-    firstUpdate: null,
-    lastUpdate: null,
-    firstCapturedUpdate: null,
-    lastCapturedUpdate: null,
-    firstEffect: null,
-    lastEffect: null,
-    firstCapturedEffect: null,
-    lastCapturedEffect: null
-  };
-  return queue;
-}
-
-function cloneUpdateQueue(currentQueue) {
-  var queue = {
-    baseState: currentQueue.baseState,
-    firstUpdate: currentQueue.firstUpdate,
-    lastUpdate: currentQueue.lastUpdate,
-
-    // TODO: With resuming, if we bail out and resuse the child tree, we should
-    // keep these effects.
-    firstCapturedUpdate: null,
-    lastCapturedUpdate: null,
-
-    firstEffect: null,
-    lastEffect: null,
-
-    firstCapturedEffect: null,
-    lastCapturedEffect: null
-  };
-  return queue;
-}
-
-function createUpdate(expirationTime) {
-  return {
-    expirationTime: expirationTime,
-
-    tag: UpdateState,
-    payload: null,
-    callback: null,
-
-    next: null,
-    nextEffect: null
-  };
-}
-
-function appendUpdateToQueue(queue, update) {
-  // Append the update to the end of the list.
-  if (queue.lastUpdate === null) {
-    // Queue is empty
-    queue.firstUpdate = queue.lastUpdate = update;
-  } else {
-    queue.lastUpdate.next = update;
-    queue.lastUpdate = update;
-  }
-}
-
-function enqueueUpdate(fiber, update) {
-  // Update queues are created lazily.
-  var alternate = fiber.alternate;
-  var queue1 = void 0;
-  var queue2 = void 0;
-  if (alternate === null) {
-    // There's only one fiber.
-    queue1 = fiber.updateQueue;
-    queue2 = null;
-    if (queue1 === null) {
-      queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);
-    }
-  } else {
-    // There are two owners.
-    queue1 = fiber.updateQueue;
-    queue2 = alternate.updateQueue;
-    if (queue1 === null) {
-      if (queue2 === null) {
-        // Neither fiber has an update queue. Create new ones.
-        queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);
-        queue2 = alternate.updateQueue = createUpdateQueue(alternate.memoizedState);
-      } else {
-        // Only one fiber has an update queue. Clone to create a new one.
-        queue1 = fiber.updateQueue = cloneUpdateQueue(queue2);
-      }
-    } else {
-      if (queue2 === null) {
-        // Only one fiber has an update queue. Clone to create a new one.
-        queue2 = alternate.updateQueue = cloneUpdateQueue(queue1);
-      } else {
-        // Both owners have an update queue.
-      }
-    }
-  }
-  if (queue2 === null || queue1 === queue2) {
-    // There's only a single queue.
-    appendUpdateToQueue(queue1, update);
-  } else {
-    // There are two queues. We need to append the update to both queues,
-    // while accounting for the persistent structure of the list — we don't
-    // want the same update to be added multiple times.
-    if (queue1.lastUpdate === null || queue2.lastUpdate === null) {
-      // One of the queues is not empty. We must add the update to both queues.
-      appendUpdateToQueue(queue1, update);
-      appendUpdateToQueue(queue2, update);
-    } else {
-      // Both queues are non-empty. The last update is the same in both lists,
-      // because of structural sharing. So, only append to one of the lists.
-      appendUpdateToQueue(queue1, update);
-      // But we still need to update the `lastUpdate` pointer of queue2.
-      queue2.lastUpdate = update;
-    }
-  }
-
-  {
-    if (fiber.tag === ClassComponent && (currentlyProcessingQueue === queue1 || queue2 !== null && currentlyProcessingQueue === queue2) && !didWarnUpdateInsideUpdate) {
-      warningWithoutStack$1(false, 'An update (setState, replaceState, or forceUpdate) was scheduled ' + 'from inside an update function. Update functions should be pure, ' + 'with zero side-effects. Consider using componentDidUpdate or a ' + 'callback.');
-      didWarnUpdateInsideUpdate = true;
-    }
-  }
-}
-
-function enqueueCapturedUpdate(workInProgress, update) {
-  // Captured updates go into a separate list, and only on the work-in-
-  // progress queue.
-  var workInProgressQueue = workInProgress.updateQueue;
-  if (workInProgressQueue === null) {
-    workInProgressQueue = workInProgress.updateQueue = createUpdateQueue(workInProgress.memoizedState);
-  } else {
-    // TODO: I put this here rather than createWorkInProgress so that we don't
-    // clone the queue unnecessarily. There's probably a better way to
-    // structure this.
-    workInProgressQueue = ensureWorkInProgressQueueIsAClone(workInProgress, workInProgressQueue);
-  }
-
-  // Append the update to the end of the list.
-  if (workInProgressQueue.lastCapturedUpdate === null) {
-    // This is the first render phase update
-    workInProgressQueue.firstCapturedUpdate = workInProgressQueue.lastCapturedUpdate = update;
-  } else {
-    workInProgressQueue.lastCapturedUpdate.next = update;
-    workInProgressQueue.lastCapturedUpdate = update;
-  }
-}
-
-function ensureWorkInProgressQueueIsAClone(workInProgress, queue) {
-  var current = workInProgress.alternate;
-  if (current !== null) {
-    // If the work-in-progress queue is equal to the current queue,
-    // we need to clone it first.
-    if (queue === current.updateQueue) {
-      queue = workInProgress.updateQueue = cloneUpdateQueue(queue);
-    }
-  }
-  return queue;
-}
-
-function getStateFromUpdate(workInProgress, queue, update, prevState, nextProps, instance) {
-  switch (update.tag) {
-    case ReplaceState:
-      {
-        var _payload = update.payload;
-        if (typeof _payload === 'function') {
-          // Updater function
-          {
-            if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
-              _payload.call(instance, prevState, nextProps);
-            }
-          }
-          return _payload.call(instance, prevState, nextProps);
-        }
-        // State object
-        return _payload;
-      }
-    case CaptureUpdate:
-      {
-        workInProgress.effectTag = workInProgress.effectTag & ~ShouldCapture | DidCapture;
-      }
-    // Intentional fallthrough
-    case UpdateState:
-      {
-        var _payload2 = update.payload;
-        var partialState = void 0;
-        if (typeof _payload2 === 'function') {
-          // Updater function
-          {
-            if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
-              _payload2.call(instance, prevState, nextProps);
-            }
-          }
-          partialState = _payload2.call(instance, prevState, nextProps);
-        } else {
-          // Partial state object
-          partialState = _payload2;
-        }
-        if (partialState === null || partialState === undefined) {
-          // Null and undefined are treated as no-ops.
-          return prevState;
-        }
-        // Merge the partial state and the previous state.
-        return _assign({}, prevState, partialState);
-      }
-    case ForceUpdate:
-      {
-        hasForceUpdate = true;
-        return prevState;
-      }
-  }
-  return prevState;
-}
-
-function processUpdateQueue(workInProgress, queue, props, instance, renderExpirationTime) {
-  hasForceUpdate = false;
-
-  queue = ensureWorkInProgressQueueIsAClone(workInProgress, queue);
-
-  {
-    currentlyProcessingQueue = queue;
-  }
-
-  // These values may change as we process the queue.
-  var newBaseState = queue.baseState;
-  var newFirstUpdate = null;
-  var newExpirationTime = NoWork;
-
-  // Iterate through the list of updates to compute the result.
-  var update = queue.firstUpdate;
-  var resultState = newBaseState;
-  while (update !== null) {
-    var updateExpirationTime = update.expirationTime;
-    if (updateExpirationTime < renderExpirationTime) {
-      // This update does not have sufficient priority. Skip it.
-      if (newFirstUpdate === null) {
-        // This is the first skipped update. It will be the first update in
-        // the new list.
-        newFirstUpdate = update;
-        // Since this is the first update that was skipped, the current result
-        // is the new base state.
-        newBaseState = resultState;
-      }
-      // Since this update will remain in the list, update the remaining
-      // expiration time.
-      if (newExpirationTime < updateExpirationTime) {
-        newExpirationTime = updateExpirationTime;
-      }
-    } else {
-      // This update does have sufficient priority. Process it and compute
-      // a new result.
-      resultState = getStateFromUpdate(workInProgress, queue, update, resultState, props, instance);
-      var _callback = update.callback;
-      if (_callback !== null) {
-        workInProgress.effectTag |= Callback;
-        // Set this to null, in case it was mutated during an aborted render.
-        update.nextEffect = null;
-        if (queue.lastEffect === null) {
-          queue.firstEffect = queue.lastEffect = update;
-        } else {
-          queue.lastEffect.nextEffect = update;
-          queue.lastEffect = update;
-        }
-      }
-    }
-    // Continue to the next update.
-    update = update.next;
-  }
-
-  // Separately, iterate though the list of captured updates.
-  var newFirstCapturedUpdate = null;
-  update = queue.firstCapturedUpdate;
-  while (update !== null) {
-    var _updateExpirationTime = update.expirationTime;
-    if (_updateExpirationTime < renderExpirationTime) {
-      // This update does not have sufficient priority. Skip it.
-      if (newFirstCapturedUpdate === null) {
-        // This is the first skipped captured update. It will be the first
-        // update in the new list.
-        newFirstCapturedUpdate = update;
-        // If this is the first update that was skipped, the current result is
-        // the new base state.
-        if (newFirstUpdate === null) {
-          newBaseState = resultState;
-        }
-      }
-      // Since this update will remain in the list, update the remaining
-      // expiration time.
-      if (newExpirationTime < _updateExpirationTime) {
-        newExpirationTime = _updateExpirationTime;
-      }
-    } else {
-      // This update does have sufficient priority. Process it and compute
-      // a new result.
-      resultState = getStateFromUpdate(workInProgress, queue, update, resultState, props, instance);
-      var _callback2 = update.callback;
-      if (_callback2 !== null) {
-        workInProgress.effectTag |= Callback;
-        // Set this to null, in case it was mutated during an aborted render.
-        update.nextEffect = null;
-        if (queue.lastCapturedEffect === null) {
-          queue.firstCapturedEffect = queue.lastCapturedEffect = update;
-        } else {
-          queue.lastCapturedEffect.nextEffect = update;
-          queue.lastCapturedEffect = update;
-        }
-      }
-    }
-    update = update.next;
-  }
-
-  if (newFirstUpdate === null) {
-    queue.lastUpdate = null;
-  }
-  if (newFirstCapturedUpdate === null) {
-    queue.lastCapturedUpdate = null;
-  } else {
-    workInProgress.effectTag |= Callback;
-  }
-  if (newFirstUpdate === null && newFirstCapturedUpdate === null) {
-    // We processed every update, without skipping. That means the new base
-    // state is the same as the result state.
-    newBaseState = resultState;
-  }
-
-  queue.baseState = newBaseState;
-  queue.firstUpdate = newFirstUpdate;
-  queue.firstCapturedUpdate = newFirstCapturedUpdate;
-
-  // Set the remaining expiration time to be whatever is remaining in the queue.
-  // This should be fine because the only two other things that contribute to
-  // expiration time are props and context. We're already in the middle of the
-  // begin phase by the time we start processing the queue, so we've already
-  // dealt with the props. Context in components that specify
-  // shouldComponentUpdate is tricky; but we'll have to account for
-  // that regardless.
-  workInProgress.expirationTime = newExpirationTime;
-  workInProgress.memoizedState = resultState;
-
-  {
-    currentlyProcessingQueue = null;
-  }
-}
-
-function callCallback(callback, context) {
-  !(typeof callback === 'function') ? invariant(false, 'Invalid argument passed as callback. Expected a function. Instead received: %s', callback) : void 0;
-  callback.call(context);
-}
-
-function resetHasForceUpdateBeforeProcessing() {
-  hasForceUpdate = false;
-}
-
-function checkHasForceUpdateAfterProcessing() {
-  return hasForceUpdate;
-}
-
-function commitUpdateQueue(finishedWork, finishedQueue, instance, renderExpirationTime) {
-  // If the finished render included captured updates, and there are still
-  // lower priority updates left over, we need to keep the captured updates
-  // in the queue so that they are rebased and not dropped once we process the
-  // queue again at the lower priority.
-  if (finishedQueue.firstCapturedUpdate !== null) {
-    // Join the captured update list to the end of the normal list.
-    if (finishedQueue.lastUpdate !== null) {
-      finishedQueue.lastUpdate.next = finishedQueue.firstCapturedUpdate;
-      finishedQueue.lastUpdate = finishedQueue.lastCapturedUpdate;
-    }
-    // Clear the list of captured updates.
-    finishedQueue.firstCapturedUpdate = finishedQueue.lastCapturedUpdate = null;
-  }
-
-  // Commit the effects
-  commitUpdateEffects(finishedQueue.firstEffect, instance);
-  finishedQueue.firstEffect = finishedQueue.lastEffect = null;
-
-  commitUpdateEffects(finishedQueue.firstCapturedEffect, instance);
-  finishedQueue.firstCapturedEffect = finishedQueue.lastCapturedEffect = null;
-}
-
-function commitUpdateEffects(effect, instance) {
-  while (effect !== null) {
-    var _callback3 = effect.callback;
-    if (_callback3 !== null) {
-      effect.callback = null;
-      callCallback(_callback3, instance);
-    }
-    effect = effect.nextEffect;
-  }
-}
-
-function createCapturedValue(value, source) {
-  // If the value is an error, call this function immediately after it is thrown
-  // so the stack is accurate.
-  return {
-    value: value,
-    source: source,
-    stack: getStackByFiberInDevAndProd(source)
-  };
-}
-
-var valueCursor = createCursor(null);
-
-var rendererSigil = void 0;
-{
-  // Use this to detect multiple renderers using the same context
-  rendererSigil = {};
-}
-
-var currentlyRenderingFiber = null;
-var lastContextDependency = null;
-var lastContextWithAllBitsObserved = null;
-
-function resetContextDependences() {
-  // This is called right before React yields execution, to ensure `readContext`
-  // cannot be called outside the render phase.
-  currentlyRenderingFiber = null;
-  lastContextDependency = null;
-  lastContextWithAllBitsObserved = null;
-}
-
-function pushProvider(providerFiber, nextValue) {
-  var context = providerFiber.type._context;
-
-  if (isPrimaryRenderer) {
-    push(valueCursor, context._currentValue, providerFiber);
-
-    context._currentValue = nextValue;
-    {
-      !(context._currentRenderer === undefined || context._currentRenderer === null || context._currentRenderer === rendererSigil) ? warningWithoutStack$1(false, 'Detected multiple renderers concurrently rendering the ' + 'same context provider. This is currently unsupported.') : void 0;
-      context._currentRenderer = rendererSigil;
-    }
-  } else {
-    push(valueCursor, context._currentValue2, providerFiber);
-
-    context._currentValue2 = nextValue;
-    {
-      !(context._currentRenderer2 === undefined || context._currentRenderer2 === null || context._currentRenderer2 === rendererSigil) ? warningWithoutStack$1(false, 'Detected multiple renderers concurrently rendering the ' + 'same context provider. This is currently unsupported.') : void 0;
-      context._currentRenderer2 = rendererSigil;
-    }
-  }
-}
-
-function popProvider(providerFiber) {
-  var currentValue = valueCursor.current;
-
-  pop(valueCursor, providerFiber);
-
-  var context = providerFiber.type._context;
-  if (isPrimaryRenderer) {
-    context._currentValue = currentValue;
-  } else {
-    context._currentValue2 = currentValue;
-  }
-}
-
-function calculateChangedBits(context, newValue, oldValue) {
-  // Use Object.is to compare the new context value to the old value. Inlined
-  // Object.is polyfill.
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-  if (oldValue === newValue && (oldValue !== 0 || 1 / oldValue === 1 / newValue) || oldValue !== oldValue && newValue !== newValue // eslint-disable-line no-self-compare
-  ) {
-      // No change
-      return 0;
-    } else {
-    var changedBits = typeof context._calculateChangedBits === 'function' ? context._calculateChangedBits(oldValue, newValue) : maxSigned31BitInt;
-
-    {
-      !((changedBits & maxSigned31BitInt) === changedBits) ? warning$1(false, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: %s', changedBits) : void 0;
-    }
-    return changedBits | 0;
-  }
-}
-
-function propagateContextChange(workInProgress, context, changedBits, renderExpirationTime) {
-  var fiber = workInProgress.child;
-  if (fiber !== null) {
-    // Set the return pointer of the child to the work-in-progress fiber.
-    fiber.return = workInProgress;
-  }
-  while (fiber !== null) {
-    var nextFiber = void 0;
-
-    // Visit this fiber.
-    var dependency = fiber.firstContextDependency;
-    if (dependency !== null) {
-      do {
-        // Check if the context matches.
-        if (dependency.context === context && (dependency.observedBits & changedBits) !== 0) {
-          // Match! Schedule an update on this fiber.
-
-          if (fiber.tag === ClassComponent) {
-            // Schedule a force update on the work-in-progress.
-            var update = createUpdate(renderExpirationTime);
-            update.tag = ForceUpdate;
-            // TODO: Because we don't have a work-in-progress, this will add the
-            // update to the current fiber, too, which means it will persist even if
-            // this render is thrown away. Since it's a race condition, not sure it's
-            // worth fixing.
-            enqueueUpdate(fiber, update);
-          }
-
-          if (fiber.expirationTime < renderExpirationTime) {
-            fiber.expirationTime = renderExpirationTime;
-          }
-          var alternate = fiber.alternate;
-          if (alternate !== null && alternate.expirationTime < renderExpirationTime) {
-            alternate.expirationTime = renderExpirationTime;
-          }
-          // Update the child expiration time of all the ancestors, including
-          // the alternates.
-          var node = fiber.return;
-          while (node !== null) {
-            alternate = node.alternate;
-            if (node.childExpirationTime < renderExpirationTime) {
-              node.childExpirationTime = renderExpirationTime;
-              if (alternate !== null && alternate.childExpirationTime < renderExpirationTime) {
-                alternate.childExpirationTime = renderExpirationTime;
-              }
-            } else if (alternate !== null && alternate.childExpirationTime < renderExpirationTime) {
-              alternate.childExpirationTime = renderExpirationTime;
-            } else {
-              // Neither alternate was updated, which means the rest of the
-              // ancestor path already has sufficient priority.
-              break;
-            }
-            node = node.return;
-          }
-        }
-        nextFiber = fiber.child;
-        dependency = dependency.next;
-      } while (dependency !== null);
-    } else if (fiber.tag === ContextProvider) {
-      // Don't scan deeper if this is a matching provider
-      nextFiber = fiber.type === workInProgress.type ? null : fiber.child;
-    } else {
-      // Traverse down.
-      nextFiber = fiber.child;
-    }
-
-    if (nextFiber !== null) {
-      // Set the return pointer of the child to the work-in-progress fiber.
-      nextFiber.return = fiber;
-    } else {
-      // No child. Traverse to next sibling.
-      nextFiber = fiber;
-      while (nextFiber !== null) {
-        if (nextFiber === workInProgress) {
-          // We're back to the root of this subtree. Exit.
-          nextFiber = null;
-          break;
-        }
-        var sibling = nextFiber.sibling;
-        if (sibling !== null) {
-          // Set the return pointer of the sibling to the work-in-progress fiber.
-          sibling.return = nextFiber.return;
-          nextFiber = sibling;
-          break;
-        }
-        // No more siblings. Traverse up.
-        nextFiber = nextFiber.return;
-      }
-    }
-    fiber = nextFiber;
-  }
-}
-
-function prepareToReadContext(workInProgress, renderExpirationTime) {
-  currentlyRenderingFiber = workInProgress;
-  lastContextDependency = null;
-  lastContextWithAllBitsObserved = null;
-
-  // Reset the work-in-progress list
-  workInProgress.firstContextDependency = null;
-}
-
-function readContext(context, observedBits) {
-  if (lastContextWithAllBitsObserved === context) {
-    // Nothing to do. We already observe everything in this context.
-  } else if (observedBits === false || observedBits === 0) {
-    // Do not observe any updates.
-  } else {
-    var resolvedObservedBits = void 0; // Avoid deopting on observable arguments or heterogeneous types.
-    if (typeof observedBits !== 'number' || observedBits === maxSigned31BitInt) {
-      // Observe all updates.
-      lastContextWithAllBitsObserved = context;
-      resolvedObservedBits = maxSigned31BitInt;
-    } else {
-      resolvedObservedBits = observedBits;
-    }
-
-    var contextItem = {
-      context: context,
-      observedBits: resolvedObservedBits,
-      next: null
-    };
-
-    if (lastContextDependency === null) {
-      !(currentlyRenderingFiber !== null) ? invariant(false, 'Context can only be read while React is rendering, e.g. inside the render method or getDerivedStateFromProps.') : void 0;
-      // This is the first dependency in the list
-      currentlyRenderingFiber.firstContextDependency = lastContextDependency = contextItem;
-    } else {
-      // Append a new context item.
-      lastContextDependency = lastContextDependency.next = contextItem;
-    }
-  }
-  return isPrimaryRenderer ? context._currentValue : context._currentValue2;
-}
-
-var NoEffect$1 = /*             */0;
-var UnmountSnapshot = /*      */2;
-var UnmountMutation = /*      */4;
-var MountMutation = /*        */8;
-var UnmountLayout = /*        */16;
-var MountLayout = /*          */32;
-var MountPassive = /*         */64;
-var UnmountPassive = /*       */128;
-
-function areHookInputsEqual(arr1, arr2) {
-  // Don't bother comparing lengths in prod because these arrays should be
-  // passed inline.
-  {
-    !(arr1.length === arr2.length) ? warning$1(false, 'Detected a variable number of hook dependencies. The length of the ' + 'dependencies array should be constant between renders.\n\n' + 'Previous: %s\n' + 'Incoming: %s', arr1.join(', '), arr2.join(', ')) : void 0;
-  }
-  for (var i = 0; i < arr1.length; i++) {
-    // Inlined Object.is polyfill.
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-    var val1 = arr1[i];
-    var val2 = arr2[i];
-    if (val1 === val2 && (val1 !== 0 || 1 / val1 === 1 / val2) || val1 !== val1 && val2 !== val2 // eslint-disable-line no-self-compare
-    ) {
-        continue;
-      }
-    return false;
-  }
-  return true;
-}
-
-// These are set right before calling the component.
-var renderExpirationTime = NoWork;
-// The work-in-progress fiber. I've named it differently to distinguish it from
-// the work-in-progress hook.
-var currentlyRenderingFiber$1 = null;
-
-// Hooks are stored as a linked list on the fiber's memoizedState field. The
-// current hook list is the list that belongs to the current fiber. The
-// work-in-progress hook list is a new list that will be added to the
-// work-in-progress fiber.
-var firstCurrentHook = null;
-var currentHook = null;
-var firstWorkInProgressHook = null;
-var workInProgressHook = null;
-
-var remainingExpirationTime = NoWork;
-var componentUpdateQueue = null;
-
-// Updates scheduled during render will trigger an immediate re-render at the
-// end of the current pass. We can't store these updates on the normal queue,
-// because if the work is aborted, they should be discarded. Because this is
-// a relatively rare case, we also don't want to add an additional field to
-// either the hook or queue object types. So we store them in a lazily create
-// map of queue -> render-phase updates, which are discarded once the component
-// completes without re-rendering.
-
-// Whether the work-in-progress hook is a re-rendered hook
-var isReRender = false;
-// Whether an update was scheduled during the currently executing render pass.
-var didScheduleRenderPhaseUpdate = false;
-// Lazily created map of render-phase updates
-var renderPhaseUpdates = null;
-// Counter to prevent infinite loops.
-var numberOfReRenders = 0;
-var RE_RENDER_LIMIT = 25;
-
-function resolveCurrentlyRenderingFiber() {
-  !(currentlyRenderingFiber$1 !== null) ? invariant(false, 'Hooks can only be called inside the body of a function component.') : void 0;
-  return currentlyRenderingFiber$1;
-}
-
-function prepareToUseHooks(current, workInProgress, nextRenderExpirationTime) {
-  if (!enableHooks) {
-    return;
-  }
-  renderExpirationTime = nextRenderExpirationTime;
-  currentlyRenderingFiber$1 = workInProgress;
-  firstCurrentHook = current !== null ? current.memoizedState : null;
-
-  // The following should have already been reset
-  // currentHook = null;
-  // workInProgressHook = null;
-
-  // remainingExpirationTime = NoWork;
-  // componentUpdateQueue = null;
-
-  // isReRender = false;
-  // didScheduleRenderPhaseUpdate = false;
-  // renderPhaseUpdates = null;
-  // numberOfReRenders = 0;
-}
-
-function finishHooks(Component, props, children, refOrContext) {
-  if (!enableHooks) {
-    return children;
-  }
-
-  // This must be called after every function component to prevent hooks from
-  // being used in classes.
-
-  while (didScheduleRenderPhaseUpdate) {
-    // Updates were scheduled during the render phase. They are stored in
-    // the `renderPhaseUpdates` map. Call the component again, reusing the
-    // work-in-progress hooks and applying the additional updates on top. Keep
-    // restarting until no more updates are scheduled.
-    didScheduleRenderPhaseUpdate = false;
-    numberOfReRenders += 1;
-
-    // Start over from the beginning of the list
-    currentHook = null;
-    workInProgressHook = null;
-    componentUpdateQueue = null;
-
-    children = Component(props, refOrContext);
-  }
-  renderPhaseUpdates = null;
-  numberOfReRenders = 0;
-
-  var renderedWork = currentlyRenderingFiber$1;
-
-  renderedWork.memoizedState = firstWorkInProgressHook;
-  renderedWork.expirationTime = remainingExpirationTime;
-  renderedWork.updateQueue = componentUpdateQueue;
-
-  var didRenderTooFewHooks = currentHook !== null && currentHook.next !== null;
-
-  renderExpirationTime = NoWork;
-  currentlyRenderingFiber$1 = null;
-
-  firstCurrentHook = null;
-  currentHook = null;
-  firstWorkInProgressHook = null;
-  workInProgressHook = null;
-
-  remainingExpirationTime = NoWork;
-  componentUpdateQueue = null;
-
-  // Always set during createWorkInProgress
-  // isReRender = false;
-
-  // These were reset above
-  // didScheduleRenderPhaseUpdate = false;
-  // renderPhaseUpdates = null;
-  // numberOfReRenders = 0;
-
-  !!didRenderTooFewHooks ? invariant(false, 'Rendered fewer hooks than expected. This may be caused by an accidental early return statement.') : void 0;
-
-  return children;
-}
-
-function resetHooks() {
-  if (!enableHooks) {
-    return;
-  }
-
-  // This is called instead of `finishHooks` if the component throws. It's also
-  // called inside mountIndeterminateComponent if we determine the component
-  // is a module-style component.
-  renderExpirationTime = NoWork;
-  currentlyRenderingFiber$1 = null;
-
-  firstCurrentHook = null;
-  currentHook = null;
-  firstWorkInProgressHook = null;
-  workInProgressHook = null;
-
-  remainingExpirationTime = NoWork;
-  componentUpdateQueue = null;
-
-  // Always set during createWorkInProgress
-  // isReRender = false;
-
-  didScheduleRenderPhaseUpdate = false;
-  renderPhaseUpdates = null;
-  numberOfReRenders = 0;
-}
-
-function createHook() {
-  return {
-    memoizedState: null,
-
-    baseState: null,
-    queue: null,
-    baseUpdate: null,
-
-    next: null
-  };
-}
-
-function cloneHook(hook) {
-  return {
-    memoizedState: hook.memoizedState,
-
-    baseState: hook.baseState,
-    queue: hook.queue,
-    baseUpdate: hook.baseUpdate,
-
-    next: null
-  };
-}
-
-function createWorkInProgressHook() {
-  if (workInProgressHook === null) {
-    // This is the first hook in the list
-    if (firstWorkInProgressHook === null) {
-      isReRender = false;
-      currentHook = firstCurrentHook;
-      if (currentHook === null) {
-        // This is a newly mounted hook
-        workInProgressHook = createHook();
-      } else {
-        // Clone the current hook.
-        workInProgressHook = cloneHook(currentHook);
-      }
-      firstWorkInProgressHook = workInProgressHook;
-    } else {
-      // There's already a work-in-progress. Reuse it.
-      isReRender = true;
-      currentHook = firstCurrentHook;
-      workInProgressHook = firstWorkInProgressHook;
-    }
-  } else {
-    if (workInProgressHook.next === null) {
-      isReRender = false;
-      var hook = void 0;
-      if (currentHook === null) {
-        // This is a newly mounted hook
-        hook = createHook();
-      } else {
-        currentHook = currentHook.next;
-        if (currentHook === null) {
-          // This is a newly mounted hook
-          hook = createHook();
-        } else {
-          // Clone the current hook.
-          hook = cloneHook(currentHook);
-        }
-      }
-      // Append to the end of the list
-      workInProgressHook = workInProgressHook.next = hook;
-    } else {
-      // There's already a work-in-progress. Reuse it.
-      isReRender = true;
-      workInProgressHook = workInProgressHook.next;
-      currentHook = currentHook !== null ? currentHook.next : null;
-    }
-  }
-  return workInProgressHook;
-}
-
-function createFunctionComponentUpdateQueue() {
-  return {
-    lastEffect: null
-  };
-}
-
-function basicStateReducer(state, action) {
-  return typeof action === 'function' ? action(state) : action;
-}
-
-function useContext(context, observedBits) {
-  // Ensure we're in a function component (class components support only the
-  // .unstable_read() form)
-  resolveCurrentlyRenderingFiber();
-  return readContext(context, observedBits);
-}
-
-function useState(initialState) {
-  return useReducer(basicStateReducer,
-  // useReducer has a special case to support lazy useState initializers
-  initialState);
-}
-
-function useReducer(reducer, initialState, initialAction) {
-  currentlyRenderingFiber$1 = resolveCurrentlyRenderingFiber();
-  workInProgressHook = createWorkInProgressHook();
-  var queue = workInProgressHook.queue;
-  if (queue !== null) {
-    // Already have a queue, so this is an update.
-    if (isReRender) {
-      // This is a re-render. Apply the new render phase updates to the previous
-      var _dispatch2 = queue.dispatch;
-      if (renderPhaseUpdates !== null) {
-        // Render phase updates are stored in a map of queue -> linked list
-        var firstRenderPhaseUpdate = renderPhaseUpdates.get(queue);
-        if (firstRenderPhaseUpdate !== undefined) {
-          renderPhaseUpdates.delete(queue);
-          var newState = workInProgressHook.memoizedState;
-          var update = firstRenderPhaseUpdate;
-          do {
-            // Process this render phase update. We don't have to check the
-            // priority because it will always be the same as the current
-            // render's.
-            var _action = update.action;
-            newState = reducer(newState, _action);
-            update = update.next;
-          } while (update !== null);
-
-          workInProgressHook.memoizedState = newState;
-
-          // Don't persist the state accumlated from the render phase updates to
-          // the base state unless the queue is empty.
-          // TODO: Not sure if this is the desired semantics, but it's what we
-          // do for gDSFP. I can't remember why.
-          if (workInProgressHook.baseUpdate === queue.last) {
-            workInProgressHook.baseState = newState;
-          }
-
-          return [newState, _dispatch2];
-        }
-      }
-      return [workInProgressHook.memoizedState, _dispatch2];
-    }
-
-    // The last update in the entire queue
-    var _last = queue.last;
-    // The last update that is part of the base state.
-    var _baseUpdate = workInProgressHook.baseUpdate;
-
-    // Find the first unprocessed update.
-    var first = void 0;
-    if (_baseUpdate !== null) {
-      if (_last !== null) {
-        // For the first update, the queue is a circular linked list where
-        // `queue.last.next = queue.first`. Once the first update commits, and
-        // the `baseUpdate` is no longer empty, we can unravel the list.
-        _last.next = null;
-      }
-      first = _baseUpdate.next;
-    } else {
-      first = _last !== null ? _last.next : null;
-    }
-    if (first !== null) {
-      var _newState = workInProgressHook.baseState;
-      var newBaseState = null;
-      var newBaseUpdate = null;
-      var prevUpdate = _baseUpdate;
-      var _update = first;
-      var didSkip = false;
-      do {
-        var updateExpirationTime = _update.expirationTime;
-        if (updateExpirationTime < renderExpirationTime) {
-          // Priority is insufficient. Skip this update. If this is the first
-          // skipped update, the previous update/state is the new base
-          // update/state.
-          if (!didSkip) {
-            didSkip = true;
-            newBaseUpdate = prevUpdate;
-            newBaseState = _newState;
-          }
-          // Update the remaining priority in the queue.
-          if (updateExpirationTime > remainingExpirationTime) {
-            remainingExpirationTime = updateExpirationTime;
-          }
-        } else {
-          // Process this update.
-          var _action2 = _update.action;
-          _newState = reducer(_newState, _action2);
-        }
-        prevUpdate = _update;
-        _update = _update.next;
-      } while (_update !== null && _update !== first);
-
-      if (!didSkip) {
-        newBaseUpdate = prevUpdate;
-        newBaseState = _newState;
-      }
-
-      workInProgressHook.memoizedState = _newState;
-      workInProgressHook.baseUpdate = newBaseUpdate;
-      workInProgressHook.baseState = newBaseState;
-    }
-
-    var _dispatch = queue.dispatch;
-    return [workInProgressHook.memoizedState, _dispatch];
-  }
-
-  // There's no existing queue, so this is the initial render.
-  if (reducer === basicStateReducer) {
-    // Special case for `useState`.
-    if (typeof initialState === 'function') {
-      initialState = initialState();
-    }
-  } else if (initialAction !== undefined && initialAction !== null) {
-    initialState = reducer(initialState, initialAction);
-  }
-  workInProgressHook.memoizedState = workInProgressHook.baseState = initialState;
-  queue = workInProgressHook.queue = {
-    last: null,
-    dispatch: null
-  };
-  var dispatch = queue.dispatch = dispatchAction.bind(null, currentlyRenderingFiber$1, queue);
-  return [workInProgressHook.memoizedState, dispatch];
-}
-
-function pushEffect(tag, create, destroy, inputs) {
-  var effect = {
-    tag: tag,
-    create: create,
-    destroy: destroy,
-    inputs: inputs,
-    // Circular
-    next: null
-  };
-  if (componentUpdateQueue === null) {
-    componentUpdateQueue = createFunctionComponentUpdateQueue();
-    componentUpdateQueue.lastEffect = effect.next = effect;
-  } else {
-    var _lastEffect = componentUpdateQueue.lastEffect;
-    if (_lastEffect === null) {
-      componentUpdateQueue.lastEffect = effect.next = effect;
-    } else {
-      var firstEffect = _lastEffect.next;
-      _lastEffect.next = effect;
-      effect.next = firstEffect;
-      componentUpdateQueue.lastEffect = effect;
-    }
-  }
-  return effect;
-}
-
-function useRef(initialValue) {
-  currentlyRenderingFiber$1 = resolveCurrentlyRenderingFiber();
-  workInProgressHook = createWorkInProgressHook();
-  var ref = void 0;
-
-  if (workInProgressHook.memoizedState === null) {
-    ref = { current: initialValue };
-    {
-      Object.seal(ref);
-    }
-    workInProgressHook.memoizedState = ref;
-  } else {
-    ref = workInProgressHook.memoizedState;
-  }
-  return ref;
-}
-
-function useLayoutEffect(create, inputs) {
-  useEffectImpl(Update, UnmountMutation | MountLayout, create, inputs);
-}
-
-function useEffect(create, inputs) {
-  useEffectImpl(Update | Passive, UnmountPassive | MountPassive, create, inputs);
-}
-
-function useEffectImpl(fiberEffectTag, hookEffectTag, create, inputs) {
-  currentlyRenderingFiber$1 = resolveCurrentlyRenderingFiber();
-  workInProgressHook = createWorkInProgressHook();
-
-  var nextInputs = inputs !== undefined && inputs !== null ? inputs : [create];
-  var destroy = null;
-  if (currentHook !== null) {
-    var prevEffect = currentHook.memoizedState;
-    destroy = prevEffect.destroy;
-    if (areHookInputsEqual(nextInputs, prevEffect.inputs)) {
-      pushEffect(NoEffect$1, create, destroy, nextInputs);
-      return;
-    }
-  }
-
-  currentlyRenderingFiber$1.effectTag |= fiberEffectTag;
-  workInProgressHook.memoizedState = pushEffect(hookEffectTag, create, destroy, nextInputs);
-}
-
-function useImperativeMethods(ref, create, inputs) {
-  // TODO: If inputs are provided, should we skip comparing the ref itself?
-  var nextInputs = inputs !== null && inputs !== undefined ? inputs.concat([ref]) : [ref, create];
-
-  // TODO: I've implemented this on top of useEffect because it's almost the
-  // same thing, and it would require an equal amount of code. It doesn't seem
-  // like a common enough use case to justify the additional size.
-  useLayoutEffect(function () {
-    if (typeof ref === 'function') {
-      var refCallback = ref;
-      var _inst = create();
-      refCallback(_inst);
-      return function () {
-        return refCallback(null);
-      };
-    } else if (ref !== null && ref !== undefined) {
-      var refObject = ref;
-      var _inst2 = create();
-      refObject.current = _inst2;
-      return function () {
-        refObject.current = null;
-      };
-    }
-  }, nextInputs);
-}
-
-function useCallback(callback, inputs) {
-  currentlyRenderingFiber$1 = resolveCurrentlyRenderingFiber();
-  workInProgressHook = createWorkInProgressHook();
-
-  var nextInputs = inputs !== undefined && inputs !== null ? inputs : [callback];
-
-  var prevState = workInProgressHook.memoizedState;
-  if (prevState !== null) {
-    var prevInputs = prevState[1];
-    if (areHookInputsEqual(nextInputs, prevInputs)) {
-      return prevState[0];
-    }
-  }
-  workInProgressHook.memoizedState = [callback, nextInputs];
-  return callback;
-}
-
-function useMemo(nextCreate, inputs) {
-  currentlyRenderingFiber$1 = resolveCurrentlyRenderingFiber();
-  workInProgressHook = createWorkInProgressHook();
-
-  var nextInputs = inputs !== undefined && inputs !== null ? inputs : [nextCreate];
-
-  var prevState = workInProgressHook.memoizedState;
-  if (prevState !== null) {
-    var prevInputs = prevState[1];
-    if (areHookInputsEqual(nextInputs, prevInputs)) {
-      return prevState[0];
-    }
-  }
-
-  var nextValue = nextCreate();
-  workInProgressHook.memoizedState = [nextValue, nextInputs];
-  return nextValue;
-}
-
-function dispatchAction(fiber, queue, action) {
-  !(numberOfReRenders < RE_RENDER_LIMIT) ? invariant(false, 'Too many re-renders. React limits the number of renders to prevent an infinite loop.') : void 0;
-
-  var alternate = fiber.alternate;
-  if (fiber === currentlyRenderingFiber$1 || alternate !== null && alternate === currentlyRenderingFiber$1) {
-    // This is a render phase update. Stash it in a lazily-created map of
-    // queue -> linked list of updates. After this render pass, we'll restart
-    // and apply the stashed updates on top of the work-in-progress hook.
-    didScheduleRenderPhaseUpdate = true;
-    var update = {
-      expirationTime: renderExpirationTime,
-      action: action,
-      next: null
-    };
-    if (renderPhaseUpdates === null) {
-      renderPhaseUpdates = new Map();
-    }
-    var firstRenderPhaseUpdate = renderPhaseUpdates.get(queue);
-    if (firstRenderPhaseUpdate === undefined) {
-      renderPhaseUpdates.set(queue, update);
-    } else {
-      // Append the update to the end of the list.
-      var lastRenderPhaseUpdate = firstRenderPhaseUpdate;
-      while (lastRenderPhaseUpdate.next !== null) {
-        lastRenderPhaseUpdate = lastRenderPhaseUpdate.next;
-      }
-      lastRenderPhaseUpdate.next = update;
-    }
-  } else {
-    var currentTime = requestCurrentTime();
-    var _expirationTime = computeExpirationForFiber(currentTime, fiber);
-    var _update2 = {
-      expirationTime: _expirationTime,
-      action: action,
-      next: null
-    };
-    flushPassiveEffects();
-    // Append the update to the end of the list.
-    var _last2 = queue.last;
-    if (_last2 === null) {
-      // This is the first update. Create a circular list.
-      _update2.next = _update2;
-    } else {
-      var first = _last2.next;
-      if (first !== null) {
-        // Still circular.
-        _update2.next = first;
-      }
-      _last2.next = _update2;
-    }
-    queue.last = _update2;
-    scheduleWork(fiber, _expirationTime);
-  }
-}
-
-var NO_CONTEXT = {};
-
-var contextStackCursor$1 = createCursor(NO_CONTEXT);
-var contextFiberStackCursor = createCursor(NO_CONTEXT);
-var rootInstanceStackCursor = createCursor(NO_CONTEXT);
-
-function requiredContext(c) {
-  !(c !== NO_CONTEXT) ? invariant(false, 'Expected host context to exist. This error is likely caused by a bug in React. Please file an issue.') : void 0;
-  return c;
-}
-
-function getRootHostContainer() {
-  var rootInstance = requiredContext(rootInstanceStackCursor.current);
-  return rootInstance;
-}
-
-function pushHostContainer(fiber, nextRootInstance) {
-  // Push current root instance onto the stack;
-  // This allows us to reset root when portals are popped.
-  push(rootInstanceStackCursor, nextRootInstance, fiber);
-  // Track the context and the Fiber that provided it.
-  // This enables us to pop only Fibers that provide unique contexts.
-  push(contextFiberStackCursor, fiber, fiber);
-
-  // Finally, we need to push the host context to the stack.
-  // However, we can't just call getRootHostContext() and push it because
-  // we'd have a different number of entries on the stack depending on
-  // whether getRootHostContext() throws somewhere in renderer code or not.
-  // So we push an empty value first. This lets us safely unwind on errors.
-  push(contextStackCursor$1, NO_CONTEXT, fiber);
-  var nextRootContext = getRootHostContext(nextRootInstance);
-  // Now that we know this function doesn't throw, replace it.
-  pop(contextStackCursor$1, fiber);
-  push(contextStackCursor$1, nextRootContext, fiber);
-}
-
-function popHostContainer(fiber) {
-  pop(contextStackCursor$1, fiber);
-  pop(contextFiberStackCursor, fiber);
-  pop(rootInstanceStackCursor, fiber);
-}
-
-function getHostContext() {
-  var context = requiredContext(contextStackCursor$1.current);
-  return context;
-}
-
-function pushHostContext(fiber) {
-  var rootInstance = requiredContext(rootInstanceStackCursor.current);
-  var context = requiredContext(contextStackCursor$1.current);
-  var nextContext = getChildHostContext(context, fiber.type, rootInstance);
-
-  // Don't push this Fiber's context unless it's unique.
-  if (context === nextContext) {
-    return;
-  }
-
-  // Track the context and the Fiber that provided it.
-  // This enables us to pop only Fibers that provide unique contexts.
-  push(contextFiberStackCursor, fiber, fiber);
-  push(contextStackCursor$1, nextContext, fiber);
-}
-
-function popHostContext(fiber) {
-  // Do not pop unless this Fiber provided the current context.
-  // pushHostContext() only pushes Fibers that provide unique contexts.
-  if (contextFiberStackCursor.current !== fiber) {
-    return;
-  }
-
-  pop(contextStackCursor$1, fiber);
-  pop(contextFiberStackCursor, fiber);
-}
-
-var commitTime = 0;
-var profilerStartTime = -1;
-
-function getCommitTime() {
-  return commitTime;
-}
-
-function recordCommitTime() {
-  if (!enableProfilerTimer) {
-    return;
-  }
-  commitTime = scheduler.unstable_now();
-}
-
-function startProfilerTimer(fiber) {
-  if (!enableProfilerTimer) {
-    return;
-  }
-
-  profilerStartTime = scheduler.unstable_now();
-
-  if (fiber.actualStartTime < 0) {
-    fiber.actualStartTime = scheduler.unstable_now();
-  }
-}
-
-function stopProfilerTimerIfRunning(fiber) {
-  if (!enableProfilerTimer) {
-    return;
-  }
-  profilerStartTime = -1;
-}
-
-function stopProfilerTimerIfRunningAndRecordDelta(fiber, overrideBaseTime) {
-  if (!enableProfilerTimer) {
-    return;
-  }
-
-  if (profilerStartTime >= 0) {
-    var elapsedTime = scheduler.unstable_now() - profilerStartTime;
-    fiber.actualDuration += elapsedTime;
-    if (overrideBaseTime) {
-      fiber.selfBaseDuration = elapsedTime;
-    }
-    profilerStartTime = -1;
-  }
-}
-
 function resolveDefaultProps(Component, baseProps) {
   if (Component && Component.defaultProps) {
     // Resolve default props. Taken from ReactElement
@@ -13546,17 +11980,17 @@ function readLazyComponentType(lazyComponent) {
             lazyComponent._result = error;
           }
         });
+        // Handle synchronous thenables.
+        switch (lazyComponent._status) {
+          case Resolved:
+            return lazyComponent._result;
+          case Rejected:
+            throw lazyComponent._result;
+        }
         lazyComponent._result = _thenable;
         throw _thenable;
       }
   }
-}
-
-var ReactCurrentOwner$4 = ReactSharedInternals.ReactCurrentOwner;
-
-function readContext$1(contextType) {
-  var dispatcher = ReactCurrentOwner$4.currentDispatcher;
-  return dispatcher.readContext(contextType);
 }
 
 var fakeInternalInstance = {};
@@ -13825,7 +12259,7 @@ function constructClassInstance(workInProgress, ctor, props, renderExpirationTim
       }
     }
 
-    context = readContext$1(contextType);
+    context = readContext(contextType);
   } else {
     unmaskedContext = getUnmaskedContext(workInProgress, ctor, true);
     var contextTypes = ctor.contextTypes;
@@ -13952,7 +12386,7 @@ function mountClassInstance(workInProgress, ctor, newProps, renderExpirationTime
 
   var contextType = ctor.contextType;
   if (typeof contextType === 'object' && contextType !== null) {
-    instance.context = readContext$1(contextType);
+    instance.context = readContext(contextType);
   } else {
     var unmaskedContext = getUnmaskedContext(workInProgress, ctor, true);
     instance.context = getMaskedContext(workInProgress, unmaskedContext);
@@ -14018,7 +12452,7 @@ function resumeMountClassInstance(workInProgress, ctor, newProps, renderExpirati
   var contextType = ctor.contextType;
   var nextContext = void 0;
   if (typeof contextType === 'object' && contextType !== null) {
-    nextContext = readContext$1(contextType);
+    nextContext = readContext(contextType);
   } else {
     var nextLegacyUnmaskedContext = getUnmaskedContext(workInProgress, ctor, true);
     nextContext = getMaskedContext(workInProgress, nextLegacyUnmaskedContext);
@@ -14113,7 +12547,7 @@ function updateClassInstance(current, workInProgress, ctor, newProps, renderExpi
   var contextType = ctor.contextType;
   var nextContext = void 0;
   if (typeof contextType === 'object' && contextType !== null) {
-    nextContext = readContext$1(contextType);
+    nextContext = readContext(contextType);
   } else {
     var nextUnmaskedContext = getUnmaskedContext(workInProgress, ctor, true);
     nextContext = getMaskedContext(workInProgress, nextUnmaskedContext);
@@ -14245,13 +12679,13 @@ var warnForMissingKey = function (child) {};
     !(typeof child._store === 'object') ? invariant(false, 'React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue.') : void 0;
     child._store.validated = true;
 
-    var currentComponentErrorInfo = 'Each child in an array or iterator should have a unique ' + '"key" prop. See https://fb.me/react-warning-keys for ' + 'more information.' + getCurrentFiberStackInDev();
+    var currentComponentErrorInfo = 'Each child in a list should have a unique ' + '"key" prop. See https://fb.me/react-warning-keys for ' + 'more information.' + getCurrentFiberStackInDev();
     if (ownerHasKeyUseWarning[currentComponentErrorInfo]) {
       return;
     }
     ownerHasKeyUseWarning[currentComponentErrorInfo] = true;
 
-    warning$1(false, 'Each child in an array or iterator should have a unique ' + '"key" prop. See https://fb.me/react-warning-keys for ' + 'more information.');
+    warning$1(false, 'Each child in a list should have a unique ' + '"key" prop. See https://fb.me/react-warning-keys for ' + 'more information.');
   };
 }
 
@@ -14275,7 +12709,7 @@ function coerceRef(returnFiber, current$$1, element) {
       var inst = void 0;
       if (owner) {
         var ownerFiber = owner;
-        !(ownerFiber.tag === ClassComponent) ? invariant(false, 'Function components cannot have refs.') : void 0;
+        !(ownerFiber.tag === ClassComponent) ? invariant(false, 'Function components cannot have refs. Did you mean to use React.forwardRef()?') : void 0;
         inst = ownerFiber.stateNode;
       }
       !inst ? invariant(false, 'Missing owner for string ref %s. This error is likely caused by a bug in React. Please file an issue.', mixedRef) : void 0;
@@ -14670,7 +13104,7 @@ function ChildReconciler(shouldTrackSideEffects) {
   }
 
   function reconcileChildrenArray(returnFiber, currentFirstChild, newChildren, expirationTime) {
-    // This algorithm can't optimize by searching from boths ends since we
+    // This algorithm can't optimize by searching from both ends since we
     // don't have backpointers on fibers. I'm trying to see how far we can get
     // with that model. If it ends up not being worth the tradeoffs, we can
     // add it later.
@@ -15150,6 +13584,1254 @@ function cloneChildFibers(current$$1, workInProgress) {
   newChild.sibling = null;
 }
 
+var NO_CONTEXT = {};
+
+var contextStackCursor$1 = createCursor(NO_CONTEXT);
+var contextFiberStackCursor = createCursor(NO_CONTEXT);
+var rootInstanceStackCursor = createCursor(NO_CONTEXT);
+
+function requiredContext(c) {
+  !(c !== NO_CONTEXT) ? invariant(false, 'Expected host context to exist. This error is likely caused by a bug in React. Please file an issue.') : void 0;
+  return c;
+}
+
+function getRootHostContainer() {
+  var rootInstance = requiredContext(rootInstanceStackCursor.current);
+  return rootInstance;
+}
+
+function pushHostContainer(fiber, nextRootInstance) {
+  // Push current root instance onto the stack;
+  // This allows us to reset root when portals are popped.
+  push(rootInstanceStackCursor, nextRootInstance, fiber);
+  // Track the context and the Fiber that provided it.
+  // This enables us to pop only Fibers that provide unique contexts.
+  push(contextFiberStackCursor, fiber, fiber);
+
+  // Finally, we need to push the host context to the stack.
+  // However, we can't just call getRootHostContext() and push it because
+  // we'd have a different number of entries on the stack depending on
+  // whether getRootHostContext() throws somewhere in renderer code or not.
+  // So we push an empty value first. This lets us safely unwind on errors.
+  push(contextStackCursor$1, NO_CONTEXT, fiber);
+  var nextRootContext = getRootHostContext(nextRootInstance);
+  // Now that we know this function doesn't throw, replace it.
+  pop(contextStackCursor$1, fiber);
+  push(contextStackCursor$1, nextRootContext, fiber);
+}
+
+function popHostContainer(fiber) {
+  pop(contextStackCursor$1, fiber);
+  pop(contextFiberStackCursor, fiber);
+  pop(rootInstanceStackCursor, fiber);
+}
+
+function getHostContext() {
+  var context = requiredContext(contextStackCursor$1.current);
+  return context;
+}
+
+function pushHostContext(fiber) {
+  var rootInstance = requiredContext(rootInstanceStackCursor.current);
+  var context = requiredContext(contextStackCursor$1.current);
+  var nextContext = getChildHostContext(context, fiber.type, rootInstance);
+
+  // Don't push this Fiber's context unless it's unique.
+  if (context === nextContext) {
+    return;
+  }
+
+  // Track the context and the Fiber that provided it.
+  // This enables us to pop only Fibers that provide unique contexts.
+  push(contextFiberStackCursor, fiber, fiber);
+  push(contextStackCursor$1, nextContext, fiber);
+}
+
+function popHostContext(fiber) {
+  // Do not pop unless this Fiber provided the current context.
+  // pushHostContext() only pushes Fibers that provide unique contexts.
+  if (contextFiberStackCursor.current !== fiber) {
+    return;
+  }
+
+  pop(contextStackCursor$1, fiber);
+  pop(contextFiberStackCursor, fiber);
+}
+
+var NoEffect$1 = /*             */0;
+var UnmountSnapshot = /*      */2;
+var UnmountMutation = /*      */4;
+var MountMutation = /*        */8;
+var UnmountLayout = /*        */16;
+var MountLayout = /*          */32;
+var MountPassive = /*         */64;
+var UnmountPassive = /*       */128;
+
+var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
+
+
+var didWarnAboutMismatchedHooksForComponent = void 0;
+{
+  didWarnAboutMismatchedHooksForComponent = new Set();
+}
+
+// These are set right before calling the component.
+var renderExpirationTime = NoWork;
+// The work-in-progress fiber. I've named it differently to distinguish it from
+// the work-in-progress hook.
+var currentlyRenderingFiber$1 = null;
+
+// Hooks are stored as a linked list on the fiber's memoizedState field. The
+// current hook list is the list that belongs to the current fiber. The
+// work-in-progress hook list is a new list that will be added to the
+// work-in-progress fiber.
+var firstCurrentHook = null;
+var currentHook = null;
+var nextCurrentHook = null;
+var firstWorkInProgressHook = null;
+var workInProgressHook = null;
+var nextWorkInProgressHook = null;
+
+var remainingExpirationTime = NoWork;
+var componentUpdateQueue = null;
+var sideEffectTag = 0;
+
+// Updates scheduled during render will trigger an immediate re-render at the
+// end of the current pass. We can't store these updates on the normal queue,
+// because if the work is aborted, they should be discarded. Because this is
+// a relatively rare case, we also don't want to add an additional field to
+// either the hook or queue object types. So we store them in a lazily create
+// map of queue -> render-phase updates, which are discarded once the component
+// completes without re-rendering.
+
+// Whether an update was scheduled during the currently executing render pass.
+var didScheduleRenderPhaseUpdate = false;
+// Lazily created map of render-phase updates
+var renderPhaseUpdates = null;
+// Counter to prevent infinite loops.
+var numberOfReRenders = 0;
+var RE_RENDER_LIMIT = 25;
+
+// In DEV, this is the name of the currently executing primitive hook
+var currentHookNameInDev = null;
+
+function warnOnHookMismatchInDev() {
+  {
+    var componentName = getComponentName(currentlyRenderingFiber$1.type);
+    if (!didWarnAboutMismatchedHooksForComponent.has(componentName)) {
+      didWarnAboutMismatchedHooksForComponent.add(componentName);
+
+      var secondColumnStart = 22;
+
+      var table = '';
+      var prevHook = firstCurrentHook;
+      var nextHook = firstWorkInProgressHook;
+      var n = 1;
+      while (prevHook !== null && nextHook !== null) {
+        var oldHookName = prevHook._debugType;
+        var newHookName = nextHook._debugType;
+
+        var row = n + '. ' + oldHookName;
+
+        // Extra space so second column lines up
+        // lol @ IE not supporting String#repeat
+        while (row.length < secondColumnStart) {
+          row += ' ';
+        }
+
+        row += newHookName + '\n';
+
+        table += row;
+        prevHook = prevHook.next;
+        nextHook = nextHook.next;
+        n++;
+      }
+
+      warning$1(false, 'React has detected a change in the order of Hooks called by %s. ' + 'This will lead to bugs and errors if not fixed. ' + 'For more information, read the Rules of Hooks: https://fb.me/rules-of-hooks\n\n' + '   Previous render    Next render\n' + '   -------------------------------\n' + '%s' + '   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n', componentName, table);
+    }
+  }
+}
+
+function throwInvalidHookError() {
+  invariant(false, 'Hooks can only be called inside the body of a function component. (https://fb.me/react-invalid-hook-call)');
+}
+
+function areHookInputsEqual(nextDeps, prevDeps) {
+  if (prevDeps === null) {
+    {
+      warning$1(false, '%s received a final argument during this render, but not during ' + 'the previous render. Even though the final argument is optional, ' + 'its type cannot change between renders.', currentHookNameInDev);
+    }
+    return false;
+  }
+
+  {
+    // Don't bother comparing lengths in prod because these arrays should be
+    // passed inline.
+    if (nextDeps.length !== prevDeps.length) {
+      warning$1(false, 'The final argument passed to %s changed size between renders. The ' + 'order and size of this array must remain constant.\n\n' + 'Previous: %s\n' + 'Incoming: %s', currentHookNameInDev, '[' + nextDeps.join(', ') + ']', '[' + prevDeps.join(', ') + ']');
+    }
+  }
+  for (var i = 0; i < prevDeps.length && i < nextDeps.length; i++) {
+    if (is(nextDeps[i], prevDeps[i])) {
+      continue;
+    }
+    return false;
+  }
+  return true;
+}
+
+function renderWithHooks(current, workInProgress, Component, props, refOrContext, nextRenderExpirationTime) {
+  renderExpirationTime = nextRenderExpirationTime;
+  currentlyRenderingFiber$1 = workInProgress;
+  firstCurrentHook = nextCurrentHook = current !== null ? current.memoizedState : null;
+
+  // The following should have already been reset
+  // currentHook = null;
+  // workInProgressHook = null;
+
+  // remainingExpirationTime = NoWork;
+  // componentUpdateQueue = null;
+
+  // didScheduleRenderPhaseUpdate = false;
+  // renderPhaseUpdates = null;
+  // numberOfReRenders = 0;
+  // sideEffectTag = 0;
+
+  {
+    ReactCurrentDispatcher$1.current = nextCurrentHook === null ? HooksDispatcherOnMountInDEV : HooksDispatcherOnUpdateInDEV;
+  }
+
+  var children = Component(props, refOrContext);
+
+  if (didScheduleRenderPhaseUpdate) {
+    do {
+      didScheduleRenderPhaseUpdate = false;
+      numberOfReRenders += 1;
+
+      // Start over from the beginning of the list
+      firstCurrentHook = nextCurrentHook = current !== null ? current.memoizedState : null;
+      nextWorkInProgressHook = firstWorkInProgressHook;
+
+      currentHook = null;
+      workInProgressHook = null;
+      componentUpdateQueue = null;
+
+      ReactCurrentDispatcher$1.current = HooksDispatcherOnUpdateInDEV;
+
+      children = Component(props, refOrContext);
+    } while (didScheduleRenderPhaseUpdate);
+
+    renderPhaseUpdates = null;
+    numberOfReRenders = 0;
+  }
+
+  {
+    currentHookNameInDev = null;
+  }
+
+  // We can assume the previous dispatcher is always this one, since we set it
+  // at the beginning of the render phase and there's no re-entrancy.
+  ReactCurrentDispatcher$1.current = ContextOnlyDispatcher;
+
+  var renderedWork = currentlyRenderingFiber$1;
+
+  renderedWork.memoizedState = firstWorkInProgressHook;
+  renderedWork.expirationTime = remainingExpirationTime;
+  renderedWork.updateQueue = componentUpdateQueue;
+  renderedWork.effectTag |= sideEffectTag;
+
+  var didRenderTooFewHooks = currentHook !== null && currentHook.next !== null;
+
+  renderExpirationTime = NoWork;
+  currentlyRenderingFiber$1 = null;
+
+  firstCurrentHook = null;
+  currentHook = null;
+  nextCurrentHook = null;
+  firstWorkInProgressHook = null;
+  workInProgressHook = null;
+  nextWorkInProgressHook = null;
+
+  remainingExpirationTime = NoWork;
+  componentUpdateQueue = null;
+  sideEffectTag = 0;
+
+  // These were reset above
+  // didScheduleRenderPhaseUpdate = false;
+  // renderPhaseUpdates = null;
+  // numberOfReRenders = 0;
+
+  !!didRenderTooFewHooks ? invariant(false, 'Rendered fewer hooks than expected. This may be caused by an accidental early return statement.') : void 0;
+
+  return children;
+}
+
+function bailoutHooks(current, workInProgress, expirationTime) {
+  workInProgress.updateQueue = current.updateQueue;
+  workInProgress.effectTag &= ~(Passive | Update);
+  if (current.expirationTime <= expirationTime) {
+    current.expirationTime = NoWork;
+  }
+}
+
+function resetHooks() {
+  // We can assume the previous dispatcher is always this one, since we set it
+  // at the beginning of the render phase and there's no re-entrancy.
+  ReactCurrentDispatcher$1.current = ContextOnlyDispatcher;
+
+  // This is used to reset the state of this module when a component throws.
+  // It's also called inside mountIndeterminateComponent if we determine the
+  // component is a module-style component.
+  renderExpirationTime = NoWork;
+  currentlyRenderingFiber$1 = null;
+
+  firstCurrentHook = null;
+  currentHook = null;
+  nextCurrentHook = null;
+  firstWorkInProgressHook = null;
+  workInProgressHook = null;
+  nextWorkInProgressHook = null;
+
+  remainingExpirationTime = NoWork;
+  componentUpdateQueue = null;
+  sideEffectTag = 0;
+
+  {
+    currentHookNameInDev = null;
+  }
+
+  didScheduleRenderPhaseUpdate = false;
+  renderPhaseUpdates = null;
+  numberOfReRenders = 0;
+}
+
+function mountWorkInProgressHook() {
+  var hook = {
+    memoizedState: null,
+
+    baseState: null,
+    queue: null,
+    baseUpdate: null,
+
+    next: null
+  };
+
+  {
+    hook._debugType = currentHookNameInDev;
+  }
+  if (workInProgressHook === null) {
+    // This is the first hook in the list
+    firstWorkInProgressHook = workInProgressHook = hook;
+  } else {
+    // Append to the end of the list
+    workInProgressHook = workInProgressHook.next = hook;
+  }
+  return workInProgressHook;
+}
+
+function updateWorkInProgressHook() {
+  // This function is used both for updates and for re-renders triggered by a
+  // render phase update. It assumes there is either a current hook we can
+  // clone, or a work-in-progress hook from a previous render pass that we can
+  // use as a base. When we reach the end of the base list, we must switch to
+  // the dispatcher used for mounts.
+  if (nextWorkInProgressHook !== null) {
+    // There's already a work-in-progress. Reuse it.
+    workInProgressHook = nextWorkInProgressHook;
+    nextWorkInProgressHook = workInProgressHook.next;
+
+    currentHook = nextCurrentHook;
+    nextCurrentHook = currentHook !== null ? currentHook.next : null;
+  } else {
+    // Clone from the current hook.
+    !(nextCurrentHook !== null) ? invariant(false, 'Rendered more hooks than during the previous render.') : void 0;
+    currentHook = nextCurrentHook;
+
+    var newHook = {
+      memoizedState: currentHook.memoizedState,
+
+      baseState: currentHook.baseState,
+      queue: currentHook.queue,
+      baseUpdate: currentHook.baseUpdate,
+
+      next: null
+    };
+
+    if (workInProgressHook === null) {
+      // This is the first hook in the list.
+      workInProgressHook = firstWorkInProgressHook = newHook;
+    } else {
+      // Append to the end of the list.
+      workInProgressHook = workInProgressHook.next = newHook;
+    }
+    nextCurrentHook = currentHook.next;
+
+    {
+      newHook._debugType = currentHookNameInDev;
+      if (currentHookNameInDev !== currentHook._debugType) {
+        warnOnHookMismatchInDev();
+      }
+    }
+  }
+  return workInProgressHook;
+}
+
+function createFunctionComponentUpdateQueue() {
+  return {
+    lastEffect: null
+  };
+}
+
+function basicStateReducer(state, action) {
+  return typeof action === 'function' ? action(state) : action;
+}
+
+function mountContext(context, observedBits) {
+  {
+    mountWorkInProgressHook();
+  }
+  return readContext(context, observedBits);
+}
+
+function updateContext(context, observedBits) {
+  {
+    updateWorkInProgressHook();
+  }
+  return readContext(context, observedBits);
+}
+
+function mountReducer(reducer, initialArg, init) {
+  var hook = mountWorkInProgressHook();
+  var initialState = void 0;
+  if (init !== undefined) {
+    initialState = init(initialArg);
+  } else {
+    initialState = initialArg;
+  }
+  hook.memoizedState = hook.baseState = initialState;
+  var queue = hook.queue = {
+    last: null,
+    dispatch: null,
+    eagerReducer: reducer,
+    eagerState: initialState
+  };
+  var dispatch = queue.dispatch = dispatchAction.bind(null,
+  // Flow doesn't know this is non-null, but we do.
+  currentlyRenderingFiber$1, queue);
+  return [hook.memoizedState, dispatch];
+}
+
+function updateReducer(reducer, initialArg, init) {
+  var hook = updateWorkInProgressHook();
+  var queue = hook.queue;
+  !(queue !== null) ? invariant(false, 'Should have a queue. This is likely a bug in React. Please file an issue.') : void 0;
+
+  if (numberOfReRenders > 0) {
+    // This is a re-render. Apply the new render phase updates to the previous
+    var _dispatch = queue.dispatch;
+    if (renderPhaseUpdates !== null) {
+      // Render phase updates are stored in a map of queue -> linked list
+      var firstRenderPhaseUpdate = renderPhaseUpdates.get(queue);
+      if (firstRenderPhaseUpdate !== undefined) {
+        renderPhaseUpdates.delete(queue);
+        var newState = hook.memoizedState;
+        var update = firstRenderPhaseUpdate;
+        do {
+          // Process this render phase update. We don't have to check the
+          // priority because it will always be the same as the current
+          // render's.
+          var _action = update.action;
+          newState = reducer(newState, _action);
+          update = update.next;
+        } while (update !== null);
+
+        // Mark that the fiber performed work, but only if the new state is
+        // different from the current state.
+        if (!is(newState, hook.memoizedState)) {
+          markWorkInProgressReceivedUpdate();
+        }
+
+        hook.memoizedState = newState;
+        // Don't persist the state accumlated from the render phase updates to
+        // the base state unless the queue is empty.
+        // TODO: Not sure if this is the desired semantics, but it's what we
+        // do for gDSFP. I can't remember why.
+        if (hook.baseUpdate === queue.last) {
+          hook.baseState = newState;
+        }
+
+        queue.eagerReducer = reducer;
+        queue.eagerState = newState;
+
+        return [newState, _dispatch];
+      }
+    }
+    return [hook.memoizedState, _dispatch];
+  }
+
+  // The last update in the entire queue
+  var last = queue.last;
+  // The last update that is part of the base state.
+  var baseUpdate = hook.baseUpdate;
+  var baseState = hook.baseState;
+
+  // Find the first unprocessed update.
+  var first = void 0;
+  if (baseUpdate !== null) {
+    if (last !== null) {
+      // For the first update, the queue is a circular linked list where
+      // `queue.last.next = queue.first`. Once the first update commits, and
+      // the `baseUpdate` is no longer empty, we can unravel the list.
+      last.next = null;
+    }
+    first = baseUpdate.next;
+  } else {
+    first = last !== null ? last.next : null;
+  }
+  if (first !== null) {
+    var _newState = baseState;
+    var newBaseState = null;
+    var newBaseUpdate = null;
+    var prevUpdate = baseUpdate;
+    var _update = first;
+    var didSkip = false;
+    do {
+      var updateExpirationTime = _update.expirationTime;
+      if (updateExpirationTime < renderExpirationTime) {
+        // Priority is insufficient. Skip this update. If this is the first
+        // skipped update, the previous update/state is the new base
+        // update/state.
+        if (!didSkip) {
+          didSkip = true;
+          newBaseUpdate = prevUpdate;
+          newBaseState = _newState;
+        }
+        // Update the remaining priority in the queue.
+        if (updateExpirationTime > remainingExpirationTime) {
+          remainingExpirationTime = updateExpirationTime;
+        }
+      } else {
+        // Process this update.
+        if (_update.eagerReducer === reducer) {
+          // If this update was processed eagerly, and its reducer matches the
+          // current reducer, we can use the eagerly computed state.
+          _newState = _update.eagerState;
+        } else {
+          var _action2 = _update.action;
+          _newState = reducer(_newState, _action2);
+        }
+      }
+      prevUpdate = _update;
+      _update = _update.next;
+    } while (_update !== null && _update !== first);
+
+    if (!didSkip) {
+      newBaseUpdate = prevUpdate;
+      newBaseState = _newState;
+    }
+
+    // Mark that the fiber performed work, but only if the new state is
+    // different from the current state.
+    if (!is(_newState, hook.memoizedState)) {
+      markWorkInProgressReceivedUpdate();
+    }
+
+    hook.memoizedState = _newState;
+    hook.baseUpdate = newBaseUpdate;
+    hook.baseState = newBaseState;
+
+    queue.eagerReducer = reducer;
+    queue.eagerState = _newState;
+  }
+
+  var dispatch = queue.dispatch;
+  return [hook.memoizedState, dispatch];
+}
+
+function mountState(initialState) {
+  var hook = mountWorkInProgressHook();
+  if (typeof initialState === 'function') {
+    initialState = initialState();
+  }
+  hook.memoizedState = hook.baseState = initialState;
+  var queue = hook.queue = {
+    last: null,
+    dispatch: null,
+    eagerReducer: basicStateReducer,
+    eagerState: initialState
+  };
+  var dispatch = queue.dispatch = dispatchAction.bind(null,
+  // Flow doesn't know this is non-null, but we do.
+  currentlyRenderingFiber$1, queue);
+  return [hook.memoizedState, dispatch];
+}
+
+function updateState(initialState) {
+  return updateReducer(basicStateReducer, initialState);
+}
+
+function pushEffect(tag, create, destroy, deps) {
+  var effect = {
+    tag: tag,
+    create: create,
+    destroy: destroy,
+    deps: deps,
+    // Circular
+    next: null
+  };
+  if (componentUpdateQueue === null) {
+    componentUpdateQueue = createFunctionComponentUpdateQueue();
+    componentUpdateQueue.lastEffect = effect.next = effect;
+  } else {
+    var _lastEffect = componentUpdateQueue.lastEffect;
+    if (_lastEffect === null) {
+      componentUpdateQueue.lastEffect = effect.next = effect;
+    } else {
+      var firstEffect = _lastEffect.next;
+      _lastEffect.next = effect;
+      effect.next = firstEffect;
+      componentUpdateQueue.lastEffect = effect;
+    }
+  }
+  return effect;
+}
+
+function mountRef(initialValue) {
+  var hook = mountWorkInProgressHook();
+  var ref = { current: initialValue };
+  {
+    Object.seal(ref);
+  }
+  hook.memoizedState = ref;
+  return ref;
+}
+
+function updateRef(initialValue) {
+  var hook = updateWorkInProgressHook();
+  return hook.memoizedState;
+}
+
+function mountEffectImpl(fiberEffectTag, hookEffectTag, create, deps) {
+  var hook = mountWorkInProgressHook();
+  var nextDeps = deps === undefined ? null : deps;
+  sideEffectTag |= fiberEffectTag;
+  hook.memoizedState = pushEffect(hookEffectTag, create, undefined, nextDeps);
+}
+
+function updateEffectImpl(fiberEffectTag, hookEffectTag, create, deps) {
+  var hook = updateWorkInProgressHook();
+  var nextDeps = deps === undefined ? null : deps;
+  var destroy = undefined;
+
+  if (currentHook !== null) {
+    var prevEffect = currentHook.memoizedState;
+    destroy = prevEffect.destroy;
+    if (nextDeps !== null) {
+      var prevDeps = prevEffect.deps;
+      if (areHookInputsEqual(nextDeps, prevDeps)) {
+        pushEffect(NoEffect$1, create, destroy, nextDeps);
+        return;
+      }
+    }
+  }
+
+  sideEffectTag |= fiberEffectTag;
+  hook.memoizedState = pushEffect(hookEffectTag, create, destroy, nextDeps);
+}
+
+function mountEffect(create, deps) {
+  return mountEffectImpl(Update | Passive, UnmountPassive | MountPassive, create, deps);
+}
+
+function updateEffect(create, deps) {
+  return updateEffectImpl(Update | Passive, UnmountPassive | MountPassive, create, deps);
+}
+
+function mountLayoutEffect(create, deps) {
+  return mountEffectImpl(Update, UnmountMutation | MountLayout, create, deps);
+}
+
+function updateLayoutEffect(create, deps) {
+  return updateEffectImpl(Update, UnmountMutation | MountLayout, create, deps);
+}
+
+function imperativeHandleEffect(create, ref) {
+  if (typeof ref === 'function') {
+    var refCallback = ref;
+    var _inst = create();
+    refCallback(_inst);
+    return function () {
+      refCallback(null);
+    };
+  } else if (ref !== null && ref !== undefined) {
+    var refObject = ref;
+    {
+      !refObject.hasOwnProperty('current') ? warning$1(false, 'Expected useImperativeHandle() first argument to either be a ' + 'ref callback or React.createRef() object. Instead received: %s.', 'an object with keys {' + Object.keys(refObject).join(', ') + '}') : void 0;
+    }
+    var _inst2 = create();
+    refObject.current = _inst2;
+    return function () {
+      refObject.current = null;
+    };
+  }
+}
+
+function mountImperativeHandle(ref, create, deps) {
+  {
+    !(typeof create === 'function') ? warning$1(false, 'Expected useImperativeHandle() second argument to be a function ' + 'that creates a handle. Instead received: %s.', create !== null ? typeof create : 'null') : void 0;
+  }
+
+  // TODO: If deps are provided, should we skip comparing the ref itself?
+  var effectDeps = deps !== null && deps !== undefined ? deps.concat([ref]) : null;
+
+  return mountEffectImpl(Update, UnmountMutation | MountLayout, imperativeHandleEffect.bind(null, create, ref), effectDeps);
+}
+
+function updateImperativeHandle(ref, create, deps) {
+  {
+    !(typeof create === 'function') ? warning$1(false, 'Expected useImperativeHandle() second argument to be a function ' + 'that creates a handle. Instead received: %s.', create !== null ? typeof create : 'null') : void 0;
+  }
+
+  // TODO: If deps are provided, should we skip comparing the ref itself?
+  var effectDeps = deps !== null && deps !== undefined ? deps.concat([ref]) : null;
+
+  return updateEffectImpl(Update, UnmountMutation | MountLayout, imperativeHandleEffect.bind(null, create, ref), effectDeps);
+}
+
+function mountDebugValue(value, formatterFn) {
+  // This hook is normally a no-op.
+  // The react-debug-hooks package injects its own implementation
+  // so that e.g. DevTools can display custom hook values.
+}
+
+var updateDebugValue = mountDebugValue;
+
+function mountCallback(callback, deps) {
+  var hook = mountWorkInProgressHook();
+  var nextDeps = deps === undefined ? null : deps;
+  hook.memoizedState = [callback, nextDeps];
+  return callback;
+}
+
+function updateCallback(callback, deps) {
+  var hook = updateWorkInProgressHook();
+  var nextDeps = deps === undefined ? null : deps;
+  var prevState = hook.memoizedState;
+  if (prevState !== null) {
+    if (nextDeps !== null) {
+      var prevDeps = prevState[1];
+      if (areHookInputsEqual(nextDeps, prevDeps)) {
+        return prevState[0];
+      }
+    }
+  }
+  hook.memoizedState = [callback, nextDeps];
+  return callback;
+}
+
+function mountMemo(nextCreate, deps) {
+  var hook = mountWorkInProgressHook();
+  var nextDeps = deps === undefined ? null : deps;
+  var nextValue = nextCreate();
+  hook.memoizedState = [nextValue, nextDeps];
+  return nextValue;
+}
+
+function updateMemo(nextCreate, deps) {
+  var hook = updateWorkInProgressHook();
+  var nextDeps = deps === undefined ? null : deps;
+  var prevState = hook.memoizedState;
+  if (prevState !== null) {
+    // Assume these are defined. If they're not, areHookInputsEqual will warn.
+    if (nextDeps !== null) {
+      var prevDeps = prevState[1];
+      if (areHookInputsEqual(nextDeps, prevDeps)) {
+        return prevState[0];
+      }
+    }
+  }
+  var nextValue = nextCreate();
+  hook.memoizedState = [nextValue, nextDeps];
+  return nextValue;
+}
+
+// in a test-like environment, we want to warn if dispatchAction()
+// is called outside of a batchedUpdates/TestUtils.act(...) call.
+var shouldWarnForUnbatchedSetState = false;
+
+{
+  // jest isn't a 'global', it's just exposed to tests via a wrapped function
+  // further, this isn't a test file, so flow doesn't recognize the symbol. So...
+  // $FlowExpectedError - because requirements don't give a damn about your type sigs.
+  if ('undefined' !== typeof jest) {
+    shouldWarnForUnbatchedSetState = true;
+  }
+}
+
+function dispatchAction(fiber, queue, action) {
+  !(numberOfReRenders < RE_RENDER_LIMIT) ? invariant(false, 'Too many re-renders. React limits the number of renders to prevent an infinite loop.') : void 0;
+
+  {
+    !(arguments.length <= 3) ? warning$1(false, "State updates from the useState() and useReducer() Hooks don't support the " + 'second callback argument. To execute a side effect after ' + 'rendering, declare it in the component body with useEffect().') : void 0;
+  }
+
+  var alternate = fiber.alternate;
+  if (fiber === currentlyRenderingFiber$1 || alternate !== null && alternate === currentlyRenderingFiber$1) {
+    // This is a render phase update. Stash it in a lazily-created map of
+    // queue -> linked list of updates. After this render pass, we'll restart
+    // and apply the stashed updates on top of the work-in-progress hook.
+    didScheduleRenderPhaseUpdate = true;
+    var update = {
+      expirationTime: renderExpirationTime,
+      action: action,
+      eagerReducer: null,
+      eagerState: null,
+      next: null
+    };
+    if (renderPhaseUpdates === null) {
+      renderPhaseUpdates = new Map();
+    }
+    var firstRenderPhaseUpdate = renderPhaseUpdates.get(queue);
+    if (firstRenderPhaseUpdate === undefined) {
+      renderPhaseUpdates.set(queue, update);
+    } else {
+      // Append the update to the end of the list.
+      var lastRenderPhaseUpdate = firstRenderPhaseUpdate;
+      while (lastRenderPhaseUpdate.next !== null) {
+        lastRenderPhaseUpdate = lastRenderPhaseUpdate.next;
+      }
+      lastRenderPhaseUpdate.next = update;
+    }
+  } else {
+    flushPassiveEffects();
+
+    var currentTime = requestCurrentTime();
+    var _expirationTime = computeExpirationForFiber(currentTime, fiber);
+
+    var _update2 = {
+      expirationTime: _expirationTime,
+      action: action,
+      eagerReducer: null,
+      eagerState: null,
+      next: null
+    };
+
+    // Append the update to the end of the list.
+    var _last = queue.last;
+    if (_last === null) {
+      // This is the first update. Create a circular list.
+      _update2.next = _update2;
+    } else {
+      var first = _last.next;
+      if (first !== null) {
+        // Still circular.
+        _update2.next = first;
+      }
+      _last.next = _update2;
+    }
+    queue.last = _update2;
+
+    if (fiber.expirationTime === NoWork && (alternate === null || alternate.expirationTime === NoWork)) {
+      // The queue is currently empty, which means we can eagerly compute the
+      // next state before entering the render phase. If the new state is the
+      // same as the current state, we may be able to bail out entirely.
+      var _eagerReducer = queue.eagerReducer;
+      if (_eagerReducer !== null) {
+        var prevDispatcher = void 0;
+        {
+          prevDispatcher = ReactCurrentDispatcher$1.current;
+          ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+        }
+        try {
+          var currentState = queue.eagerState;
+          var _eagerState = _eagerReducer(currentState, action);
+          // Stash the eagerly computed state, and the reducer used to compute
+          // it, on the update object. If the reducer hasn't changed by the
+          // time we enter the render phase, then the eager state can be used
+          // without calling the reducer again.
+          _update2.eagerReducer = _eagerReducer;
+          _update2.eagerState = _eagerState;
+          if (is(_eagerState, currentState)) {
+            // Fast path. We can bail out without scheduling React to re-render.
+            // It's still possible that we'll need to rebase this update later,
+            // if the component re-renders for a different reason and by that
+            // time the reducer has changed.
+            return;
+          }
+        } catch (error) {
+          // Suppress the error. It will throw again in the render phase.
+        } finally {
+          {
+            ReactCurrentDispatcher$1.current = prevDispatcher;
+          }
+        }
+      }
+    }
+    {
+      if (shouldWarnForUnbatchedSetState === true) {
+        warnIfNotCurrentlyBatchingInDev(fiber);
+      }
+    }
+    scheduleWork(fiber, _expirationTime);
+  }
+}
+
+var ContextOnlyDispatcher = {
+  readContext: readContext,
+
+  useCallback: throwInvalidHookError,
+  useContext: throwInvalidHookError,
+  useEffect: throwInvalidHookError,
+  useImperativeHandle: throwInvalidHookError,
+  useLayoutEffect: throwInvalidHookError,
+  useMemo: throwInvalidHookError,
+  useReducer: throwInvalidHookError,
+  useRef: throwInvalidHookError,
+  useState: throwInvalidHookError,
+  useDebugValue: throwInvalidHookError
+};
+
+var HooksDispatcherOnMountInDEV = null;
+var HooksDispatcherOnUpdateInDEV = null;
+var InvalidNestedHooksDispatcherOnMountInDEV = null;
+var InvalidNestedHooksDispatcherOnUpdateInDEV = null;
+
+{
+  var warnInvalidContextAccess = function () {
+    warning$1(false, 'Context can only be read while React is rendering. ' + 'In classes, you can read it in the render method or getDerivedStateFromProps. ' + 'In function components, you can read it directly in the function body, but not ' + 'inside Hooks like useReducer() or useMemo().');
+  };
+
+  var warnInvalidHookAccess = function () {
+    warning$1(false, 'Do not call Hooks inside useEffect(...), useMemo(...), or other built-in Hooks. ' + 'You can only call Hooks at the top level of your React function. ' + 'For more information, see ' + 'https://fb.me/rules-of-hooks');
+  };
+
+  HooksDispatcherOnMountInDEV = {
+    readContext: function (context, observedBits) {
+      return readContext(context, observedBits);
+    },
+    useCallback: function (callback, deps) {
+      currentHookNameInDev = 'useCallback';
+      return mountCallback(callback, deps);
+    },
+    useContext: function (context, observedBits) {
+      currentHookNameInDev = 'useContext';
+      return mountContext(context, observedBits);
+    },
+    useEffect: function (create, deps) {
+      currentHookNameInDev = 'useEffect';
+      return mountEffect(create, deps);
+    },
+    useImperativeHandle: function (ref, create, deps) {
+      currentHookNameInDev = 'useImperativeHandle';
+      return mountImperativeHandle(ref, create, deps);
+    },
+    useLayoutEffect: function (create, deps) {
+      currentHookNameInDev = 'useLayoutEffect';
+      return mountLayoutEffect(create, deps);
+    },
+    useMemo: function (create, deps) {
+      currentHookNameInDev = 'useMemo';
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+      try {
+        return mountMemo(create, deps);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useReducer: function (reducer, initialArg, init) {
+      currentHookNameInDev = 'useReducer';
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+      try {
+        return mountReducer(reducer, initialArg, init);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useRef: function (initialValue) {
+      currentHookNameInDev = 'useRef';
+      return mountRef(initialValue);
+    },
+    useState: function (initialState) {
+      currentHookNameInDev = 'useState';
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+      try {
+        return mountState(initialState);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useDebugValue: function (value, formatterFn) {
+      currentHookNameInDev = 'useDebugValue';
+      return mountDebugValue(value, formatterFn);
+    }
+  };
+
+  HooksDispatcherOnUpdateInDEV = {
+    readContext: function (context, observedBits) {
+      return readContext(context, observedBits);
+    },
+    useCallback: function (callback, deps) {
+      currentHookNameInDev = 'useCallback';
+      return updateCallback(callback, deps);
+    },
+    useContext: function (context, observedBits) {
+      currentHookNameInDev = 'useContext';
+      return updateContext(context, observedBits);
+    },
+    useEffect: function (create, deps) {
+      currentHookNameInDev = 'useEffect';
+      return updateEffect(create, deps);
+    },
+    useImperativeHandle: function (ref, create, deps) {
+      currentHookNameInDev = 'useImperativeHandle';
+      return updateImperativeHandle(ref, create, deps);
+    },
+    useLayoutEffect: function (create, deps) {
+      currentHookNameInDev = 'useLayoutEffect';
+      return updateLayoutEffect(create, deps);
+    },
+    useMemo: function (create, deps) {
+      currentHookNameInDev = 'useMemo';
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+      try {
+        return updateMemo(create, deps);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useReducer: function (reducer, initialArg, init) {
+      currentHookNameInDev = 'useReducer';
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+      try {
+        return updateReducer(reducer, initialArg, init);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useRef: function (initialValue) {
+      currentHookNameInDev = 'useRef';
+      return updateRef(initialValue);
+    },
+    useState: function (initialState) {
+      currentHookNameInDev = 'useState';
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+      try {
+        return updateState(initialState);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useDebugValue: function (value, formatterFn) {
+      currentHookNameInDev = 'useDebugValue';
+      return updateDebugValue(value, formatterFn);
+    }
+  };
+
+  InvalidNestedHooksDispatcherOnMountInDEV = {
+    readContext: function (context, observedBits) {
+      warnInvalidContextAccess();
+      return readContext(context, observedBits);
+    },
+    useCallback: function (callback, deps) {
+      currentHookNameInDev = 'useCallback';
+      warnInvalidHookAccess();
+      return mountCallback(callback, deps);
+    },
+    useContext: function (context, observedBits) {
+      currentHookNameInDev = 'useContext';
+      warnInvalidHookAccess();
+      return mountContext(context, observedBits);
+    },
+    useEffect: function (create, deps) {
+      currentHookNameInDev = 'useEffect';
+      warnInvalidHookAccess();
+      return mountEffect(create, deps);
+    },
+    useImperativeHandle: function (ref, create, deps) {
+      currentHookNameInDev = 'useImperativeHandle';
+      warnInvalidHookAccess();
+      return mountImperativeHandle(ref, create, deps);
+    },
+    useLayoutEffect: function (create, deps) {
+      currentHookNameInDev = 'useLayoutEffect';
+      warnInvalidHookAccess();
+      return mountLayoutEffect(create, deps);
+    },
+    useMemo: function (create, deps) {
+      currentHookNameInDev = 'useMemo';
+      warnInvalidHookAccess();
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+      try {
+        return mountMemo(create, deps);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useReducer: function (reducer, initialArg, init) {
+      currentHookNameInDev = 'useReducer';
+      warnInvalidHookAccess();
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+      try {
+        return mountReducer(reducer, initialArg, init);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useRef: function (initialValue) {
+      currentHookNameInDev = 'useRef';
+      warnInvalidHookAccess();
+      return mountRef(initialValue);
+    },
+    useState: function (initialState) {
+      currentHookNameInDev = 'useState';
+      warnInvalidHookAccess();
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+      try {
+        return mountState(initialState);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useDebugValue: function (value, formatterFn) {
+      currentHookNameInDev = 'useDebugValue';
+      warnInvalidHookAccess();
+      return mountDebugValue(value, formatterFn);
+    }
+  };
+
+  InvalidNestedHooksDispatcherOnUpdateInDEV = {
+    readContext: function (context, observedBits) {
+      warnInvalidContextAccess();
+      return readContext(context, observedBits);
+    },
+    useCallback: function (callback, deps) {
+      currentHookNameInDev = 'useCallback';
+      warnInvalidHookAccess();
+      return updateCallback(callback, deps);
+    },
+    useContext: function (context, observedBits) {
+      currentHookNameInDev = 'useContext';
+      warnInvalidHookAccess();
+      return updateContext(context, observedBits);
+    },
+    useEffect: function (create, deps) {
+      currentHookNameInDev = 'useEffect';
+      warnInvalidHookAccess();
+      return updateEffect(create, deps);
+    },
+    useImperativeHandle: function (ref, create, deps) {
+      currentHookNameInDev = 'useImperativeHandle';
+      warnInvalidHookAccess();
+      return updateImperativeHandle(ref, create, deps);
+    },
+    useLayoutEffect: function (create, deps) {
+      currentHookNameInDev = 'useLayoutEffect';
+      warnInvalidHookAccess();
+      return updateLayoutEffect(create, deps);
+    },
+    useMemo: function (create, deps) {
+      currentHookNameInDev = 'useMemo';
+      warnInvalidHookAccess();
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+      try {
+        return updateMemo(create, deps);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useReducer: function (reducer, initialArg, init) {
+      currentHookNameInDev = 'useReducer';
+      warnInvalidHookAccess();
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+      try {
+        return updateReducer(reducer, initialArg, init);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useRef: function (initialValue) {
+      currentHookNameInDev = 'useRef';
+      warnInvalidHookAccess();
+      return updateRef(initialValue);
+    },
+    useState: function (initialState) {
+      currentHookNameInDev = 'useState';
+      warnInvalidHookAccess();
+      var prevDispatcher = ReactCurrentDispatcher$1.current;
+      ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+      try {
+        return updateState(initialState);
+      } finally {
+        ReactCurrentDispatcher$1.current = prevDispatcher;
+      }
+    },
+    useDebugValue: function (value, formatterFn) {
+      currentHookNameInDev = 'useDebugValue';
+      warnInvalidHookAccess();
+      return updateDebugValue(value, formatterFn);
+    }
+  };
+}
+
+var commitTime = 0;
+var profilerStartTime = -1;
+
+function getCommitTime() {
+  return commitTime;
+}
+
+function recordCommitTime() {
+  if (!enableProfilerTimer) {
+    return;
+  }
+  commitTime = scheduler.unstable_now();
+}
+
+function startProfilerTimer(fiber) {
+  if (!enableProfilerTimer) {
+    return;
+  }
+
+  profilerStartTime = scheduler.unstable_now();
+
+  if (fiber.actualStartTime < 0) {
+    fiber.actualStartTime = scheduler.unstable_now();
+  }
+}
+
+function stopProfilerTimerIfRunning(fiber) {
+  if (!enableProfilerTimer) {
+    return;
+  }
+  profilerStartTime = -1;
+}
+
+function stopProfilerTimerIfRunningAndRecordDelta(fiber, overrideBaseTime) {
+  if (!enableProfilerTimer) {
+    return;
+  }
+
+  if (profilerStartTime >= 0) {
+    var elapsedTime = scheduler.unstable_now() - profilerStartTime;
+    fiber.actualDuration += elapsedTime;
+    if (overrideBaseTime) {
+      fiber.selfBaseDuration = elapsedTime;
+    }
+    profilerStartTime = -1;
+  }
+}
+
 // The deepest Fiber on the stack involved in a hydration context.
 // This may have been an insertion or a hydration.
 var hydrationParentFiber = null;
@@ -15164,6 +14846,18 @@ function enterHydrationState(fiber) {
   var parentInstance = fiber.stateNode.containerInfo;
   nextHydratableInstance = getFirstHydratableChild(parentInstance);
   hydrationParentFiber = fiber;
+  isHydrating = true;
+  return true;
+}
+
+function reenterHydrationStateFromDehydratedSuspenseInstance(fiber) {
+  if (!supportsHydration) {
+    return false;
+  }
+
+  var suspenseInstance = fiber.stateNode;
+  nextHydratableInstance = getNextHydratableSibling(suspenseInstance);
+  popToNextHostParent(fiber);
   isHydrating = true;
   return true;
 }
@@ -15215,6 +14909,9 @@ function insertNonHydratedInstance(returnFiber, fiber) {
               var text = fiber.pendingProps;
               didNotFindHydratableContainerTextInstance(parentContainer, text);
               break;
+            case SuspenseComponent:
+              
+              break;
           }
           break;
         }
@@ -15232,6 +14929,9 @@ function insertNonHydratedInstance(returnFiber, fiber) {
             case HostText:
               var _text = fiber.pendingProps;
               didNotFindHydratableTextInstance(parentType, parentProps, parentInstance, _text);
+              break;
+            case SuspenseComponent:
+              didNotFindHydratableSuspenseInstance(parentType, parentProps, parentInstance);
               break;
           }
           break;
@@ -15262,6 +14962,19 @@ function tryHydrate(fiber, nextInstance) {
         if (textInstance !== null) {
           fiber.stateNode = textInstance;
           return true;
+        }
+        return false;
+      }
+    case SuspenseComponent:
+      {
+        if (enableSuspenseServerRenderer) {
+          var suspenseInstance = canHydrateSuspenseInstance(nextInstance);
+          if (suspenseInstance !== null) {
+            // Downgrade the tag to a dehydrated component until we've hydrated it.
+            fiber.tag = DehydratedSuspenseComponent;
+            fiber.stateNode = suspenseInstance;
+            return true;
+          }
         }
         return false;
       }
@@ -15358,9 +15071,18 @@ function prepareToHydrateHostTextInstance(fiber) {
   return shouldUpdate;
 }
 
+function skipPastDehydratedSuspenseInstance(fiber) {
+  if (!supportsHydration) {
+    invariant(false, 'Expected skipPastDehydratedSuspenseInstance() to never be called. This error is likely caused by a bug in React. Please file an issue.');
+  }
+  var suspenseInstance = fiber.stateNode;
+  !suspenseInstance ? invariant(false, 'Expected to have a hydrated suspense instance. This error is likely caused by a bug in React. Please file an issue.') : void 0;
+  nextHydratableInstance = getNextHydratableInstanceAfterSuspenseInstance(suspenseInstance);
+}
+
 function popToNextHostParent(fiber) {
   var parent = fiber.return;
-  while (parent !== null && parent.tag !== HostComponent && parent.tag !== HostRoot) {
+  while (parent !== null && parent.tag !== HostComponent && parent.tag !== HostRoot && parent.tag !== DehydratedSuspenseComponent) {
     parent = parent.return;
   }
   hydrationParentFiber = parent;
@@ -15416,6 +15138,8 @@ function resetHydrationState() {
 
 var ReactCurrentOwner$3 = ReactSharedInternals.ReactCurrentOwner;
 
+var didReceiveUpdate = false;
+
 var didWarnAboutBadClass = void 0;
 var didWarnAboutContextTypeOnFunctionComponent = void 0;
 var didWarnAboutGetDerivedStateOnFunctionComponent = void 0;
@@ -15466,6 +15190,10 @@ function forceUnmountCurrentAndReconcile(current$$1, workInProgress, nextChildre
 }
 
 function updateForwardRef(current$$1, workInProgress, Component, nextProps, renderExpirationTime) {
+  // TODO: current can be non-null here even if the component
+  // hasn't yet mounted. This happens after the first render suspends.
+  // We'll need to figure out if this is fine or can cause issues.
+
   {
     if (workInProgress.type !== workInProgress.elementType) {
       // Lazy component props can't be validated in createElement
@@ -15484,14 +15212,23 @@ function updateForwardRef(current$$1, workInProgress, Component, nextProps, rend
   // The rest is a fork of updateFunctionComponent
   var nextChildren = void 0;
   prepareToReadContext(workInProgress, renderExpirationTime);
-  prepareToUseHooks(current$$1, workInProgress, renderExpirationTime);
   {
     ReactCurrentOwner$3.current = workInProgress;
     setCurrentPhase('render');
-    nextChildren = render(nextProps, ref);
+    nextChildren = renderWithHooks(current$$1, workInProgress, render, nextProps, ref, renderExpirationTime);
+    if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
+      // Only double-render components with Hooks
+      if (workInProgress.memoizedState !== null) {
+        nextChildren = renderWithHooks(current$$1, workInProgress, render, nextProps, ref, renderExpirationTime);
+      }
+    }
     setCurrentPhase(null);
   }
-  nextChildren = finishHooks(render, nextProps, nextChildren, ref);
+
+  if (current$$1 !== null && !didReceiveUpdate) {
+    bailoutHooks(current$$1, workInProgress, renderExpirationTime);
+    return bailoutOnAlreadyFinishedWork(current$$1, workInProgress, renderExpirationTime);
+  }
 
   // React DevTools reads this flag.
   workInProgress.effectTag |= PerformedWork;
@@ -15562,6 +15299,10 @@ function updateMemoComponent(current$$1, workInProgress, Component, nextProps, u
 }
 
 function updateSimpleMemoComponent(current$$1, workInProgress, Component, nextProps, updateExpirationTime, renderExpirationTime) {
+  // TODO: current can be non-null here even if the component
+  // hasn't yet mounted. This happens when the inner render suspends.
+  // We'll need to figure out if this is fine or can cause issues.
+
   {
     if (workInProgress.type !== workInProgress.elementType) {
       // Lazy component props can't be validated in createElement
@@ -15581,10 +15322,13 @@ function updateSimpleMemoComponent(current$$1, workInProgress, Component, nextPr
       // Inner propTypes will be validated in the function component path.
     }
   }
-  if (current$$1 !== null && updateExpirationTime < renderExpirationTime) {
+  if (current$$1 !== null) {
     var prevProps = current$$1.memoizedProps;
     if (shallowEqual(prevProps, nextProps) && current$$1.ref === workInProgress.ref) {
-      return bailoutOnAlreadyFinishedWork(current$$1, workInProgress, renderExpirationTime);
+      didReceiveUpdate = false;
+      if (updateExpirationTime < renderExpirationTime) {
+        return bailoutOnAlreadyFinishedWork(current$$1, workInProgress, renderExpirationTime);
+      }
     }
   }
   return updateFunctionComponent(current$$1, workInProgress, Component, nextProps, renderExpirationTime);
@@ -15638,14 +15382,23 @@ function updateFunctionComponent(current$$1, workInProgress, Component, nextProp
 
   var nextChildren = void 0;
   prepareToReadContext(workInProgress, renderExpirationTime);
-  prepareToUseHooks(current$$1, workInProgress, renderExpirationTime);
   {
     ReactCurrentOwner$3.current = workInProgress;
     setCurrentPhase('render');
-    nextChildren = Component(nextProps, context);
+    nextChildren = renderWithHooks(current$$1, workInProgress, Component, nextProps, context, renderExpirationTime);
+    if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
+      // Only double-render components with Hooks
+      if (workInProgress.memoizedState !== null) {
+        nextChildren = renderWithHooks(current$$1, workInProgress, Component, nextProps, context, renderExpirationTime);
+      }
+    }
     setCurrentPhase(null);
   }
-  nextChildren = finishHooks(Component, nextProps, nextChildren, context);
+
+  if (current$$1 !== null && !didReceiveUpdate) {
+    bailoutHooks(current$$1, workInProgress, renderExpirationTime);
+    return bailoutOnAlreadyFinishedWork(current$$1, workInProgress, renderExpirationTime);
+  }
 
   // React DevTools reads this flag.
   workInProgress.effectTag |= PerformedWork;
@@ -15864,7 +15617,7 @@ function updateHostComponent(current$$1, workInProgress, renderExpirationTime) {
   // Check the host config to see if the children are offscreen/hidden.
   if (renderExpirationTime !== Never && workInProgress.mode & ConcurrentMode && shouldDeprioritizeSubtree(type, nextProps)) {
     // Schedule this fiber to re-render at offscreen priority. Then bailout.
-    workInProgress.expirationTime = Never;
+    workInProgress.expirationTime = workInProgress.childExpirationTime = Never;
     return null;
   }
 
@@ -15907,6 +15660,9 @@ function mountLazyComponent(_current, workInProgress, elementType, updateExpirat
   switch (resolvedTag) {
     case FunctionComponent:
       {
+        {
+          validateFunctionComponentInDev(workInProgress, Component);
+        }
         child = updateFunctionComponent(null, workInProgress, Component, resolvedProps, renderExpirationTime);
         break;
       }
@@ -16004,7 +15760,6 @@ function mountIndeterminateComponent(_current, workInProgress, Component, render
   var context = getMaskedContext(workInProgress, unmaskedContext);
 
   prepareToReadContext(workInProgress, renderExpirationTime);
-  prepareToUseHooks(null, workInProgress, renderExpirationTime);
 
   var value = void 0;
 
@@ -16023,7 +15778,7 @@ function mountIndeterminateComponent(_current, workInProgress, Component, render
     }
 
     ReactCurrentOwner$3.current = workInProgress;
-    value = Component(props, context);
+    value = renderWithHooks(null, workInProgress, Component, props, context, renderExpirationTime);
   }
   // React DevTools reads this flag.
   workInProgress.effectTag |= PerformedWork;
@@ -16059,7 +15814,14 @@ function mountIndeterminateComponent(_current, workInProgress, Component, render
   } else {
     // Proceed under the assumption that this is a function component
     workInProgress.tag = FunctionComponent;
-    value = finishHooks(Component, props, value, context);
+    {
+      if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
+        // Only double-render components with Hooks
+        if (workInProgress.memoizedState !== null) {
+          value = renderWithHooks(null, workInProgress, Component, props, context, renderExpirationTime);
+        }
+      }
+    }
     reconcileChildren(null, workInProgress, value, renderExpirationTime);
     {
       validateFunctionComponentInDev(workInProgress, Component);
@@ -16086,7 +15848,7 @@ function validateFunctionComponentInDev(workInProgress, Component) {
     }
     if (!didWarnAboutFunctionRefs[warningKey]) {
       didWarnAboutFunctionRefs[warningKey] = true;
-      warning$1(false, 'Function components cannot be given refs. ' + 'Attempts to access this ref will fail.%s', info);
+      warning$1(false, 'Function components cannot be given refs. ' + 'Attempts to access this ref will fail. ' + 'Did you mean to use React.forwardRef()?%s', info);
     }
   }
 
@@ -16164,6 +15926,18 @@ function updateSuspenseComponent(current$$1, workInProgress, renderExpirationTim
   // children -- we skip over the primary children entirely.
   var next = void 0;
   if (current$$1 === null) {
+    if (enableSuspenseServerRenderer) {
+      // If we're currently hydrating, try to hydrate this boundary.
+      // But only if this has a fallback.
+      if (nextProps.fallback !== undefined) {
+        tryToClaimNextHydratableInstance(workInProgress);
+        // This could've changed the tag if this was a dehydrated suspense component.
+        if (workInProgress.tag === DehydratedSuspenseComponent) {
+          return updateDehydratedSuspenseComponent(null, workInProgress, renderExpirationTime);
+        }
+      }
+    }
+
     // This is the initial mount. This branch is pretty simple because there's
     // no previous state that needs to be preserved.
     if (nextDidTimeout) {
@@ -16315,6 +16089,65 @@ function updateSuspenseComponent(current$$1, workInProgress, renderExpirationTim
   return next;
 }
 
+function updateDehydratedSuspenseComponent(current$$1, workInProgress, renderExpirationTime) {
+  if (current$$1 === null) {
+    // During the first pass, we'll bail out and not drill into the children.
+    // Instead, we'll leave the content in place and try to hydrate it later.
+    workInProgress.expirationTime = Never;
+    return null;
+  }
+  // We use childExpirationTime to indicate that a child might depend on context, so if
+  // any context has changed, we need to treat is as if the input might have changed.
+  var hasContextChanged$$1 = current$$1.childExpirationTime >= renderExpirationTime;
+  if (didReceiveUpdate || hasContextChanged$$1) {
+    // This boundary has changed since the first render. This means that we are now unable to
+    // hydrate it. We might still be able to hydrate it using an earlier expiration time but
+    // during this render we can't. Instead, we're going to delete the whole subtree and
+    // instead inject a new real Suspense boundary to take its place, which may render content
+    // or fallback. The real Suspense boundary will suspend for a while so we have some time
+    // to ensure it can produce real content, but all state and pending events will be lost.
+
+    // Detach from the current dehydrated boundary.
+    current$$1.alternate = null;
+    workInProgress.alternate = null;
+
+    // Insert a deletion in the effect list.
+    var returnFiber = workInProgress.return;
+    !(returnFiber !== null) ? invariant(false, 'Suspense boundaries are never on the root. This is probably a bug in React.') : void 0;
+    var last = returnFiber.lastEffect;
+    if (last !== null) {
+      last.nextEffect = current$$1;
+      returnFiber.lastEffect = current$$1;
+    } else {
+      returnFiber.firstEffect = returnFiber.lastEffect = current$$1;
+    }
+    current$$1.nextEffect = null;
+    current$$1.effectTag = Deletion;
+
+    // Upgrade this work in progress to a real Suspense component.
+    workInProgress.tag = SuspenseComponent;
+    workInProgress.stateNode = null;
+    workInProgress.memoizedState = null;
+    // This is now an insertion.
+    workInProgress.effectTag |= Placement;
+    // Retry as a real Suspense component.
+    return updateSuspenseComponent(null, workInProgress, renderExpirationTime);
+  }
+  if ((workInProgress.effectTag & DidCapture) === NoEffect) {
+    // This is the first attempt.
+    reenterHydrationStateFromDehydratedSuspenseInstance(workInProgress);
+    var nextProps = workInProgress.pendingProps;
+    var nextChildren = nextProps.children;
+    workInProgress.child = mountChildFibers(workInProgress, null, nextChildren, renderExpirationTime);
+    return workInProgress.child;
+  } else {
+    // Something suspended. Leave the existing children in place.
+    // TODO: In non-concurrent mode, should we commit the nodes we have hydrated so far?
+    workInProgress.child = null;
+    return null;
+  }
+}
+
 function updatePortalComponent(current$$1, workInProgress, renderExpirationTime) {
   pushHostContainer(workInProgress, workInProgress.stateNode.containerInfo);
   var nextChildren = workInProgress.pendingProps;
@@ -16419,12 +16252,16 @@ function updateContextConsumer(current$$1, workInProgress, renderExpirationTime)
   return workInProgress.child;
 }
 
+function markWorkInProgressReceivedUpdate() {
+  didReceiveUpdate = true;
+}
+
 function bailoutOnAlreadyFinishedWork(current$$1, workInProgress, renderExpirationTime) {
   cancelWorkTimer(workInProgress);
 
   if (current$$1 !== null) {
     // Reuse previous context list
-    workInProgress.firstContextDependency = current$$1.firstContextDependency;
+    workInProgress.contextDependencies = current$$1.contextDependencies;
   }
 
   if (enableProfilerTimer) {
@@ -16453,7 +16290,13 @@ function beginWork(current$$1, workInProgress, renderExpirationTime) {
   if (current$$1 !== null) {
     var oldProps = current$$1.memoizedProps;
     var newProps = workInProgress.pendingProps;
-    if (oldProps === newProps && !hasContextChanged() && updateExpirationTime < renderExpirationTime) {
+
+    if (oldProps !== newProps || hasContextChanged()) {
+      // If props or context changed, mark the fiber as having performed work.
+      // This may be unset if the props are determined to be equal later (memo).
+      didReceiveUpdate = true;
+    } else if (updateExpirationTime < renderExpirationTime) {
+      didReceiveUpdate = false;
       // This fiber does not have any pending work. Bailout without entering
       // the begin phase. There's still some bookkeeping we that needs to be done
       // in this optimized path, mostly pushing stuff onto the stack.
@@ -16516,9 +16359,21 @@ function beginWork(current$$1, workInProgress, renderExpirationTime) {
             }
             break;
           }
+        case DehydratedSuspenseComponent:
+          {
+            if (enableSuspenseServerRenderer) {
+              // We know that this component will suspend again because if it has
+              // been unsuspended it has committed as a regular Suspense component.
+              // If it needs to be retried, it should have work scheduled on it.
+              workInProgress.effectTag |= DidCapture;
+              break;
+            }
+          }
       }
       return bailoutOnAlreadyFinishedWork(current$$1, workInProgress, renderExpirationTime);
     }
+  } else {
+    didReceiveUpdate = false;
   }
 
   // Before entering the begin phase, clear the expiration time.
@@ -16605,9 +16460,790 @@ function beginWork(current$$1, workInProgress, renderExpirationTime) {
         var _resolvedProps4 = workInProgress.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
         return mountIncompleteClassComponent(current$$1, workInProgress, _Component3, _resolvedProps4, renderExpirationTime);
       }
-    default:
-      invariant(false, 'Unknown unit of work tag. This error is likely caused by a bug in React. Please file an issue.');
+    case DehydratedSuspenseComponent:
+      {
+        if (enableSuspenseServerRenderer) {
+          return updateDehydratedSuspenseComponent(current$$1, workInProgress, renderExpirationTime);
+        }
+        break;
+      }
   }
+  invariant(false, 'Unknown unit of work tag. This error is likely caused by a bug in React. Please file an issue.');
+}
+
+var valueCursor = createCursor(null);
+
+var rendererSigil = void 0;
+{
+  // Use this to detect multiple renderers using the same context
+  rendererSigil = {};
+}
+
+var currentlyRenderingFiber = null;
+var lastContextDependency = null;
+var lastContextWithAllBitsObserved = null;
+
+var isDisallowedContextReadInDEV = false;
+
+function resetContextDependences() {
+  // This is called right before React yields execution, to ensure `readContext`
+  // cannot be called outside the render phase.
+  currentlyRenderingFiber = null;
+  lastContextDependency = null;
+  lastContextWithAllBitsObserved = null;
+  {
+    isDisallowedContextReadInDEV = false;
+  }
+}
+
+function enterDisallowedContextReadInDEV() {
+  {
+    isDisallowedContextReadInDEV = true;
+  }
+}
+
+function exitDisallowedContextReadInDEV() {
+  {
+    isDisallowedContextReadInDEV = false;
+  }
+}
+
+function pushProvider(providerFiber, nextValue) {
+  var context = providerFiber.type._context;
+
+  if (isPrimaryRenderer) {
+    push(valueCursor, context._currentValue, providerFiber);
+
+    context._currentValue = nextValue;
+    {
+      !(context._currentRenderer === undefined || context._currentRenderer === null || context._currentRenderer === rendererSigil) ? warningWithoutStack$1(false, 'Detected multiple renderers concurrently rendering the ' + 'same context provider. This is currently unsupported.') : void 0;
+      context._currentRenderer = rendererSigil;
+    }
+  } else {
+    push(valueCursor, context._currentValue2, providerFiber);
+
+    context._currentValue2 = nextValue;
+    {
+      !(context._currentRenderer2 === undefined || context._currentRenderer2 === null || context._currentRenderer2 === rendererSigil) ? warningWithoutStack$1(false, 'Detected multiple renderers concurrently rendering the ' + 'same context provider. This is currently unsupported.') : void 0;
+      context._currentRenderer2 = rendererSigil;
+    }
+  }
+}
+
+function popProvider(providerFiber) {
+  var currentValue = valueCursor.current;
+
+  pop(valueCursor, providerFiber);
+
+  var context = providerFiber.type._context;
+  if (isPrimaryRenderer) {
+    context._currentValue = currentValue;
+  } else {
+    context._currentValue2 = currentValue;
+  }
+}
+
+function calculateChangedBits(context, newValue, oldValue) {
+  if (is(oldValue, newValue)) {
+    // No change
+    return 0;
+  } else {
+    var changedBits = typeof context._calculateChangedBits === 'function' ? context._calculateChangedBits(oldValue, newValue) : maxSigned31BitInt;
+
+    {
+      !((changedBits & maxSigned31BitInt) === changedBits) ? warning$1(false, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: %s', changedBits) : void 0;
+    }
+    return changedBits | 0;
+  }
+}
+
+function scheduleWorkOnParentPath(parent, renderExpirationTime) {
+  // Update the child expiration time of all the ancestors, including
+  // the alternates.
+  var node = parent;
+  while (node !== null) {
+    var alternate = node.alternate;
+    if (node.childExpirationTime < renderExpirationTime) {
+      node.childExpirationTime = renderExpirationTime;
+      if (alternate !== null && alternate.childExpirationTime < renderExpirationTime) {
+        alternate.childExpirationTime = renderExpirationTime;
+      }
+    } else if (alternate !== null && alternate.childExpirationTime < renderExpirationTime) {
+      alternate.childExpirationTime = renderExpirationTime;
+    } else {
+      // Neither alternate was updated, which means the rest of the
+      // ancestor path already has sufficient priority.
+      break;
+    }
+    node = node.return;
+  }
+}
+
+function propagateContextChange(workInProgress, context, changedBits, renderExpirationTime) {
+  var fiber = workInProgress.child;
+  if (fiber !== null) {
+    // Set the return pointer of the child to the work-in-progress fiber.
+    fiber.return = workInProgress;
+  }
+  while (fiber !== null) {
+    var nextFiber = void 0;
+
+    // Visit this fiber.
+    var list = fiber.contextDependencies;
+    if (list !== null) {
+      nextFiber = fiber.child;
+
+      var dependency = list.first;
+      while (dependency !== null) {
+        // Check if the context matches.
+        if (dependency.context === context && (dependency.observedBits & changedBits) !== 0) {
+          // Match! Schedule an update on this fiber.
+
+          if (fiber.tag === ClassComponent) {
+            // Schedule a force update on the work-in-progress.
+            var update = createUpdate(renderExpirationTime);
+            update.tag = ForceUpdate;
+            // TODO: Because we don't have a work-in-progress, this will add the
+            // update to the current fiber, too, which means it will persist even if
+            // this render is thrown away. Since it's a race condition, not sure it's
+            // worth fixing.
+            enqueueUpdate(fiber, update);
+          }
+
+          if (fiber.expirationTime < renderExpirationTime) {
+            fiber.expirationTime = renderExpirationTime;
+          }
+          var alternate = fiber.alternate;
+          if (alternate !== null && alternate.expirationTime < renderExpirationTime) {
+            alternate.expirationTime = renderExpirationTime;
+          }
+
+          scheduleWorkOnParentPath(fiber.return, renderExpirationTime);
+
+          // Mark the expiration time on the list, too.
+          if (list.expirationTime < renderExpirationTime) {
+            list.expirationTime = renderExpirationTime;
+          }
+
+          // Since we already found a match, we can stop traversing the
+          // dependency list.
+          break;
+        }
+        dependency = dependency.next;
+      }
+    } else if (fiber.tag === ContextProvider) {
+      // Don't scan deeper if this is a matching provider
+      nextFiber = fiber.type === workInProgress.type ? null : fiber.child;
+    } else if (enableSuspenseServerRenderer && fiber.tag === DehydratedSuspenseComponent) {
+      // If a dehydrated suspense component is in this subtree, we don't know
+      // if it will have any context consumers in it. The best we can do is
+      // mark it as having updates on its children.
+      if (fiber.expirationTime < renderExpirationTime) {
+        fiber.expirationTime = renderExpirationTime;
+      }
+      var _alternate = fiber.alternate;
+      if (_alternate !== null && _alternate.expirationTime < renderExpirationTime) {
+        _alternate.expirationTime = renderExpirationTime;
+      }
+      // This is intentionally passing this fiber as the parent
+      // because we want to schedule this fiber as having work
+      // on its children. We'll use the childExpirationTime on
+      // this fiber to indicate that a context has changed.
+      scheduleWorkOnParentPath(fiber, renderExpirationTime);
+      nextFiber = fiber.sibling;
+    } else {
+      // Traverse down.
+      nextFiber = fiber.child;
+    }
+
+    if (nextFiber !== null) {
+      // Set the return pointer of the child to the work-in-progress fiber.
+      nextFiber.return = fiber;
+    } else {
+      // No child. Traverse to next sibling.
+      nextFiber = fiber;
+      while (nextFiber !== null) {
+        if (nextFiber === workInProgress) {
+          // We're back to the root of this subtree. Exit.
+          nextFiber = null;
+          break;
+        }
+        var sibling = nextFiber.sibling;
+        if (sibling !== null) {
+          // Set the return pointer of the sibling to the work-in-progress fiber.
+          sibling.return = nextFiber.return;
+          nextFiber = sibling;
+          break;
+        }
+        // No more siblings. Traverse up.
+        nextFiber = nextFiber.return;
+      }
+    }
+    fiber = nextFiber;
+  }
+}
+
+function prepareToReadContext(workInProgress, renderExpirationTime) {
+  currentlyRenderingFiber = workInProgress;
+  lastContextDependency = null;
+  lastContextWithAllBitsObserved = null;
+
+  var currentDependencies = workInProgress.contextDependencies;
+  if (currentDependencies !== null && currentDependencies.expirationTime >= renderExpirationTime) {
+    // Context list has a pending update. Mark that this fiber performed work.
+    markWorkInProgressReceivedUpdate();
+  }
+
+  // Reset the work-in-progress list
+  workInProgress.contextDependencies = null;
+}
+
+function readContext(context, observedBits) {
+  {
+    // This warning would fire if you read context inside a Hook like useMemo.
+    // Unlike the class check below, it's not enforced in production for perf.
+    !!isDisallowedContextReadInDEV ? warning$1(false, 'Context can only be read while React is rendering. ' + 'In classes, you can read it in the render method or getDerivedStateFromProps. ' + 'In function components, you can read it directly in the function body, but not ' + 'inside Hooks like useReducer() or useMemo().') : void 0;
+  }
+
+  if (lastContextWithAllBitsObserved === context) {
+    // Nothing to do. We already observe everything in this context.
+  } else if (observedBits === false || observedBits === 0) {
+    // Do not observe any updates.
+  } else {
+    var resolvedObservedBits = void 0; // Avoid deopting on observable arguments or heterogeneous types.
+    if (typeof observedBits !== 'number' || observedBits === maxSigned31BitInt) {
+      // Observe all updates.
+      lastContextWithAllBitsObserved = context;
+      resolvedObservedBits = maxSigned31BitInt;
+    } else {
+      resolvedObservedBits = observedBits;
+    }
+
+    var contextItem = {
+      context: context,
+      observedBits: resolvedObservedBits,
+      next: null
+    };
+
+    if (lastContextDependency === null) {
+      !(currentlyRenderingFiber !== null) ? invariant(false, 'Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().') : void 0;
+
+      // This is the first dependency for this component. Create a new list.
+      lastContextDependency = contextItem;
+      currentlyRenderingFiber.contextDependencies = {
+        first: contextItem,
+        expirationTime: NoWork
+      };
+    } else {
+      // Append a new context item.
+      lastContextDependency = lastContextDependency.next = contextItem;
+    }
+  }
+  return isPrimaryRenderer ? context._currentValue : context._currentValue2;
+}
+
+// UpdateQueue is a linked list of prioritized updates.
+//
+// Like fibers, update queues come in pairs: a current queue, which represents
+// the visible state of the screen, and a work-in-progress queue, which can be
+// mutated and processed asynchronously before it is committed — a form of
+// double buffering. If a work-in-progress render is discarded before finishing,
+// we create a new work-in-progress by cloning the current queue.
+//
+// Both queues share a persistent, singly-linked list structure. To schedule an
+// update, we append it to the end of both queues. Each queue maintains a
+// pointer to first update in the persistent list that hasn't been processed.
+// The work-in-progress pointer always has a position equal to or greater than
+// the current queue, since we always work on that one. The current queue's
+// pointer is only updated during the commit phase, when we swap in the
+// work-in-progress.
+//
+// For example:
+//
+//   Current pointer:           A - B - C - D - E - F
+//   Work-in-progress pointer:              D - E - F
+//                                          ^
+//                                          The work-in-progress queue has
+//                                          processed more updates than current.
+//
+// The reason we append to both queues is because otherwise we might drop
+// updates without ever processing them. For example, if we only add updates to
+// the work-in-progress queue, some updates could be lost whenever a work-in
+// -progress render restarts by cloning from current. Similarly, if we only add
+// updates to the current queue, the updates will be lost whenever an already
+// in-progress queue commits and swaps with the current queue. However, by
+// adding to both queues, we guarantee that the update will be part of the next
+// work-in-progress. (And because the work-in-progress queue becomes the
+// current queue once it commits, there's no danger of applying the same
+// update twice.)
+//
+// Prioritization
+// --------------
+//
+// Updates are not sorted by priority, but by insertion; new updates are always
+// appended to the end of the list.
+//
+// The priority is still important, though. When processing the update queue
+// during the render phase, only the updates with sufficient priority are
+// included in the result. If we skip an update because it has insufficient
+// priority, it remains in the queue to be processed later, during a lower
+// priority render. Crucially, all updates subsequent to a skipped update also
+// remain in the queue *regardless of their priority*. That means high priority
+// updates are sometimes processed twice, at two separate priorities. We also
+// keep track of a base state, that represents the state before the first
+// update in the queue is applied.
+//
+// For example:
+//
+//   Given a base state of '', and the following queue of updates
+//
+//     A1 - B2 - C1 - D2
+//
+//   where the number indicates the priority, and the update is applied to the
+//   previous state by appending a letter, React will process these updates as
+//   two separate renders, one per distinct priority level:
+//
+//   First render, at priority 1:
+//     Base state: ''
+//     Updates: [A1, C1]
+//     Result state: 'AC'
+//
+//   Second render, at priority 2:
+//     Base state: 'A'            <-  The base state does not include C1,
+//                                    because B2 was skipped.
+//     Updates: [B2, C1, D2]      <-  C1 was rebased on top of B2
+//     Result state: 'ABCD'
+//
+// Because we process updates in insertion order, and rebase high priority
+// updates when preceding updates are skipped, the final result is deterministic
+// regardless of priority. Intermediate state may vary according to system
+// resources, but the final state is always the same.
+
+var UpdateState = 0;
+var ReplaceState = 1;
+var ForceUpdate = 2;
+var CaptureUpdate = 3;
+
+// Global state that is reset at the beginning of calling `processUpdateQueue`.
+// It should only be read right after calling `processUpdateQueue`, via
+// `checkHasForceUpdateAfterProcessing`.
+var hasForceUpdate = false;
+
+var didWarnUpdateInsideUpdate = void 0;
+var currentlyProcessingQueue = void 0;
+var resetCurrentlyProcessingQueue = void 0;
+{
+  didWarnUpdateInsideUpdate = false;
+  currentlyProcessingQueue = null;
+  resetCurrentlyProcessingQueue = function () {
+    currentlyProcessingQueue = null;
+  };
+}
+
+function createUpdateQueue(baseState) {
+  var queue = {
+    baseState: baseState,
+    firstUpdate: null,
+    lastUpdate: null,
+    firstCapturedUpdate: null,
+    lastCapturedUpdate: null,
+    firstEffect: null,
+    lastEffect: null,
+    firstCapturedEffect: null,
+    lastCapturedEffect: null
+  };
+  return queue;
+}
+
+function cloneUpdateQueue(currentQueue) {
+  var queue = {
+    baseState: currentQueue.baseState,
+    firstUpdate: currentQueue.firstUpdate,
+    lastUpdate: currentQueue.lastUpdate,
+
+    // TODO: With resuming, if we bail out and resuse the child tree, we should
+    // keep these effects.
+    firstCapturedUpdate: null,
+    lastCapturedUpdate: null,
+
+    firstEffect: null,
+    lastEffect: null,
+
+    firstCapturedEffect: null,
+    lastCapturedEffect: null
+  };
+  return queue;
+}
+
+function createUpdate(expirationTime) {
+  return {
+    expirationTime: expirationTime,
+
+    tag: UpdateState,
+    payload: null,
+    callback: null,
+
+    next: null,
+    nextEffect: null
+  };
+}
+
+function appendUpdateToQueue(queue, update) {
+  // Append the update to the end of the list.
+  if (queue.lastUpdate === null) {
+    // Queue is empty
+    queue.firstUpdate = queue.lastUpdate = update;
+  } else {
+    queue.lastUpdate.next = update;
+    queue.lastUpdate = update;
+  }
+}
+
+function enqueueUpdate(fiber, update) {
+  // Update queues are created lazily.
+  var alternate = fiber.alternate;
+  var queue1 = void 0;
+  var queue2 = void 0;
+  if (alternate === null) {
+    // There's only one fiber.
+    queue1 = fiber.updateQueue;
+    queue2 = null;
+    if (queue1 === null) {
+      queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);
+    }
+  } else {
+    // There are two owners.
+    queue1 = fiber.updateQueue;
+    queue2 = alternate.updateQueue;
+    if (queue1 === null) {
+      if (queue2 === null) {
+        // Neither fiber has an update queue. Create new ones.
+        queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);
+        queue2 = alternate.updateQueue = createUpdateQueue(alternate.memoizedState);
+      } else {
+        // Only one fiber has an update queue. Clone to create a new one.
+        queue1 = fiber.updateQueue = cloneUpdateQueue(queue2);
+      }
+    } else {
+      if (queue2 === null) {
+        // Only one fiber has an update queue. Clone to create a new one.
+        queue2 = alternate.updateQueue = cloneUpdateQueue(queue1);
+      } else {
+        // Both owners have an update queue.
+      }
+    }
+  }
+  if (queue2 === null || queue1 === queue2) {
+    // There's only a single queue.
+    appendUpdateToQueue(queue1, update);
+  } else {
+    // There are two queues. We need to append the update to both queues,
+    // while accounting for the persistent structure of the list — we don't
+    // want the same update to be added multiple times.
+    if (queue1.lastUpdate === null || queue2.lastUpdate === null) {
+      // One of the queues is not empty. We must add the update to both queues.
+      appendUpdateToQueue(queue1, update);
+      appendUpdateToQueue(queue2, update);
+    } else {
+      // Both queues are non-empty. The last update is the same in both lists,
+      // because of structural sharing. So, only append to one of the lists.
+      appendUpdateToQueue(queue1, update);
+      // But we still need to update the `lastUpdate` pointer of queue2.
+      queue2.lastUpdate = update;
+    }
+  }
+
+  {
+    if (fiber.tag === ClassComponent && (currentlyProcessingQueue === queue1 || queue2 !== null && currentlyProcessingQueue === queue2) && !didWarnUpdateInsideUpdate) {
+      warningWithoutStack$1(false, 'An update (setState, replaceState, or forceUpdate) was scheduled ' + 'from inside an update function. Update functions should be pure, ' + 'with zero side-effects. Consider using componentDidUpdate or a ' + 'callback.');
+      didWarnUpdateInsideUpdate = true;
+    }
+  }
+}
+
+function enqueueCapturedUpdate(workInProgress, update) {
+  // Captured updates go into a separate list, and only on the work-in-
+  // progress queue.
+  var workInProgressQueue = workInProgress.updateQueue;
+  if (workInProgressQueue === null) {
+    workInProgressQueue = workInProgress.updateQueue = createUpdateQueue(workInProgress.memoizedState);
+  } else {
+    // TODO: I put this here rather than createWorkInProgress so that we don't
+    // clone the queue unnecessarily. There's probably a better way to
+    // structure this.
+    workInProgressQueue = ensureWorkInProgressQueueIsAClone(workInProgress, workInProgressQueue);
+  }
+
+  // Append the update to the end of the list.
+  if (workInProgressQueue.lastCapturedUpdate === null) {
+    // This is the first render phase update
+    workInProgressQueue.firstCapturedUpdate = workInProgressQueue.lastCapturedUpdate = update;
+  } else {
+    workInProgressQueue.lastCapturedUpdate.next = update;
+    workInProgressQueue.lastCapturedUpdate = update;
+  }
+}
+
+function ensureWorkInProgressQueueIsAClone(workInProgress, queue) {
+  var current = workInProgress.alternate;
+  if (current !== null) {
+    // If the work-in-progress queue is equal to the current queue,
+    // we need to clone it first.
+    if (queue === current.updateQueue) {
+      queue = workInProgress.updateQueue = cloneUpdateQueue(queue);
+    }
+  }
+  return queue;
+}
+
+function getStateFromUpdate(workInProgress, queue, update, prevState, nextProps, instance) {
+  switch (update.tag) {
+    case ReplaceState:
+      {
+        var _payload = update.payload;
+        if (typeof _payload === 'function') {
+          // Updater function
+          {
+            enterDisallowedContextReadInDEV();
+            if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
+              _payload.call(instance, prevState, nextProps);
+            }
+          }
+          var nextState = _payload.call(instance, prevState, nextProps);
+          {
+            exitDisallowedContextReadInDEV();
+          }
+          return nextState;
+        }
+        // State object
+        return _payload;
+      }
+    case CaptureUpdate:
+      {
+        workInProgress.effectTag = workInProgress.effectTag & ~ShouldCapture | DidCapture;
+      }
+    // Intentional fallthrough
+    case UpdateState:
+      {
+        var _payload2 = update.payload;
+        var partialState = void 0;
+        if (typeof _payload2 === 'function') {
+          // Updater function
+          {
+            enterDisallowedContextReadInDEV();
+            if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
+              _payload2.call(instance, prevState, nextProps);
+            }
+          }
+          partialState = _payload2.call(instance, prevState, nextProps);
+          {
+            exitDisallowedContextReadInDEV();
+          }
+        } else {
+          // Partial state object
+          partialState = _payload2;
+        }
+        if (partialState === null || partialState === undefined) {
+          // Null and undefined are treated as no-ops.
+          return prevState;
+        }
+        // Merge the partial state and the previous state.
+        return _assign({}, prevState, partialState);
+      }
+    case ForceUpdate:
+      {
+        hasForceUpdate = true;
+        return prevState;
+      }
+  }
+  return prevState;
+}
+
+function processUpdateQueue(workInProgress, queue, props, instance, renderExpirationTime) {
+  hasForceUpdate = false;
+
+  queue = ensureWorkInProgressQueueIsAClone(workInProgress, queue);
+
+  {
+    currentlyProcessingQueue = queue;
+  }
+
+  // These values may change as we process the queue.
+  var newBaseState = queue.baseState;
+  var newFirstUpdate = null;
+  var newExpirationTime = NoWork;
+
+  // Iterate through the list of updates to compute the result.
+  var update = queue.firstUpdate;
+  var resultState = newBaseState;
+  while (update !== null) {
+    var updateExpirationTime = update.expirationTime;
+    if (updateExpirationTime < renderExpirationTime) {
+      // This update does not have sufficient priority. Skip it.
+      if (newFirstUpdate === null) {
+        // This is the first skipped update. It will be the first update in
+        // the new list.
+        newFirstUpdate = update;
+        // Since this is the first update that was skipped, the current result
+        // is the new base state.
+        newBaseState = resultState;
+      }
+      // Since this update will remain in the list, update the remaining
+      // expiration time.
+      if (newExpirationTime < updateExpirationTime) {
+        newExpirationTime = updateExpirationTime;
+      }
+    } else {
+      // This update does have sufficient priority. Process it and compute
+      // a new result.
+      resultState = getStateFromUpdate(workInProgress, queue, update, resultState, props, instance);
+      var _callback = update.callback;
+      if (_callback !== null) {
+        workInProgress.effectTag |= Callback;
+        // Set this to null, in case it was mutated during an aborted render.
+        update.nextEffect = null;
+        if (queue.lastEffect === null) {
+          queue.firstEffect = queue.lastEffect = update;
+        } else {
+          queue.lastEffect.nextEffect = update;
+          queue.lastEffect = update;
+        }
+      }
+    }
+    // Continue to the next update.
+    update = update.next;
+  }
+
+  // Separately, iterate though the list of captured updates.
+  var newFirstCapturedUpdate = null;
+  update = queue.firstCapturedUpdate;
+  while (update !== null) {
+    var _updateExpirationTime = update.expirationTime;
+    if (_updateExpirationTime < renderExpirationTime) {
+      // This update does not have sufficient priority. Skip it.
+      if (newFirstCapturedUpdate === null) {
+        // This is the first skipped captured update. It will be the first
+        // update in the new list.
+        newFirstCapturedUpdate = update;
+        // If this is the first update that was skipped, the current result is
+        // the new base state.
+        if (newFirstUpdate === null) {
+          newBaseState = resultState;
+        }
+      }
+      // Since this update will remain in the list, update the remaining
+      // expiration time.
+      if (newExpirationTime < _updateExpirationTime) {
+        newExpirationTime = _updateExpirationTime;
+      }
+    } else {
+      // This update does have sufficient priority. Process it and compute
+      // a new result.
+      resultState = getStateFromUpdate(workInProgress, queue, update, resultState, props, instance);
+      var _callback2 = update.callback;
+      if (_callback2 !== null) {
+        workInProgress.effectTag |= Callback;
+        // Set this to null, in case it was mutated during an aborted render.
+        update.nextEffect = null;
+        if (queue.lastCapturedEffect === null) {
+          queue.firstCapturedEffect = queue.lastCapturedEffect = update;
+        } else {
+          queue.lastCapturedEffect.nextEffect = update;
+          queue.lastCapturedEffect = update;
+        }
+      }
+    }
+    update = update.next;
+  }
+
+  if (newFirstUpdate === null) {
+    queue.lastUpdate = null;
+  }
+  if (newFirstCapturedUpdate === null) {
+    queue.lastCapturedUpdate = null;
+  } else {
+    workInProgress.effectTag |= Callback;
+  }
+  if (newFirstUpdate === null && newFirstCapturedUpdate === null) {
+    // We processed every update, without skipping. That means the new base
+    // state is the same as the result state.
+    newBaseState = resultState;
+  }
+
+  queue.baseState = newBaseState;
+  queue.firstUpdate = newFirstUpdate;
+  queue.firstCapturedUpdate = newFirstCapturedUpdate;
+
+  // Set the remaining expiration time to be whatever is remaining in the queue.
+  // This should be fine because the only two other things that contribute to
+  // expiration time are props and context. We're already in the middle of the
+  // begin phase by the time we start processing the queue, so we've already
+  // dealt with the props. Context in components that specify
+  // shouldComponentUpdate is tricky; but we'll have to account for
+  // that regardless.
+  workInProgress.expirationTime = newExpirationTime;
+  workInProgress.memoizedState = resultState;
+
+  {
+    currentlyProcessingQueue = null;
+  }
+}
+
+function callCallback(callback, context) {
+  !(typeof callback === 'function') ? invariant(false, 'Invalid argument passed as callback. Expected a function. Instead received: %s', callback) : void 0;
+  callback.call(context);
+}
+
+function resetHasForceUpdateBeforeProcessing() {
+  hasForceUpdate = false;
+}
+
+function checkHasForceUpdateAfterProcessing() {
+  return hasForceUpdate;
+}
+
+function commitUpdateQueue(finishedWork, finishedQueue, instance, renderExpirationTime) {
+  // If the finished render included captured updates, and there are still
+  // lower priority updates left over, we need to keep the captured updates
+  // in the queue so that they are rebased and not dropped once we process the
+  // queue again at the lower priority.
+  if (finishedQueue.firstCapturedUpdate !== null) {
+    // Join the captured update list to the end of the normal list.
+    if (finishedQueue.lastUpdate !== null) {
+      finishedQueue.lastUpdate.next = finishedQueue.firstCapturedUpdate;
+      finishedQueue.lastUpdate = finishedQueue.lastCapturedUpdate;
+    }
+    // Clear the list of captured updates.
+    finishedQueue.firstCapturedUpdate = finishedQueue.lastCapturedUpdate = null;
+  }
+
+  // Commit the effects
+  commitUpdateEffects(finishedQueue.firstEffect, instance);
+  finishedQueue.firstEffect = finishedQueue.lastEffect = null;
+
+  commitUpdateEffects(finishedQueue.firstCapturedEffect, instance);
+  finishedQueue.firstCapturedEffect = finishedQueue.lastCapturedEffect = null;
+}
+
+function commitUpdateEffects(effect, instance) {
+  while (effect !== null) {
+    var _callback3 = effect.callback;
+    if (_callback3 !== null) {
+      effect.callback = null;
+      callCallback(_callback3, instance);
+    }
+    effect = effect.nextEffect;
+  }
+}
+
+function createCapturedValue(value, source) {
+  // If the value is an error, call this function immediately after it is thrown
+  // so the stack is accurate.
+  return {
+    value: value,
+    source: source,
+    stack: getStackByFiberInDevAndProd(source)
+  };
 }
 
 function markUpdate(workInProgress) {
@@ -17102,16 +17738,10 @@ function completeWork(current, workInProgress, renderExpirationTime) {
           }
         }
 
-        // The children either timed out after previously being visible, or
-        // were restored after previously being hidden. Schedule an effect
-        // to update their visiblity.
-        if (
-        //
-        nextDidTimeout !== prevDidTimeout ||
-        // Outside concurrent mode, the primary children commit in an
-        // inconsistent state, even if they are hidden. So if they are hidden,
-        // we need to schedule an effect to re-hide them, just in case.
-        (workInProgress.effectTag & ConcurrentMode) === NoContext && nextDidTimeout) {
+        if (nextDidTimeout || prevDidTimeout) {
+          // If the children are hidden, or if they were previous hidden, schedule
+          // an effect to toggle their visibility. This is also used to attach a
+          // retry listener to the promise.
           workInProgress.effectTag |= Update;
         }
         break;
@@ -17141,6 +17771,26 @@ function completeWork(current, workInProgress, renderExpirationTime) {
         var _Component = workInProgress.type;
         if (isContextProvider(_Component)) {
           popContext(workInProgress);
+        }
+        break;
+      }
+    case DehydratedSuspenseComponent:
+      {
+        if (enableSuspenseServerRenderer) {
+          if (current === null) {
+            var _wasHydrated2 = popHydrationState(workInProgress);
+            !_wasHydrated2 ? invariant(false, 'A dehydrated suspense component was completed without a hydrated node. This is probably a bug in React.') : void 0;
+            skipPastDehydratedSuspenseInstance(workInProgress);
+          } else if ((workInProgress.effectTag & DidCapture) === NoEffect) {
+            // This boundary did not suspend so it's now hydrated.
+            // To handle any future suspense cases, we're going to now upgrade it
+            // to a Suspense component. We detach it from the existing current fiber.
+            current.alternate = null;
+            workInProgress.alternate = null;
+            workInProgress.tag = SuspenseComponent;
+            workInProgress.memoizedState = null;
+            workInProgress.stateNode = null;
+          }
         }
         break;
       }
@@ -17234,7 +17884,7 @@ var didWarnAboutUndefinedSnapshotBeforeUpdate = null;
   didWarnAboutUndefinedSnapshotBeforeUpdate = new Set();
 }
 
-var PossiblyWeakSet = typeof WeakSet === 'function' ? WeakSet : Set;
+var PossiblyWeakSet$1 = typeof WeakSet === 'function' ? WeakSet : Set;
 
 function logError(boundary, errorInfo) {
   var source = errorInfo.source;
@@ -17374,9 +18024,6 @@ function commitBeforeMutationLifeCycles(current$$1, finishedWork) {
 }
 
 function commitHookEffectList(unmountTag, mountTag, finishedWork) {
-  if (!enableHooks) {
-    return;
-  }
   var updateQueue = finishedWork.updateQueue;
   var lastEffect = updateQueue !== null ? updateQueue.lastEffect : null;
   if (lastEffect !== null) {
@@ -17386,24 +18033,30 @@ function commitHookEffectList(unmountTag, mountTag, finishedWork) {
       if ((effect.tag & unmountTag) !== NoEffect$1) {
         // Unmount
         var destroy = effect.destroy;
-        effect.destroy = null;
-        if (destroy !== null) {
+        effect.destroy = undefined;
+        if (destroy !== undefined) {
           destroy();
         }
       }
       if ((effect.tag & mountTag) !== NoEffect$1) {
         // Mount
         var create = effect.create;
-        var _destroy = create();
-        if (typeof _destroy !== 'function') {
-          {
-            if (_destroy !== null && _destroy !== undefined) {
-              warningWithoutStack$1(false, 'useEffect function must return a cleanup function or ' + 'nothing.%s%s', typeof _destroy.then === 'function' ? '\n\nIt looks like you wrote useEffect(async () => ...) or returned a Promise. ' + 'Instead, you may write an async function separately ' + 'and then call it from inside the effect:\n\n' + 'async function fetchComment(commentId) {\n' + '  // You can await here\n' + '}\n\n' + 'useEffect(() => {\n' + '  fetchComment(commentId);\n' + '}, [commentId]);\n\n' + 'In the future, React will provide a more idiomatic solution for data fetching ' + "that doesn't involve writing effects manually." : '', getStackByFiberInDevAndProd(finishedWork));
+        effect.destroy = create();
+
+        {
+          var _destroy = effect.destroy;
+          if (_destroy !== undefined && typeof _destroy !== 'function') {
+            var addendum = void 0;
+            if (_destroy === null) {
+              addendum = ' You returned null. If your effect does not require clean ' + 'up, return undefined (or nothing).';
+            } else if (typeof _destroy.then === 'function') {
+              addendum = '\n\nIt looks like you wrote useEffect(async () => ...) or returned a Promise. ' + 'Instead, you may write an async function separately ' + 'and then call it from inside the effect:\n\n' + 'async function fetchComment(commentId) {\n' + '  // You can await here\n' + '}\n\n' + 'useEffect(() => {\n' + '  fetchComment(commentId);\n' + '}, [commentId]);\n\n' + 'In the future, React will provide a more idiomatic solution for data fetching ' + "that doesn't involve writing effects manually.";
+            } else {
+              addendum = ' You returned: ' + _destroy;
             }
+            warningWithoutStack$1(false, 'An Effect function must not return anything besides a function, ' + 'which is used for clean-up.%s%s', addendum, getStackByFiberInDevAndProd(finishedWork));
           }
-          _destroy = null;
         }
-        effect.destroy = _destroy;
       }
       effect = effect.next;
     } while (effect !== firstEffect);
@@ -17544,7 +18197,7 @@ function commitLifeCycles(finishedRoot, current$$1, finishedWork, committedExpir
 
 function hideOrUnhideAllChildren(finishedWork, isHidden) {
   if (supportsMutation) {
-    // We only have the top Fiber that was inserted but we need recurse down its
+    // We only have the top Fiber that was inserted but we need to recurse down its
     var node = finishedWork;
     while (true) {
       if (node.tag === HostComponent) {
@@ -17644,7 +18297,7 @@ function commitUnmount(current$$1) {
             var effect = firstEffect;
             do {
               var destroy = effect.destroy;
-              if (destroy !== null) {
+              if (destroy !== undefined) {
                 safelyCallDestroy(current$$1, destroy);
               }
               effect = effect.next;
@@ -17812,7 +18465,7 @@ function getHostSibling(fiber) {
     }
     node.sibling.return = node.return;
     node = node.sibling;
-    while (node.tag !== HostComponent && node.tag !== HostText) {
+    while (node.tag !== HostComponent && node.tag !== HostText && node.tag !== DehydratedSuspenseComponent) {
       // If it is not host node and, we might have a host node inside it.
       // Try to search down until we find one.
       if (node.effectTag & Placement) {
@@ -17872,7 +18525,7 @@ function commitPlacement(finishedWork) {
   }
 
   var before = getHostSibling(finishedWork);
-  // We only have the top Fiber that was inserted but we need recurse down its
+  // We only have the top Fiber that was inserted but we need to recurse down its
   // children to find all the terminal nodes.
   var node = finishedWork;
   while (true) {
@@ -17914,7 +18567,7 @@ function commitPlacement(finishedWork) {
 }
 
 function unmountHostComponents(current$$1) {
-  // We only have the top Fiber that was deleted but we need recurse down its
+  // We only have the top Fiber that was deleted but we need to recurse down its
   var node = current$$1;
 
   // Each iteration, currentParent is populated with node's host parent if not
@@ -17959,13 +18612,20 @@ function unmountHostComponents(current$$1) {
         removeChild(currentParent, node.stateNode);
       }
       // Don't visit children because we already visited them.
+    } else if (enableSuspenseServerRenderer && node.tag === DehydratedSuspenseComponent) {
+      // Delete the dehydrated suspense boundary and all of its content.
+      if (currentParentIsContainer) {
+        clearSuspenseBoundaryFromContainer(currentParent, node.stateNode);
+      } else {
+        clearSuspenseBoundary(currentParent, node.stateNode);
+      }
     } else if (node.tag === HostPortal) {
-      // When we go into a portal, it becomes the parent to remove from.
-      // We will reassign it back when we pop the portal on the way up.
-      currentParent = node.stateNode.containerInfo;
-      currentParentIsContainer = true;
-      // Visit children because portals might contain host components.
       if (node.child !== null) {
+        // When we go into a portal, it becomes the parent to remove from.
+        // We will reassign it back when we pop the portal on the way up.
+        currentParent = node.stateNode.containerInfo;
+        currentParentIsContainer = true;
+        // Visit children because portals might contain host components.
         node.child.return = node;
         node = node.child;
         continue;
@@ -18115,7 +18775,7 @@ function commitWork(current$$1, finishedWork) {
           finishedWork.updateQueue = null;
           var retryCache = finishedWork.stateNode;
           if (retryCache === null) {
-            retryCache = finishedWork.stateNode = new PossiblyWeakSet();
+            retryCache = finishedWork.stateNode = new PossiblyWeakSet$1();
           }
           thenables.forEach(function (thenable) {
             // Memoize using the boundary fiber to prevent redundant listeners.
@@ -18150,6 +18810,7 @@ function commitResetTextContent(current$$1) {
   resetTextContent(current$$1.stateNode);
 }
 
+var PossiblyWeakSet = typeof WeakSet === 'function' ? WeakSet : Set;
 var PossiblyWeakMap = typeof WeakMap === 'function' ? WeakMap : Map;
 
 function createRootErrorUpdate(fiber, errorInfo, expirationTime) {
@@ -18208,6 +18869,34 @@ function createClassErrorUpdate(fiber, errorInfo, expirationTime) {
   return update;
 }
 
+function attachPingListener(root, renderExpirationTime, thenable) {
+  // Attach a listener to the promise to "ping" the root and retry. But
+  // only if one does not already exist for the current render expiration
+  // time (which acts like a "thread ID" here).
+  var pingCache = root.pingCache;
+  var threadIDs = void 0;
+  if (pingCache === null) {
+    pingCache = root.pingCache = new PossiblyWeakMap();
+    threadIDs = new Set();
+    pingCache.set(thenable, threadIDs);
+  } else {
+    threadIDs = pingCache.get(thenable);
+    if (threadIDs === undefined) {
+      threadIDs = new Set();
+      pingCache.set(thenable, threadIDs);
+    }
+  }
+  if (!threadIDs.has(renderExpirationTime)) {
+    // Memoize using the thread ID to prevent redundant listeners.
+    threadIDs.add(renderExpirationTime);
+    var ping = pingSuspendedRoot.bind(null, root, thenable, renderExpirationTime);
+    if (enableSchedulerTracing) {
+      ping = tracing.unstable_wrap(ping);
+    }
+    thenable.then(ping, ping);
+  }
+}
+
 function throwException(root, returnFiber, sourceFiber, value, renderExpirationTime) {
   // The source fiber did not complete.
   sourceFiber.effectTag |= Incomplete;
@@ -18249,6 +18938,9 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
           }
         }
       }
+      // If there is a DehydratedSuspenseComponent we don't have to do anything because
+      // if something suspends inside it, we will simply leave that as dehydrated. It
+      // will never timeout.
       _workInProgress = _workInProgress.return;
     } while (_workInProgress !== null);
 
@@ -18261,7 +18953,9 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
         // Stash the promise on the boundary fiber. If the boundary times out, we'll
         var thenables = _workInProgress.updateQueue;
         if (thenables === null) {
-          _workInProgress.updateQueue = new Set([thenable]);
+          var updateQueue = new Set();
+          updateQueue.add(thenable);
+          _workInProgress.updateQueue = updateQueue;
         } else {
           thenables.add(thenable);
         }
@@ -18310,35 +19004,11 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
         // Confirmed that the boundary is in a concurrent mode tree. Continue
         // with the normal suspend path.
 
-        // Attach a listener to the promise to "ping" the root and retry. But
-        // only if one does not already exist for the current render expiration
-        // time (which acts like a "thread ID" here).
-        var pingCache = root.pingCache;
-        var threadIDs = void 0;
-        if (pingCache === null) {
-          pingCache = root.pingCache = new PossiblyWeakMap();
-          threadIDs = new Set();
-          pingCache.set(thenable, threadIDs);
-        } else {
-          threadIDs = pingCache.get(thenable);
-          if (threadIDs === undefined) {
-            threadIDs = new Set();
-            pingCache.set(thenable, threadIDs);
-          }
-        }
-        if (!threadIDs.has(renderExpirationTime)) {
-          // Memoize using the thread ID to prevent redundant listeners.
-          threadIDs.add(renderExpirationTime);
-          var ping = pingSuspendedRoot.bind(null, root, thenable, renderExpirationTime);
-          if (enableSchedulerTracing) {
-            ping = tracing.unstable_wrap(ping);
-          }
-          thenable.then(ping, ping);
-        }
+        attachPingListener(root, renderExpirationTime, thenable);
 
         var absoluteTimeoutMs = void 0;
         if (earliestTimeoutMs === -1) {
-          // If no explicit threshold is given, default to an abitrarily large
+          // If no explicit threshold is given, default to an arbitrarily large
           // value. The actual size doesn't matter because the threshold for the
           // whole tree will be clamped to the expiration time.
           absoluteTimeoutMs = maxSigned31BitInt;
@@ -18366,6 +19036,29 @@ function throwException(root, returnFiber, sourceFiber, value, renderExpirationT
         // whole tree.
         renderDidSuspend(root, absoluteTimeoutMs, renderExpirationTime);
 
+        _workInProgress.effectTag |= ShouldCapture;
+        _workInProgress.expirationTime = renderExpirationTime;
+        return;
+      } else if (enableSuspenseServerRenderer && _workInProgress.tag === DehydratedSuspenseComponent) {
+        attachPingListener(root, renderExpirationTime, thenable);
+
+        // Since we already have a current fiber, we can eagerly add a retry listener.
+        var retryCache = _workInProgress.memoizedState;
+        if (retryCache === null) {
+          retryCache = _workInProgress.memoizedState = new PossiblyWeakSet();
+          var _current = _workInProgress.alternate;
+          !_current ? invariant(false, 'A dehydrated suspense boundary must commit before trying to render. This is probably a bug in React.') : void 0;
+          _current.memoizedState = retryCache;
+        }
+        // Memoize using the boundary fiber to prevent redundant listeners.
+        if (!retryCache.has(thenable)) {
+          retryCache.add(thenable);
+          var retry = retryTimedOutBoundary.bind(null, _workInProgress, thenable);
+          if (enableSchedulerTracing) {
+            retry = tracing.unstable_wrap(retry);
+          }
+          thenable.then(retry, retry);
+        }
         _workInProgress.effectTag |= ShouldCapture;
         _workInProgress.expirationTime = renderExpirationTime;
         return;
@@ -18443,6 +19136,7 @@ function unwindWork(workInProgress, renderExpirationTime) {
       }
     case HostComponent:
       {
+        // TODO: popHydrationState
         popHostContext(workInProgress);
         return null;
       }
@@ -18453,6 +19147,19 @@ function unwindWork(workInProgress, renderExpirationTime) {
           workInProgress.effectTag = _effectTag2 & ~ShouldCapture | DidCapture;
           // Captured a suspense effect. Re-render the boundary.
           return workInProgress;
+        }
+        return null;
+      }
+    case DehydratedSuspenseComponent:
+      {
+        if (enableSuspenseServerRenderer) {
+          // TODO: popHydrationState
+          var _effectTag3 = workInProgress.effectTag;
+          if (_effectTag3 & ShouldCapture) {
+            workInProgress.effectTag = _effectTag3 & ~ShouldCapture | DidCapture;
+            // Captured a suspense effect. Re-render the boundary.
+            return workInProgress;
+          }
         }
         return null;
       }
@@ -18499,22 +19206,7 @@ function unwindInterruptedWork(interruptedWork) {
   }
 }
 
-var Dispatcher = {
-  readContext: readContext,
-  useCallback: useCallback,
-  useContext: useContext,
-  useEffect: useEffect,
-  useImperativeMethods: useImperativeMethods,
-  useLayoutEffect: useLayoutEffect,
-  useMemo: useMemo,
-  useReducer: useReducer,
-  useRef: useRef,
-  useState: useState
-};
-var DispatcherWithoutHooks = {
-  readContext: readContext
-};
-
+var ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher;
 var ReactCurrentOwner$2 = ReactSharedInternals.ReactCurrentOwner;
 
 
@@ -18567,11 +19259,6 @@ if (enableSchedulerTracing) {
 
 // Used to ensure computeUniqueAsyncExpiration is monotonically decreasing.
 var lastUniqueAsyncExpiration = Sync - 1;
-
-// Represents the expiration time that incoming updates should use. (If this
-// is NoWork, use the default strategy: async updates in async mode, sync
-// updates in sync mode.)
-var expirationContext = NoWork;
 
 var isWorking = false;
 
@@ -18799,6 +19486,9 @@ function commitAllLifeCycles(finishedRoot, committedExpirationTime) {
     }
   }
   while (nextEffect !== null) {
+    {
+      setCurrentFiber(nextEffect);
+    }
     var effectTag = nextEffect.effectTag;
 
     if (effectTag & (Update | Callback)) {
@@ -18812,11 +19502,14 @@ function commitAllLifeCycles(finishedRoot, committedExpirationTime) {
       commitAttachRef(nextEffect);
     }
 
-    if (enableHooks && effectTag & Passive) {
+    if (effectTag & Passive) {
       rootWithPendingPassiveEffects = finishedRoot;
     }
 
     nextEffect = nextEffect.nextEffect;
+  }
+  {
+    resetCurrentFiber();
   }
 }
 
@@ -18831,6 +19524,10 @@ function commitPassiveEffects(root, firstEffect) {
 
   var effect = firstEffect;
   do {
+    {
+      setCurrentFiber(effect);
+    }
+
     if (effect.effectTag & Passive) {
       var didError = false;
       var error = void 0;
@@ -18847,6 +19544,9 @@ function commitPassiveEffects(root, firstEffect) {
     }
     effect = effect.nextEffect;
   } while (effect !== null);
+  {
+    resetCurrentFiber();
+  }
 
   isRendering = previousIsRendering;
 
@@ -18854,6 +19554,10 @@ function commitPassiveEffects(root, firstEffect) {
   var rootExpirationTime = root.expirationTime;
   if (rootExpirationTime !== NoWork) {
     requestWork(root, rootExpirationTime);
+  }
+  // Flush any sync work that was scheduled by effects
+  if (!isBatchingUpdates && !isRendering) {
+    performSyncWork();
   }
 }
 
@@ -18870,8 +19574,10 @@ function markLegacyErrorBoundaryAsFailed(instance) {
 }
 
 function flushPassiveEffects() {
+  if (passiveEffectCallbackHandle !== null) {
+    cancelPassiveEffects(passiveEffectCallbackHandle);
+  }
   if (passiveEffectCallback !== null) {
-    scheduler.unstable_cancelCallback(passiveEffectCallbackHandle);
     // We call the scheduled callback instead of commitPassiveEffects directly
     // to ensure tracing works correctly.
     passiveEffectCallback();
@@ -19015,7 +19721,7 @@ function commitRoot(root, finishedWork) {
     }
   }
 
-  if (enableHooks && firstEffect !== null && rootWithPendingPassiveEffects !== null) {
+  if (firstEffect !== null && rootWithPendingPassiveEffects !== null) {
     // This commit included a passive effect. These do not need to fire until
     // after the next paint. Schedule an callback to fire them in an async
     // event. To ensure serial execution, the callback will be flushed early if
@@ -19027,7 +19733,9 @@ function commitRoot(root, finishedWork) {
       // here because that code is still in flux.
       callback = tracing.unstable_wrap(callback);
     }
-    passiveEffectCallbackHandle = scheduler.unstable_scheduleCallback(callback);
+    passiveEffectCallbackHandle = scheduler.unstable_runWithPriority(scheduler.unstable_NormalPriority, function () {
+      return schedulePassiveEffects(callback);
+    });
     passiveEffectCallback = callback;
   }
 
@@ -19418,11 +20126,8 @@ function renderRoot(root, isYieldy) {
   flushPassiveEffects();
 
   isWorking = true;
-  if (enableHooks) {
-    ReactCurrentOwner$2.currentDispatcher = Dispatcher;
-  } else {
-    ReactCurrentOwner$2.currentDispatcher = DispatcherWithoutHooks;
-  }
+  var previousDispatcher = ReactCurrentDispatcher.current;
+  ReactCurrentDispatcher.current = ContextOnlyDispatcher;
 
   var expirationTime = root.nextExpirationTimeToWorkOn;
 
@@ -19462,7 +20167,7 @@ function renderRoot(root, isYieldy) {
             subscriber.onWorkStarted(interactions, threadID);
           } catch (error) {
             // Work thrown by an interaction tracing subscriber should be rethrown,
-            // But only once it's safe (to avoid leaveing the scheduler in an invalid state).
+            // But only once it's safe (to avoid leaving the scheduler in an invalid state).
             // Store the error for now and we'll re-throw in finishRendering().
             if (!hasUnhandledError) {
               hasUnhandledError = true;
@@ -19558,7 +20263,7 @@ function renderRoot(root, isYieldy) {
 
   // We're done performing work. Time to clean up.
   isWorking = false;
-  ReactCurrentOwner$2.currentDispatcher = null;
+  ReactCurrentDispatcher.current = previousDispatcher;
   resetContextDependences();
   resetHooks();
 
@@ -19619,7 +20324,7 @@ function renderRoot(root, isYieldy) {
       return;
     } else if (
     // There's no lower priority work, but we're rendering asynchronously.
-    // Synchronsouly attempt to render the same level one more time. This is
+    // Synchronously attempt to render the same level one more time. This is
     // similar to a suspend, but without a timeout because we're not waiting
     // for a promise to resolve.
     !root.didError && isYieldy) {
@@ -19724,49 +20429,50 @@ function computeUniqueAsyncExpiration() {
 }
 
 function computeExpirationForFiber(currentTime, fiber) {
+  var priorityLevel = scheduler.unstable_getCurrentPriorityLevel();
+
   var expirationTime = void 0;
-  if (expirationContext !== NoWork) {
-    // An explicit expiration context was set;
-    expirationTime = expirationContext;
-  } else if (isWorking) {
-    if (isCommitting$1) {
-      // Updates that occur during the commit phase should have sync priority
-      // by default.
-      expirationTime = Sync;
-    } else {
-      // Updates during the render phase should expire at the same time as
-      // the work that is being rendered.
-      expirationTime = nextRenderExpirationTime;
-    }
+  if ((fiber.mode & ConcurrentMode) === NoContext) {
+    // Outside of concurrent mode, updates are always synchronous.
+    expirationTime = Sync;
+  } else if (isWorking && !isCommitting$1) {
+    // During render phase, updates expire during as the current render.
+    expirationTime = nextRenderExpirationTime;
   } else {
-    // No explicit expiration context was set, and we're not currently
-    // performing work. Calculate a new expiration time.
-    if (fiber.mode & ConcurrentMode) {
-      if (isBatchingInteractiveUpdates) {
-        // This is an interactive update
+    switch (priorityLevel) {
+      case scheduler.unstable_ImmediatePriority:
+        expirationTime = Sync;
+        break;
+      case scheduler.unstable_UserBlockingPriority:
         expirationTime = computeInteractiveExpiration(currentTime);
-      } else {
-        // This is an async update
+        break;
+      case scheduler.unstable_NormalPriority:
+        // This is a normal, concurrent update
         expirationTime = computeAsyncExpiration(currentTime);
-      }
-      // If we're in the middle of rendering a tree, do not update at the same
-      // expiration time that is already rendering.
-      if (nextRoot !== null && expirationTime === nextRenderExpirationTime) {
-        expirationTime -= 1;
-      }
-    } else {
-      // This is a sync update
-      expirationTime = Sync;
+        break;
+      case scheduler.unstable_LowPriority:
+      case scheduler.unstable_IdlePriority:
+        expirationTime = Never;
+        break;
+      default:
+        invariant(false, 'Unknown priority level. This error is likely caused by a bug in React. Please file an issue.');
+    }
+
+    // If we're in the middle of rendering a tree, do not update at the same
+    // expiration time that is already rendering.
+    if (nextRoot !== null && expirationTime === nextRenderExpirationTime) {
+      expirationTime -= 1;
     }
   }
-  if (isBatchingInteractiveUpdates) {
-    // This is an interactive update. Keep track of the lowest pending
-    // interactive expiration time. This allows us to synchronously flush
-    // all interactive updates when needed.
-    if (lowestPriorityPendingInteractiveExpirationTime === NoWork || expirationTime < lowestPriorityPendingInteractiveExpirationTime) {
-      lowestPriorityPendingInteractiveExpirationTime = expirationTime;
-    }
+
+  // Keep track of the lowest pending interactive expiration time. This
+  // allows us to synchronously flush all interactive updates
+  // when needed.
+  // TODO: Move this to renderer?
+  if (priorityLevel === scheduler.unstable_UserBlockingPriority && (lowestPriorityPendingInteractiveExpirationTime === NoWork || expirationTime < lowestPriorityPendingInteractiveExpirationTime)) {
+    lowestPriorityPendingInteractiveExpirationTime = expirationTime;
   }
+
   return expirationTime;
 }
 
@@ -19813,7 +20519,21 @@ function retryTimedOutBoundary(boundaryFiber, thenable) {
   // The boundary fiber (a Suspense component) previously timed out and was
   // rendered in its fallback state. One of the promises that suspended it has
   // resolved, which means at least part of the tree was likely unblocked. Try
-  var retryCache = boundaryFiber.stateNode;
+  var retryCache = void 0;
+  if (enableSuspenseServerRenderer) {
+    switch (boundaryFiber.tag) {
+      case SuspenseComponent:
+        retryCache = boundaryFiber.stateNode;
+        break;
+      case DehydratedSuspenseComponent:
+        retryCache = boundaryFiber.memoizedState;
+        break;
+      default:
+        invariant(false, 'Pinged unknown suspense boundary type. This is probably a bug in React.');
+    }
+  } else {
+    retryCache = boundaryFiber.stateNode;
+  }
   if (retryCache !== null) {
     // The thenable resolved, so we no longer need to memoize, because it will
     // never be thrown again.
@@ -19909,6 +20629,14 @@ function scheduleWorkToRoot(fiber, expirationTime) {
   return root;
 }
 
+function warnIfNotCurrentlyBatchingInDev(fiber) {
+  {
+    if (isRendering === false && isBatchingUpdates === false) {
+      warningWithoutStack$1(false, 'An update to %s inside a test was not wrapped in act(...).\n\n' + 'When testing, code that causes React state updates should be wrapped into act(...):\n\n' + 'act(() => {\n' + '  /* fire events that update state */\n' + '});\n' + '/* assert on the output */\n\n' + "This ensures that you're testing the behavior the user would see in the browser." + ' Learn more at https://fb.me/react-wrap-tests-with-act' + '%s', getComponentName(fiber.type), getStackByFiberInDevAndProd(fiber));
+    }
+  }
+}
+
 function scheduleWork(fiber, expirationTime) {
   var root = scheduleWorkToRoot(fiber, expirationTime);
   if (root === null) {
@@ -19951,13 +20679,9 @@ function scheduleWork(fiber, expirationTime) {
 }
 
 function syncUpdates(fn, a, b, c, d) {
-  var previousExpirationContext = expirationContext;
-  expirationContext = Sync;
-  try {
+  return scheduler.unstable_runWithPriority(scheduler.unstable_ImmediatePriority, function () {
     return fn(a, b, c, d);
-  } finally {
-    expirationContext = previousExpirationContext;
-  }
+  });
 }
 
 // TODO: Everything below this is written as if it has been lifted to the
@@ -19978,7 +20702,6 @@ var unhandledError = null;
 
 var isBatchingUpdates = false;
 var isUnbatchingUpdates = false;
-var isBatchingInteractiveUpdates = false;
 
 var completedBatches = null;
 
@@ -20452,7 +21175,9 @@ function completeRoot(root, finishedWork, expirationTime) {
     lastCommittedRootDuringThisBatch = root;
     nestedUpdateCount = 0;
   }
-  commitRoot(root, finishedWork);
+  scheduler.unstable_runWithPriority(scheduler.unstable_ImmediatePriority, function () {
+    commitRoot(root, finishedWork);
+  });
 }
 
 function onUncaughtError(error) {
@@ -20510,9 +21235,6 @@ function flushSync(fn, a) {
 }
 
 function interactiveUpdates$1(fn, a, b) {
-  if (isBatchingInteractiveUpdates) {
-    return fn(a, b);
-  }
   // If there are any pending interactive updates, synchronously flush them.
   // This needs to happen before we read any handlers, because the effect of
   // the previous event may influence which handlers are called during
@@ -20522,14 +21244,13 @@ function interactiveUpdates$1(fn, a, b) {
     performWork(lowestPriorityPendingInteractiveExpirationTime, false);
     lowestPriorityPendingInteractiveExpirationTime = NoWork;
   }
-  var previousIsBatchingInteractiveUpdates = isBatchingInteractiveUpdates;
   var previousIsBatchingUpdates = isBatchingUpdates;
-  isBatchingInteractiveUpdates = true;
   isBatchingUpdates = true;
   try {
-    return fn(a, b);
+    return scheduler.unstable_runWithPriority(scheduler.unstable_UserBlockingPriority, function () {
+      return fn(a, b);
+    });
   } finally {
-    isBatchingInteractiveUpdates = previousIsBatchingInteractiveUpdates;
     isBatchingUpdates = previousIsBatchingUpdates;
     if (!isBatchingUpdates && !isRendering) {
       performSyncWork();
@@ -20749,9 +21470,12 @@ var overrideProps = null;
 
 function injectIntoDevTools(devToolsConfig) {
   var findFiberByHostInstance = devToolsConfig.findFiberByHostInstance;
+  var ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher;
+
 
   return injectInternals(_assign({}, devToolsConfig, {
     overrideProps: overrideProps,
+    currentDispatcherRef: ReactCurrentDispatcher,
     findHostInstanceByFiber: function (fiber) {
       var hostFiber = findCurrentHostFiber(fiber);
       if (hostFiber === null) {
@@ -20789,10 +21513,11 @@ implementation) {
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.7.0';
+var ReactVersion = '16.8.3';
 
 // TODO: This type is shared between the reconciler and ReactDOM, but will
 // eventually be lifted out to the renderer.
+
 var ReactCurrentOwner = ReactSharedInternals.ReactCurrentOwner;
 
 var topLevelUpdateWarnings = void 0;
@@ -21101,9 +21826,6 @@ function legacyCreateRootFromDOMContainer(container, forceHydrate) {
 }
 
 function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
-  // TODO: Ensure all entry points contain this check
-  !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
-
   {
     topLevelUpdateWarnings(container);
   }
@@ -21179,18 +21901,31 @@ var ReactDOM = {
     return findHostInstance(componentOrElement);
   },
   hydrate: function (element, container, callback) {
+    !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
+    {
+      !!container._reactHasBeenPassedToCreateRootDEV ? warningWithoutStack$1(false, 'You are calling ReactDOM.hydrate() on a container that was previously ' + 'passed to ReactDOM.%s(). This is not supported. ' + 'Did you mean to call createRoot(container, {hydrate: true}).render(element)?', enableStableConcurrentModeAPIs ? 'createRoot' : 'unstable_createRoot') : void 0;
+    }
     // TODO: throw or warn if we couldn't hydrate?
     return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
   },
   render: function (element, container, callback) {
+    !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
+    {
+      !!container._reactHasBeenPassedToCreateRootDEV ? warningWithoutStack$1(false, 'You are calling ReactDOM.render() on a container that was previously ' + 'passed to ReactDOM.%s(). This is not supported. ' + 'Did you mean to call root.render(element)?', enableStableConcurrentModeAPIs ? 'createRoot' : 'unstable_createRoot') : void 0;
+    }
     return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
   },
   unstable_renderSubtreeIntoContainer: function (parentComponent, element, containerNode, callback) {
+    !isValidContainer(containerNode) ? invariant(false, 'Target container is not a DOM element.') : void 0;
     !(parentComponent != null && has(parentComponent)) ? invariant(false, 'parentComponent must be a valid React Component') : void 0;
     return legacyRenderSubtreeIntoContainer(parentComponent, element, containerNode, false, callback);
   },
   unmountComponentAtNode: function (container) {
     !isValidContainer(container) ? invariant(false, 'unmountComponentAtNode(...): Target container is not a DOM element.') : void 0;
+
+    {
+      !!container._reactHasBeenPassedToCreateRootDEV ? warningWithoutStack$1(false, 'You are calling ReactDOM.unmountComponentAtNode() on a container that was previously ' + 'passed to ReactDOM.%s(). This is not supported. Did you mean to call root.unmount()?', enableStableConcurrentModeAPIs ? 'createRoot' : 'unstable_createRoot') : void 0;
+    }
 
     if (container._reactRootContainer) {
       {
@@ -21254,6 +21989,10 @@ var ReactDOM = {
 function createRoot(container, options) {
   var functionName = enableStableConcurrentModeAPIs ? 'createRoot' : 'unstable_createRoot';
   !isValidContainer(container) ? invariant(false, '%s(...): Target container is not a DOM element.', functionName) : void 0;
+  {
+    !!container._reactRootContainer ? warningWithoutStack$1(false, 'You are calling ReactDOM.%s() on a container that was previously ' + 'passed to ReactDOM.render(). This is not supported.', enableStableConcurrentModeAPIs ? 'createRoot' : 'unstable_createRoot') : void 0;
+    container._reactHasBeenPassedToCreateRootDEV = true;
+  }
   var hydrate = options != null && options.hydrate === true;
   return new ReactRoot(container, true, hydrate);
 }
@@ -21355,7 +22094,7 @@ if (false) {} else {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.7.0
+/** @license React v16.8.3
  * react-is.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -21603,955 +22342,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/react-redux/es/components/Context.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/react-redux/es/components/Context.js ***!
-  \***********************************************************/
-/*! exports provided: ReactReduxContext, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReactReduxContext", function() { return ReactReduxContext; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ReactReduxContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(null);
-/* harmony default export */ __webpack_exports__["default"] = (ReactReduxContext);
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/components/Provider.js":
-/*!************************************************************!*\
-  !*** ./node_modules/react-redux/es/components/Provider.js ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Context */ "./node_modules/react-redux/es/components/Context.js");
-
-
-
-
-
-var Provider =
-/*#__PURE__*/
-function (_Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Provider, _Component);
-
-  function Provider(props) {
-    var _this;
-
-    _this = _Component.call(this, props) || this;
-    var store = props.store;
-    _this.state = {
-      storeState: store.getState(),
-      store: store
-    };
-    return _this;
-  }
-
-  var _proto = Provider.prototype;
-
-  _proto.componentDidMount = function componentDidMount() {
-    this._isMounted = true;
-    this.subscribe();
-  };
-
-  _proto.componentWillUnmount = function componentWillUnmount() {
-    if (this.unsubscribe) this.unsubscribe();
-    this._isMounted = false;
-  };
-
-  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
-    if (this.props.store !== prevProps.store) {
-      if (this.unsubscribe) this.unsubscribe();
-      this.subscribe();
-    }
-  };
-
-  _proto.subscribe = function subscribe() {
-    var _this2 = this;
-
-    var store = this.props.store;
-    this.unsubscribe = store.subscribe(function () {
-      var newStoreState = store.getState();
-
-      if (!_this2._isMounted) {
-        return;
-      }
-
-      _this2.setState(function (providerState) {
-        // If the value is the same, skip the unnecessary state update.
-        if (providerState.storeState === newStoreState) {
-          return null;
-        }
-
-        return {
-          storeState: newStoreState
-        };
-      });
-    }); // Actions might have been dispatched between render and mount - handle those
-
-    var postMountStoreState = store.getState();
-
-    if (postMountStoreState !== this.state.storeState) {
-      this.setState({
-        storeState: postMountStoreState
-      });
-    }
-  };
-
-  _proto.render = function render() {
-    var Context = this.props.context || _Context__WEBPACK_IMPORTED_MODULE_3__["ReactReduxContext"];
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Context.Provider, {
-      value: this.state
-    }, this.props.children);
-  };
-
-  return Provider;
-}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
-
-Provider.propTypes = {
-  store: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-    subscribe: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
-    dispatch: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,
-    getState: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired
-  }),
-  context: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object,
-  children: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.any
-};
-/* harmony default export */ __webpack_exports__["default"] = (Provider);
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/components/connectAdvanced.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/react-redux/es/components/connectAdvanced.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return connectAdvanced; });
-/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
-/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js");
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
-/* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! hoist-non-react-statics */ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js");
-/* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! invariant */ "./node_modules/invariant/browser.js");
-/* harmony import */ var invariant__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(invariant__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
-/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_is__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Context */ "./node_modules/react-redux/es/components/Context.js");
-
-
-
-
-
-
-
-
-
-function connectAdvanced(
-/*
-  selectorFactory is a func that is responsible for returning the selector function used to
-  compute new props from state, props, and dispatch. For example:
-     export default connectAdvanced((dispatch, options) => (state, props) => ({
-      thing: state.things[props.thingId],
-      saveThing: fields => dispatch(actionCreators.saveThing(props.thingId, fields)),
-    }))(YourComponent)
-   Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
-  outside of their selector as an optimization. Options passed to connectAdvanced are passed to
-  the selectorFactory, along with displayName and WrappedComponent, as the second argument.
-   Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
-  props. Do not use connectAdvanced directly without memoizing results between calls to your
-  selector, otherwise the Connect component will re-render on every state or props change.
-*/
-selectorFactory, // options object:
-_ref) {
-  if (_ref === void 0) {
-    _ref = {};
-  }
-
-  var _ref2 = _ref,
-      _ref2$getDisplayName = _ref2.getDisplayName,
-      getDisplayName = _ref2$getDisplayName === void 0 ? function (name) {
-    return "ConnectAdvanced(" + name + ")";
-  } : _ref2$getDisplayName,
-      _ref2$methodName = _ref2.methodName,
-      methodName = _ref2$methodName === void 0 ? 'connectAdvanced' : _ref2$methodName,
-      _ref2$renderCountProp = _ref2.renderCountProp,
-      renderCountProp = _ref2$renderCountProp === void 0 ? undefined : _ref2$renderCountProp,
-      _ref2$shouldHandleSta = _ref2.shouldHandleStateChanges,
-      shouldHandleStateChanges = _ref2$shouldHandleSta === void 0 ? true : _ref2$shouldHandleSta,
-      _ref2$storeKey = _ref2.storeKey,
-      storeKey = _ref2$storeKey === void 0 ? 'store' : _ref2$storeKey,
-      _ref2$withRef = _ref2.withRef,
-      withRef = _ref2$withRef === void 0 ? false : _ref2$withRef,
-      _ref2$forwardRef = _ref2.forwardRef,
-      forwardRef = _ref2$forwardRef === void 0 ? false : _ref2$forwardRef,
-      _ref2$context = _ref2.context,
-      context = _ref2$context === void 0 ? _Context__WEBPACK_IMPORTED_MODULE_8__["ReactReduxContext"] : _ref2$context,
-      connectOptions = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_3__["default"])(_ref2, ["getDisplayName", "methodName", "renderCountProp", "shouldHandleStateChanges", "storeKey", "withRef", "forwardRef", "context"]);
-
-  invariant__WEBPACK_IMPORTED_MODULE_5___default()(renderCountProp === undefined, "renderCountProp is removed. render counting is built into the latest React dev tools profiling extension");
-  invariant__WEBPACK_IMPORTED_MODULE_5___default()(!withRef, 'withRef is removed. To access the wrapped instance, use a ref on the connected component');
-  var customStoreWarningMessage = 'To use a custom Redux store for specific components,  create a custom React context with ' + "React.createContext(), and pass the context object to React-Redux's Provider and specific components" + ' like:  <Provider context={MyContext}><ConnectedComponent context={MyContext} /></Provider>. ' + 'You may also pass a {context : MyContext} option to connect';
-  invariant__WEBPACK_IMPORTED_MODULE_5___default()(storeKey === 'store', 'storeKey has been removed and does not do anything. ' + customStoreWarningMessage);
-  var Context = context;
-  return function wrapWithConnect(WrappedComponent) {
-    if (true) {
-      invariant__WEBPACK_IMPORTED_MODULE_5___default()(Object(react_is__WEBPACK_IMPORTED_MODULE_7__["isValidElementType"])(WrappedComponent), "You must pass a component to the function returned by " + (methodName + ". Instead received " + JSON.stringify(WrappedComponent)));
-    }
-
-    var wrappedComponentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
-    var displayName = getDisplayName(wrappedComponentName);
-
-    var selectorFactoryOptions = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, connectOptions, {
-      getDisplayName: getDisplayName,
-      methodName: methodName,
-      renderCountProp: renderCountProp,
-      shouldHandleStateChanges: shouldHandleStateChanges,
-      storeKey: storeKey,
-      displayName: displayName,
-      wrappedComponentName: wrappedComponentName,
-      WrappedComponent: WrappedComponent
-    });
-
-    var pure = connectOptions.pure;
-    var OuterBaseComponent = react__WEBPACK_IMPORTED_MODULE_6__["Component"];
-    var FinalWrappedComponent = WrappedComponent;
-
-    if (pure) {
-      OuterBaseComponent = react__WEBPACK_IMPORTED_MODULE_6__["PureComponent"];
-    }
-
-    function makeDerivedPropsSelector() {
-      var lastProps;
-      var lastState;
-      var lastDerivedProps;
-      var lastStore;
-      var sourceSelector;
-      return function selectDerivedProps(state, props, store) {
-        if (pure && lastProps === props && lastState === state) {
-          return lastDerivedProps;
-        }
-
-        if (store !== lastStore) {
-          lastStore = store;
-          sourceSelector = selectorFactory(store.dispatch, selectorFactoryOptions);
-        }
-
-        lastProps = props;
-        lastState = state;
-        var nextProps = sourceSelector(state, props);
-
-        if (lastDerivedProps === nextProps) {
-          return lastDerivedProps;
-        }
-
-        lastDerivedProps = nextProps;
-        return lastDerivedProps;
-      };
-    }
-
-    function makeChildElementSelector() {
-      var lastChildProps, lastForwardRef, lastChildElement;
-      return function selectChildElement(childProps, forwardRef) {
-        if (childProps !== lastChildProps || forwardRef !== lastForwardRef) {
-          lastChildProps = childProps;
-          lastForwardRef = forwardRef;
-          lastChildElement = react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(FinalWrappedComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_2__["default"])({}, childProps, {
-            ref: forwardRef
-          }));
-        }
-
-        return lastChildElement;
-      };
-    }
-
-    var Connect =
-    /*#__PURE__*/
-    function (_OuterBaseComponent) {
-      Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Connect, _OuterBaseComponent);
-
-      function Connect(props) {
-        var _this;
-
-        _this = _OuterBaseComponent.call(this, props) || this;
-        invariant__WEBPACK_IMPORTED_MODULE_5___default()(forwardRef ? !props.wrapperProps[storeKey] : !props[storeKey], 'Passing redux store in props has been removed and does not do anything. ' + customStoreWarningMessage);
-        _this.selectDerivedProps = makeDerivedPropsSelector();
-        _this.selectChildElement = makeChildElementSelector();
-        _this.renderWrappedComponent = _this.renderWrappedComponent.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__["default"])(_this)));
-        return _this;
-      }
-
-      var _proto = Connect.prototype;
-
-      _proto.renderWrappedComponent = function renderWrappedComponent(value) {
-        invariant__WEBPACK_IMPORTED_MODULE_5___default()(value, "Could not find \"store\" in the context of " + ("\"" + displayName + "\". Either wrap the root component in a <Provider>, ") + "or pass a custom React context provider to <Provider> and the corresponding " + ("React context consumer to " + displayName + " in connect options."));
-        var storeState = value.storeState,
-            store = value.store;
-        var wrapperProps = this.props;
-        var forwardedRef;
-
-        if (forwardRef) {
-          wrapperProps = this.props.wrapperProps;
-          forwardedRef = this.props.forwardedRef;
-        }
-
-        var derivedProps = this.selectDerivedProps(storeState, wrapperProps, store);
-        return this.selectChildElement(derivedProps, forwardedRef);
-      };
-
-      _proto.render = function render() {
-        var ContextToUse = this.props.context || Context;
-        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(ContextToUse.Consumer, null, this.renderWrappedComponent);
-      };
-
-      return Connect;
-    }(OuterBaseComponent);
-
-    Connect.WrappedComponent = WrappedComponent;
-    Connect.displayName = displayName;
-
-    if (forwardRef) {
-      var forwarded = react__WEBPACK_IMPORTED_MODULE_6___default.a.forwardRef(function forwardConnectRef(props, ref) {
-        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Connect, {
-          wrapperProps: props,
-          forwardedRef: ref
-        });
-      });
-      forwarded.displayName = displayName;
-      forwarded.WrappedComponent = WrappedComponent;
-      return hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4___default()(forwarded, WrappedComponent);
-    }
-
-    return hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_4___default()(Connect, WrappedComponent);
-  };
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/connect/connect.js":
-/*!********************************************************!*\
-  !*** ./node_modules/react-redux/es/connect/connect.js ***!
-  \********************************************************/
-/*! exports provided: createConnect, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createConnect", function() { return createConnect; });
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
-/* harmony import */ var _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/connectAdvanced */ "./node_modules/react-redux/es/components/connectAdvanced.js");
-/* harmony import */ var _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/shallowEqual */ "./node_modules/react-redux/es/utils/shallowEqual.js");
-/* harmony import */ var _mapDispatchToProps__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mapDispatchToProps */ "./node_modules/react-redux/es/connect/mapDispatchToProps.js");
-/* harmony import */ var _mapStateToProps__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mapStateToProps */ "./node_modules/react-redux/es/connect/mapStateToProps.js");
-/* harmony import */ var _mergeProps__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./mergeProps */ "./node_modules/react-redux/es/connect/mergeProps.js");
-/* harmony import */ var _selectorFactory__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selectorFactory */ "./node_modules/react-redux/es/connect/selectorFactory.js");
-
-
-
-
-
-
-
-
-/*
-  connect is a facade over connectAdvanced. It turns its args into a compatible
-  selectorFactory, which has the signature:
-
-    (dispatch, options) => (nextState, nextOwnProps) => nextFinalProps
-  
-  connect passes its args to connectAdvanced as options, which will in turn pass them to
-  selectorFactory each time a Connect component instance is instantiated or hot reloaded.
-
-  selectorFactory returns a final props selector from its mapStateToProps,
-  mapStateToPropsFactories, mapDispatchToProps, mapDispatchToPropsFactories, mergeProps,
-  mergePropsFactories, and pure args.
-
-  The resulting final props selector is called by the Connect component instance whenever
-  it receives new props or store state.
- */
-
-function match(arg, factories, name) {
-  for (var i = factories.length - 1; i >= 0; i--) {
-    var result = factories[i](arg);
-    if (result) return result;
-  }
-
-  return function (dispatch, options) {
-    throw new Error("Invalid value of type " + typeof arg + " for " + name + " argument when connecting component " + options.wrappedComponentName + ".");
-  };
-}
-
-function strictEqual(a, b) {
-  return a === b;
-} // createConnect with default args builds the 'official' connect behavior. Calling it with
-// different options opens up some testing and extensibility scenarios
-
-
-function createConnect(_temp) {
-  var _ref = _temp === void 0 ? {} : _temp,
-      _ref$connectHOC = _ref.connectHOC,
-      connectHOC = _ref$connectHOC === void 0 ? _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_2__["default"] : _ref$connectHOC,
-      _ref$mapStateToPropsF = _ref.mapStateToPropsFactories,
-      mapStateToPropsFactories = _ref$mapStateToPropsF === void 0 ? _mapStateToProps__WEBPACK_IMPORTED_MODULE_5__["default"] : _ref$mapStateToPropsF,
-      _ref$mapDispatchToPro = _ref.mapDispatchToPropsFactories,
-      mapDispatchToPropsFactories = _ref$mapDispatchToPro === void 0 ? _mapDispatchToProps__WEBPACK_IMPORTED_MODULE_4__["default"] : _ref$mapDispatchToPro,
-      _ref$mergePropsFactor = _ref.mergePropsFactories,
-      mergePropsFactories = _ref$mergePropsFactor === void 0 ? _mergeProps__WEBPACK_IMPORTED_MODULE_6__["default"] : _ref$mergePropsFactor,
-      _ref$selectorFactory = _ref.selectorFactory,
-      selectorFactory = _ref$selectorFactory === void 0 ? _selectorFactory__WEBPACK_IMPORTED_MODULE_7__["default"] : _ref$selectorFactory;
-
-  return function connect(mapStateToProps, mapDispatchToProps, mergeProps, _ref2) {
-    if (_ref2 === void 0) {
-      _ref2 = {};
-    }
-
-    var _ref3 = _ref2,
-        _ref3$pure = _ref3.pure,
-        pure = _ref3$pure === void 0 ? true : _ref3$pure,
-        _ref3$areStatesEqual = _ref3.areStatesEqual,
-        areStatesEqual = _ref3$areStatesEqual === void 0 ? strictEqual : _ref3$areStatesEqual,
-        _ref3$areOwnPropsEqua = _ref3.areOwnPropsEqual,
-        areOwnPropsEqual = _ref3$areOwnPropsEqua === void 0 ? _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__["default"] : _ref3$areOwnPropsEqua,
-        _ref3$areStatePropsEq = _ref3.areStatePropsEqual,
-        areStatePropsEqual = _ref3$areStatePropsEq === void 0 ? _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__["default"] : _ref3$areStatePropsEq,
-        _ref3$areMergedPropsE = _ref3.areMergedPropsEqual,
-        areMergedPropsEqual = _ref3$areMergedPropsE === void 0 ? _utils_shallowEqual__WEBPACK_IMPORTED_MODULE_3__["default"] : _ref3$areMergedPropsE,
-        extraOptions = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref3, ["pure", "areStatesEqual", "areOwnPropsEqual", "areStatePropsEqual", "areMergedPropsEqual"]);
-
-    var initMapStateToProps = match(mapStateToProps, mapStateToPropsFactories, 'mapStateToProps');
-    var initMapDispatchToProps = match(mapDispatchToProps, mapDispatchToPropsFactories, 'mapDispatchToProps');
-    var initMergeProps = match(mergeProps, mergePropsFactories, 'mergeProps');
-    return connectHOC(selectorFactory, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-      // used in error messages
-      methodName: 'connect',
-      // used to compute Connect's displayName from the wrapped component's displayName.
-      getDisplayName: function getDisplayName(name) {
-        return "Connect(" + name + ")";
-      },
-      // if mapStateToProps is falsy, the Connect component doesn't subscribe to store state changes
-      shouldHandleStateChanges: Boolean(mapStateToProps),
-      // passed through to selectorFactory
-      initMapStateToProps: initMapStateToProps,
-      initMapDispatchToProps: initMapDispatchToProps,
-      initMergeProps: initMergeProps,
-      pure: pure,
-      areStatesEqual: areStatesEqual,
-      areOwnPropsEqual: areOwnPropsEqual,
-      areStatePropsEqual: areStatePropsEqual,
-      areMergedPropsEqual: areMergedPropsEqual
-    }, extraOptions));
-  };
-}
-/* harmony default export */ __webpack_exports__["default"] = (createConnect());
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/connect/mapDispatchToProps.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/react-redux/es/connect/mapDispatchToProps.js ***!
-  \*******************************************************************/
-/*! exports provided: whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapDispatchToPropsIsFunction", function() { return whenMapDispatchToPropsIsFunction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapDispatchToPropsIsMissing", function() { return whenMapDispatchToPropsIsMissing; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapDispatchToPropsIsObject", function() { return whenMapDispatchToPropsIsObject; });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wrapMapToProps */ "./node_modules/react-redux/es/connect/wrapMapToProps.js");
-
-
-function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
-  return typeof mapDispatchToProps === 'function' ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__["wrapMapToPropsFunc"])(mapDispatchToProps, 'mapDispatchToProps') : undefined;
-}
-function whenMapDispatchToPropsIsMissing(mapDispatchToProps) {
-  return !mapDispatchToProps ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__["wrapMapToPropsConstant"])(function (dispatch) {
-    return {
-      dispatch: dispatch
-    };
-  }) : undefined;
-}
-function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
-  return mapDispatchToProps && typeof mapDispatchToProps === 'object' ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_1__["wrapMapToPropsConstant"])(function (dispatch) {
-    return Object(redux__WEBPACK_IMPORTED_MODULE_0__["bindActionCreators"])(mapDispatchToProps, dispatch);
-  }) : undefined;
-}
-/* harmony default export */ __webpack_exports__["default"] = ([whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject]);
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/connect/mapStateToProps.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/react-redux/es/connect/mapStateToProps.js ***!
-  \****************************************************************/
-/*! exports provided: whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapStateToPropsIsFunction", function() { return whenMapStateToPropsIsFunction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMapStateToPropsIsMissing", function() { return whenMapStateToPropsIsMissing; });
-/* harmony import */ var _wrapMapToProps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wrapMapToProps */ "./node_modules/react-redux/es/connect/wrapMapToProps.js");
-
-function whenMapStateToPropsIsFunction(mapStateToProps) {
-  return typeof mapStateToProps === 'function' ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_0__["wrapMapToPropsFunc"])(mapStateToProps, 'mapStateToProps') : undefined;
-}
-function whenMapStateToPropsIsMissing(mapStateToProps) {
-  return !mapStateToProps ? Object(_wrapMapToProps__WEBPACK_IMPORTED_MODULE_0__["wrapMapToPropsConstant"])(function () {
-    return {};
-  }) : undefined;
-}
-/* harmony default export */ __webpack_exports__["default"] = ([whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing]);
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/connect/mergeProps.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/react-redux/es/connect/mergeProps.js ***!
-  \***********************************************************/
-/*! exports provided: defaultMergeProps, wrapMergePropsFunc, whenMergePropsIsFunction, whenMergePropsIsOmitted, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultMergeProps", function() { return defaultMergeProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapMergePropsFunc", function() { return wrapMergePropsFunc; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMergePropsIsFunction", function() { return whenMergePropsIsFunction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "whenMergePropsIsOmitted", function() { return whenMergePropsIsOmitted; });
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/verifyPlainObject */ "./node_modules/react-redux/es/utils/verifyPlainObject.js");
-
-
-function defaultMergeProps(stateProps, dispatchProps, ownProps) {
-  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, ownProps, stateProps, dispatchProps);
-}
-function wrapMergePropsFunc(mergeProps) {
-  return function initMergePropsProxy(dispatch, _ref) {
-    var displayName = _ref.displayName,
-        pure = _ref.pure,
-        areMergedPropsEqual = _ref.areMergedPropsEqual;
-    var hasRunOnce = false;
-    var mergedProps;
-    return function mergePropsProxy(stateProps, dispatchProps, ownProps) {
-      var nextMergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-
-      if (hasRunOnce) {
-        if (!pure || !areMergedPropsEqual(nextMergedProps, mergedProps)) mergedProps = nextMergedProps;
-      } else {
-        hasRunOnce = true;
-        mergedProps = nextMergedProps;
-        if (true) Object(_utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_1__["default"])(mergedProps, displayName, 'mergeProps');
-      }
-
-      return mergedProps;
-    };
-  };
-}
-function whenMergePropsIsFunction(mergeProps) {
-  return typeof mergeProps === 'function' ? wrapMergePropsFunc(mergeProps) : undefined;
-}
-function whenMergePropsIsOmitted(mergeProps) {
-  return !mergeProps ? function () {
-    return defaultMergeProps;
-  } : undefined;
-}
-/* harmony default export */ __webpack_exports__["default"] = ([whenMergePropsIsFunction, whenMergePropsIsOmitted]);
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/connect/selectorFactory.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/react-redux/es/connect/selectorFactory.js ***!
-  \****************************************************************/
-/*! exports provided: impureFinalPropsSelectorFactory, pureFinalPropsSelectorFactory, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "impureFinalPropsSelectorFactory", function() { return impureFinalPropsSelectorFactory; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pureFinalPropsSelectorFactory", function() { return pureFinalPropsSelectorFactory; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return finalPropsSelectorFactory; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
-/* harmony import */ var _verifySubselectors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./verifySubselectors */ "./node_modules/react-redux/es/connect/verifySubselectors.js");
-
-
-function impureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch) {
-  return function impureFinalPropsSelector(state, ownProps) {
-    return mergeProps(mapStateToProps(state, ownProps), mapDispatchToProps(dispatch, ownProps), ownProps);
-  };
-}
-function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, _ref) {
-  var areStatesEqual = _ref.areStatesEqual,
-      areOwnPropsEqual = _ref.areOwnPropsEqual,
-      areStatePropsEqual = _ref.areStatePropsEqual;
-  var hasRunAtLeastOnce = false;
-  var state;
-  var ownProps;
-  var stateProps;
-  var dispatchProps;
-  var mergedProps;
-
-  function handleFirstCall(firstState, firstOwnProps) {
-    state = firstState;
-    ownProps = firstOwnProps;
-    stateProps = mapStateToProps(state, ownProps);
-    dispatchProps = mapDispatchToProps(dispatch, ownProps);
-    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-    hasRunAtLeastOnce = true;
-    return mergedProps;
-  }
-
-  function handleNewPropsAndNewState() {
-    stateProps = mapStateToProps(state, ownProps);
-    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
-    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-    return mergedProps;
-  }
-
-  function handleNewProps() {
-    if (mapStateToProps.dependsOnOwnProps) stateProps = mapStateToProps(state, ownProps);
-    if (mapDispatchToProps.dependsOnOwnProps) dispatchProps = mapDispatchToProps(dispatch, ownProps);
-    mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-    return mergedProps;
-  }
-
-  function handleNewState() {
-    var nextStateProps = mapStateToProps(state, ownProps);
-    var statePropsChanged = !areStatePropsEqual(nextStateProps, stateProps);
-    stateProps = nextStateProps;
-    if (statePropsChanged) mergedProps = mergeProps(stateProps, dispatchProps, ownProps);
-    return mergedProps;
-  }
-
-  function handleSubsequentCalls(nextState, nextOwnProps) {
-    var propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
-    var stateChanged = !areStatesEqual(nextState, state);
-    state = nextState;
-    ownProps = nextOwnProps;
-    if (propsChanged && stateChanged) return handleNewPropsAndNewState();
-    if (propsChanged) return handleNewProps();
-    if (stateChanged) return handleNewState();
-    return mergedProps;
-  }
-
-  return function pureFinalPropsSelector(nextState, nextOwnProps) {
-    return hasRunAtLeastOnce ? handleSubsequentCalls(nextState, nextOwnProps) : handleFirstCall(nextState, nextOwnProps);
-  };
-} // TODO: Add more comments
-// If pure is true, the selector returned by selectorFactory will memoize its results,
-// allowing connectAdvanced's shouldComponentUpdate to return false if final
-// props have not changed. If false, the selector will always return a new
-// object and shouldComponentUpdate will always return true.
-
-function finalPropsSelectorFactory(dispatch, _ref2) {
-  var initMapStateToProps = _ref2.initMapStateToProps,
-      initMapDispatchToProps = _ref2.initMapDispatchToProps,
-      initMergeProps = _ref2.initMergeProps,
-      options = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref2, ["initMapStateToProps", "initMapDispatchToProps", "initMergeProps"]);
-
-  var mapStateToProps = initMapStateToProps(dispatch, options);
-  var mapDispatchToProps = initMapDispatchToProps(dispatch, options);
-  var mergeProps = initMergeProps(dispatch, options);
-
-  if (true) {
-    Object(_verifySubselectors__WEBPACK_IMPORTED_MODULE_1__["default"])(mapStateToProps, mapDispatchToProps, mergeProps, options.displayName);
-  }
-
-  var selectorFactory = options.pure ? pureFinalPropsSelectorFactory : impureFinalPropsSelectorFactory;
-  return selectorFactory(mapStateToProps, mapDispatchToProps, mergeProps, dispatch, options);
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/connect/verifySubselectors.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/react-redux/es/connect/verifySubselectors.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return verifySubselectors; });
-/* harmony import */ var _utils_warning__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/warning */ "./node_modules/react-redux/es/utils/warning.js");
-
-
-function verify(selector, methodName, displayName) {
-  if (!selector) {
-    throw new Error("Unexpected value for " + methodName + " in " + displayName + ".");
-  } else if (methodName === 'mapStateToProps' || methodName === 'mapDispatchToProps') {
-    if (!selector.hasOwnProperty('dependsOnOwnProps')) {
-      Object(_utils_warning__WEBPACK_IMPORTED_MODULE_0__["default"])("The selector for " + methodName + " of " + displayName + " did not specify a value for dependsOnOwnProps.");
-    }
-  }
-}
-
-function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, displayName) {
-  verify(mapStateToProps, 'mapStateToProps', displayName);
-  verify(mapDispatchToProps, 'mapDispatchToProps', displayName);
-  verify(mergeProps, 'mergeProps', displayName);
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/connect/wrapMapToProps.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/react-redux/es/connect/wrapMapToProps.js ***!
-  \***************************************************************/
-/*! exports provided: wrapMapToPropsConstant, getDependsOnOwnProps, wrapMapToPropsFunc */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapMapToPropsConstant", function() { return wrapMapToPropsConstant; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDependsOnOwnProps", function() { return getDependsOnOwnProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapMapToPropsFunc", function() { return wrapMapToPropsFunc; });
-/* harmony import */ var _utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/verifyPlainObject */ "./node_modules/react-redux/es/utils/verifyPlainObject.js");
-
-function wrapMapToPropsConstant(getConstant) {
-  return function initConstantSelector(dispatch, options) {
-    var constant = getConstant(dispatch, options);
-
-    function constantSelector() {
-      return constant;
-    }
-
-    constantSelector.dependsOnOwnProps = false;
-    return constantSelector;
-  };
-} // dependsOnOwnProps is used by createMapToPropsProxy to determine whether to pass props as args
-// to the mapToProps function being wrapped. It is also used by makePurePropsSelector to determine
-// whether mapToProps needs to be invoked when props have changed.
-//
-// A length of one signals that mapToProps does not depend on props from the parent component.
-// A length of zero is assumed to mean mapToProps is getting args via arguments or ...args and
-// therefore not reporting its length accurately..
-
-function getDependsOnOwnProps(mapToProps) {
-  return mapToProps.dependsOnOwnProps !== null && mapToProps.dependsOnOwnProps !== undefined ? Boolean(mapToProps.dependsOnOwnProps) : mapToProps.length !== 1;
-} // Used by whenMapStateToPropsIsFunction and whenMapDispatchToPropsIsFunction,
-// this function wraps mapToProps in a proxy function which does several things:
-//
-//  * Detects whether the mapToProps function being called depends on props, which
-//    is used by selectorFactory to decide if it should reinvoke on props changes.
-//
-//  * On first call, handles mapToProps if returns another function, and treats that
-//    new function as the true mapToProps for subsequent calls.
-//
-//  * On first call, verifies the first result is a plain object, in order to warn
-//    the developer that their mapToProps function is not returning a valid result.
-//
-
-function wrapMapToPropsFunc(mapToProps, methodName) {
-  return function initProxySelector(dispatch, _ref) {
-    var displayName = _ref.displayName;
-
-    var proxy = function mapToPropsProxy(stateOrDispatch, ownProps) {
-      return proxy.dependsOnOwnProps ? proxy.mapToProps(stateOrDispatch, ownProps) : proxy.mapToProps(stateOrDispatch);
-    }; // allow detectFactoryAndVerify to get ownProps
-
-
-    proxy.dependsOnOwnProps = true;
-
-    proxy.mapToProps = function detectFactoryAndVerify(stateOrDispatch, ownProps) {
-      proxy.mapToProps = mapToProps;
-      proxy.dependsOnOwnProps = getDependsOnOwnProps(mapToProps);
-      var props = proxy(stateOrDispatch, ownProps);
-
-      if (typeof props === 'function') {
-        proxy.mapToProps = props;
-        proxy.dependsOnOwnProps = getDependsOnOwnProps(props);
-        props = proxy(stateOrDispatch, ownProps);
-      }
-
-      if (true) Object(_utils_verifyPlainObject__WEBPACK_IMPORTED_MODULE_0__["default"])(props, displayName, methodName);
-      return props;
-    };
-
-    return proxy;
-  };
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/react-redux/es/index.js ***!
-  \**********************************************/
-/*! exports provided: Provider, connectAdvanced, ReactReduxContext, connect */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Provider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Provider */ "./node_modules/react-redux/es/components/Provider.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return _components_Provider__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/connectAdvanced */ "./node_modules/react-redux/es/components/connectAdvanced.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return _components_connectAdvanced__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var _components_Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Context */ "./node_modules/react-redux/es/components/Context.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ReactReduxContext", function() { return _components_Context__WEBPACK_IMPORTED_MODULE_2__["ReactReduxContext"]; });
-
-/* harmony import */ var _connect_connect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./connect/connect */ "./node_modules/react-redux/es/connect/connect.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return _connect_connect__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/utils/isPlainObject.js":
-/*!************************************************************!*\
-  !*** ./node_modules/react-redux/es/utils/isPlainObject.js ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isPlainObject; });
-/**
- * @param {any} obj The object to inspect.
- * @returns {boolean} True if the argument appears to be a plain object.
- */
-function isPlainObject(obj) {
-  if (typeof obj !== 'object' || obj === null) return false;
-  var proto = Object.getPrototypeOf(obj);
-  if (proto === null) return true;
-  var baseProto = proto;
-
-  while (Object.getPrototypeOf(baseProto) !== null) {
-    baseProto = Object.getPrototypeOf(baseProto);
-  }
-
-  return proto === baseProto;
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/utils/shallowEqual.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/react-redux/es/utils/shallowEqual.js ***!
-  \***********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return shallowEqual; });
-var hasOwn = Object.prototype.hasOwnProperty;
-
-function is(x, y) {
-  if (x === y) {
-    return x !== 0 || y !== 0 || 1 / x === 1 / y;
-  } else {
-    return x !== x && y !== y;
-  }
-}
-
-function shallowEqual(objA, objB) {
-  if (is(objA, objB)) return true;
-
-  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
-    return false;
-  }
-
-  var keysA = Object.keys(objA);
-  var keysB = Object.keys(objB);
-  if (keysA.length !== keysB.length) return false;
-
-  for (var i = 0; i < keysA.length; i++) {
-    if (!hasOwn.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/utils/verifyPlainObject.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/react-redux/es/utils/verifyPlainObject.js ***!
-  \****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return verifyPlainObject; });
-/* harmony import */ var _isPlainObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isPlainObject */ "./node_modules/react-redux/es/utils/isPlainObject.js");
-/* harmony import */ var _warning__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./warning */ "./node_modules/react-redux/es/utils/warning.js");
-
-
-function verifyPlainObject(value, displayName, methodName) {
-  if (!Object(_isPlainObject__WEBPACK_IMPORTED_MODULE_0__["default"])(value)) {
-    Object(_warning__WEBPACK_IMPORTED_MODULE_1__["default"])(methodName + "() in " + displayName + " must return a plain object. Instead received " + value + ".");
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/react-redux/es/utils/warning.js":
-/*!******************************************************!*\
-  !*** ./node_modules/react-redux/es/utils/warning.js ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return warning; });
-/**
- * Prints a warning in the console if it exists.
- *
- * @param {String} message The warning message.
- * @returns {void}
- */
-function warning(message) {
-  /* eslint-disable no-console */
-  if (typeof console !== 'undefined' && typeof console.error === 'function') {
-    console.error(message);
-  }
-  /* eslint-enable no-console */
-
-
-  try {
-    // This error was thrown as a convenience so that if you enable
-    // "break on all exceptions" in your console,
-    // it would pause the execution at this line.
-    throw new Error(message);
-    /* eslint-disable no-empty */
-  } catch (e) {}
-  /* eslint-enable no-empty */
-
-}
-
-/***/ }),
-
 /***/ "./node_modules/react/cjs/react.development.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react/cjs/react.development.js ***!
@@ -22560,7 +22350,7 @@ function warning(message) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.7.0
+/** @license React v16.8.3
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -22582,7 +22372,7 @@ var checkPropTypes = __webpack_require__(/*! prop-types/checkPropTypes */ "./nod
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.7.0';
+var ReactVersion = '16.8.3';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -22615,46 +22405,6 @@ function getIteratorFn(maybeIterable) {
   }
   return null;
 }
-
-var enableHooks = false;
-// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-
-
-// In some cases, StrictMode should also double-render lifecycles.
-// This can be confusing for tests though,
-// And it can be bad for performance in production.
-// This feature flag can be used to control the behavior:
-
-
-// To preserve the "Pause on caught exceptions" behavior of the debugger, we
-// replay the begin phase of a failed component inside invokeGuardedCallback.
-
-
-// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
-
-
-// Gather advanced timing metrics for Profiler subtrees.
-
-
-// Trace which interactions trigger each commit.
-
-
-// Only used in www builds.
- // TODO: true? Here it might just be false.
-
-// Only used in www builds.
-
-
-// Only used in www builds.
-
-
-// React Fire: prevent the value and checked attributes from syncing
-// with their related DOM properties
-
-
-// These APIs will no longer be "unstable" in the upcoming 16.7 release,
-// Control this behavior with a flag to support 16.6 minor releases in the meanwhile.
-var enableStableConcurrentModeAPIs = false;
 
 /**
  * Use invariant() to assert state which your program assumes to be true.
@@ -23012,6 +22762,17 @@ function createRef() {
 }
 
 /**
+ * Keeps track of the current dispatcher.
+ */
+var ReactCurrentDispatcher = {
+  /**
+   * @internal
+   * @type {ReactComponent}
+   */
+  current: null
+};
+
+/**
  * Keeps track of the current owner.
  *
  * The current owner is the component who should own any components that are
@@ -23022,8 +22783,7 @@ var ReactCurrentOwner = {
    * @internal
    * @type {ReactComponent}
    */
-  current: null,
-  currentDispatcher: null
+  current: null
 };
 
 var BEFORE_SLASH_RE = /^(.*)[\\\/]/;
@@ -23154,6 +22914,7 @@ function setCurrentlyValidatingElement(element) {
 }
 
 var ReactSharedInternals = {
+  ReactCurrentDispatcher: ReactCurrentDispatcher,
   ReactCurrentOwner: ReactCurrentOwner,
   // Used by renderers to avoid bundling object-assign twice in UMD bundles:
   assign: _assign
@@ -24023,14 +23784,16 @@ function memo(type, compare) {
 }
 
 function resolveDispatcher() {
-  var dispatcher = ReactCurrentOwner.currentDispatcher;
-  !(dispatcher !== null) ? invariant(false, 'Hooks can only be called inside the body of a function component.') : void 0;
+  var dispatcher = ReactCurrentDispatcher.current;
+  !(dispatcher !== null) ? invariant(false, 'Hooks can only be called inside the body of a function component. (https://fb.me/react-invalid-hook-call)') : void 0;
   return dispatcher;
 }
 
-function useContext(Context, observedBits) {
+function useContext(Context, unstable_observedBits) {
   var dispatcher = resolveDispatcher();
   {
+    !(unstable_observedBits === undefined) ? warning$1(false, 'useContext() second argument is reserved for future ' + 'use in React. Passing it is not supported. ' + 'You passed: %s.%s', unstable_observedBits, typeof unstable_observedBits === 'number' && Array.isArray(arguments[2]) ? '\n\nDid you call array.map(useContext)? ' + 'Calling Hooks inside a loop is not supported. ' + 'Learn more at https://fb.me/rules-of-hooks' : '') : void 0;
+
     // TODO: add a more generic warning for invalid values.
     if (Context._context !== undefined) {
       var realContext = Context._context;
@@ -24043,7 +23806,7 @@ function useContext(Context, observedBits) {
       }
     }
   }
-  return dispatcher.useContext(Context, observedBits);
+  return dispatcher.useContext(Context, unstable_observedBits);
 }
 
 function useState(initialState) {
@@ -24051,9 +23814,9 @@ function useState(initialState) {
   return dispatcher.useState(initialState);
 }
 
-function useReducer(reducer, initialState, initialAction) {
+function useReducer(reducer, initialArg, init) {
   var dispatcher = resolveDispatcher();
-  return dispatcher.useReducer(reducer, initialState, initialAction);
+  return dispatcher.useReducer(reducer, initialArg, init);
 }
 
 function useRef(initialValue) {
@@ -24081,9 +23844,16 @@ function useMemo(create, inputs) {
   return dispatcher.useMemo(create, inputs);
 }
 
-function useImperativeMethods(ref, create, inputs) {
+function useImperativeHandle(ref, create, inputs) {
   var dispatcher = resolveDispatcher();
-  return dispatcher.useImperativeMethods(ref, create, inputs);
+  return dispatcher.useImperativeHandle(ref, create, inputs);
+}
+
+function useDebugValue(value, formatterFn) {
+  {
+    var dispatcher = resolveDispatcher();
+    return dispatcher.useDebugValue(value, formatterFn);
+  }
 }
 
 /**
@@ -24172,7 +23942,7 @@ function validateExplicitKey(element, parentType) {
 
   setCurrentlyValidatingElement(element);
   {
-    warning$1(false, 'Each child in an array or iterator should have a unique "key" prop.' + '%s%s See https://fb.me/react-warning-keys for more information.', currentComponentErrorInfo, childOwner);
+    warning$1(false, 'Each child in a list should have a unique "key" prop.' + '%s%s See https://fb.me/react-warning-keys for more information.', currentComponentErrorInfo, childOwner);
   }
   setCurrentlyValidatingElement(null);
 }
@@ -24369,6 +24139,45 @@ function cloneElementWithValidation(element, props, children) {
   return newElement;
 }
 
+// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
+
+
+// In some cases, StrictMode should also double-render lifecycles.
+// This can be confusing for tests though,
+// And it can be bad for performance in production.
+// This feature flag can be used to control the behavior:
+
+
+// To preserve the "Pause on caught exceptions" behavior of the debugger, we
+// replay the begin phase of a failed component inside invokeGuardedCallback.
+
+
+// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
+
+
+// Gather advanced timing metrics for Profiler subtrees.
+
+
+// Trace which interactions trigger each commit.
+
+
+// Only used in www builds.
+ // TODO: true? Here it might just be false.
+
+// Only used in www builds.
+
+
+// Only used in www builds.
+
+
+// React Fire: prevent the value and checked attributes from syncing
+// with their related DOM properties
+
+
+// These APIs will no longer be "unstable" in the upcoming 16.7 release,
+// Control this behavior with a flag to support 16.6 minor releases in the meanwhile.
+var enableStableConcurrentModeAPIs = false;
+
 var React = {
   Children: {
     map: mapChildren,
@@ -24386,6 +24195,17 @@ var React = {
   forwardRef: forwardRef,
   lazy: lazy,
   memo: memo,
+
+  useCallback: useCallback,
+  useContext: useContext,
+  useEffect: useEffect,
+  useImperativeHandle: useImperativeHandle,
+  useDebugValue: useDebugValue,
+  useLayoutEffect: useLayoutEffect,
+  useMemo: useMemo,
+  useReducer: useReducer,
+  useRef: useRef,
+  useState: useState,
 
   Fragment: REACT_FRAGMENT_TYPE,
   StrictMode: REACT_STRICT_MODE_TYPE,
@@ -24414,18 +24234,6 @@ if (enableStableConcurrentModeAPIs) {
   React.Profiler = REACT_PROFILER_TYPE;
   React.unstable_ConcurrentMode = undefined;
   React.unstable_Profiler = undefined;
-}
-
-if (enableHooks) {
-  React.useCallback = useCallback;
-  React.useContext = useContext;
-  React.useEffect = useEffect;
-  React.useImperativeMethods = useImperativeMethods;
-  React.useLayoutEffect = useLayoutEffect;
-  React.useMemo = useMemo;
-  React.useReducer = useReducer;
-  React.useRef = useRef;
-  React.useState = useState;
 }
 
 
@@ -24464,662 +24272,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/redux/es/redux.js":
-/*!****************************************!*\
-  !*** ./node_modules/redux/es/redux.js ***!
-  \****************************************/
-/*! exports provided: createStore, combineReducers, bindActionCreators, applyMiddleware, compose, __DO_NOT_USE__ActionTypes */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return combineReducers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return bindActionCreators; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return applyMiddleware; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__DO_NOT_USE__ActionTypes", function() { return ActionTypes; });
-/* harmony import */ var symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! symbol-observable */ "./node_modules/symbol-observable/es/index.js");
-
-
-/**
- * These are private action types reserved by Redux.
- * For any unknown actions, you must return the current state.
- * If the current state is undefined, you must return the initial state.
- * Do not reference these action types directly in your code.
- */
-var randomString = function randomString() {
-  return Math.random().toString(36).substring(7).split('').join('.');
-};
-
-var ActionTypes = {
-  INIT: "@@redux/INIT" + randomString(),
-  REPLACE: "@@redux/REPLACE" + randomString(),
-  PROBE_UNKNOWN_ACTION: function PROBE_UNKNOWN_ACTION() {
-    return "@@redux/PROBE_UNKNOWN_ACTION" + randomString();
-  }
-};
-
-/**
- * @param {any} obj The object to inspect.
- * @returns {boolean} True if the argument appears to be a plain object.
- */
-function isPlainObject(obj) {
-  if (typeof obj !== 'object' || obj === null) return false;
-  var proto = obj;
-
-  while (Object.getPrototypeOf(proto) !== null) {
-    proto = Object.getPrototypeOf(proto);
-  }
-
-  return Object.getPrototypeOf(obj) === proto;
-}
-
-/**
- * Creates a Redux store that holds the state tree.
- * The only way to change the data in the store is to call `dispatch()` on it.
- *
- * There should only be a single store in your app. To specify how different
- * parts of the state tree respond to actions, you may combine several reducers
- * into a single reducer function by using `combineReducers`.
- *
- * @param {Function} reducer A function that returns the next state tree, given
- * the current state tree and the action to handle.
- *
- * @param {any} [preloadedState] The initial state. You may optionally specify it
- * to hydrate the state from the server in universal apps, or to restore a
- * previously serialized user session.
- * If you use `combineReducers` to produce the root reducer function, this must be
- * an object with the same shape as `combineReducers` keys.
- *
- * @param {Function} [enhancer] The store enhancer. You may optionally specify it
- * to enhance the store with third-party capabilities such as middleware,
- * time travel, persistence, etc. The only store enhancer that ships with Redux
- * is `applyMiddleware()`.
- *
- * @returns {Store} A Redux store that lets you read the state, dispatch actions
- * and subscribe to changes.
- */
-
-function createStore(reducer, preloadedState, enhancer) {
-  var _ref2;
-
-  if (typeof preloadedState === 'function' && typeof enhancer === 'function' || typeof enhancer === 'function' && typeof arguments[3] === 'function') {
-    throw new Error('It looks like you are passing several store enhancers to ' + 'createStore(). This is not supported. Instead, compose them ' + 'together to a single function');
-  }
-
-  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
-    enhancer = preloadedState;
-    preloadedState = undefined;
-  }
-
-  if (typeof enhancer !== 'undefined') {
-    if (typeof enhancer !== 'function') {
-      throw new Error('Expected the enhancer to be a function.');
-    }
-
-    return enhancer(createStore)(reducer, preloadedState);
-  }
-
-  if (typeof reducer !== 'function') {
-    throw new Error('Expected the reducer to be a function.');
-  }
-
-  var currentReducer = reducer;
-  var currentState = preloadedState;
-  var currentListeners = [];
-  var nextListeners = currentListeners;
-  var isDispatching = false;
-
-  function ensureCanMutateNextListeners() {
-    if (nextListeners === currentListeners) {
-      nextListeners = currentListeners.slice();
-    }
-  }
-  /**
-   * Reads the state tree managed by the store.
-   *
-   * @returns {any} The current state tree of your application.
-   */
-
-
-  function getState() {
-    if (isDispatching) {
-      throw new Error('You may not call store.getState() while the reducer is executing. ' + 'The reducer has already received the state as an argument. ' + 'Pass it down from the top reducer instead of reading it from the store.');
-    }
-
-    return currentState;
-  }
-  /**
-   * Adds a change listener. It will be called any time an action is dispatched,
-   * and some part of the state tree may potentially have changed. You may then
-   * call `getState()` to read the current state tree inside the callback.
-   *
-   * You may call `dispatch()` from a change listener, with the following
-   * caveats:
-   *
-   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
-   * If you subscribe or unsubscribe while the listeners are being invoked, this
-   * will not have any effect on the `dispatch()` that is currently in progress.
-   * However, the next `dispatch()` call, whether nested or not, will use a more
-   * recent snapshot of the subscription list.
-   *
-   * 2. The listener should not expect to see all state changes, as the state
-   * might have been updated multiple times during a nested `dispatch()` before
-   * the listener is called. It is, however, guaranteed that all subscribers
-   * registered before the `dispatch()` started will be called with the latest
-   * state by the time it exits.
-   *
-   * @param {Function} listener A callback to be invoked on every dispatch.
-   * @returns {Function} A function to remove this change listener.
-   */
-
-
-  function subscribe(listener) {
-    if (typeof listener !== 'function') {
-      throw new Error('Expected the listener to be a function.');
-    }
-
-    if (isDispatching) {
-      throw new Error('You may not call store.subscribe() while the reducer is executing. ' + 'If you would like to be notified after the store has been updated, subscribe from a ' + 'component and invoke store.getState() in the callback to access the latest state. ' + 'See https://redux.js.org/api-reference/store#subscribe(listener) for more details.');
-    }
-
-    var isSubscribed = true;
-    ensureCanMutateNextListeners();
-    nextListeners.push(listener);
-    return function unsubscribe() {
-      if (!isSubscribed) {
-        return;
-      }
-
-      if (isDispatching) {
-        throw new Error('You may not unsubscribe from a store listener while the reducer is executing. ' + 'See https://redux.js.org/api-reference/store#subscribe(listener) for more details.');
-      }
-
-      isSubscribed = false;
-      ensureCanMutateNextListeners();
-      var index = nextListeners.indexOf(listener);
-      nextListeners.splice(index, 1);
-    };
-  }
-  /**
-   * Dispatches an action. It is the only way to trigger a state change.
-   *
-   * The `reducer` function, used to create the store, will be called with the
-   * current state tree and the given `action`. Its return value will
-   * be considered the **next** state of the tree, and the change listeners
-   * will be notified.
-   *
-   * The base implementation only supports plain object actions. If you want to
-   * dispatch a Promise, an Observable, a thunk, or something else, you need to
-   * wrap your store creating function into the corresponding middleware. For
-   * example, see the documentation for the `redux-thunk` package. Even the
-   * middleware will eventually dispatch plain object actions using this method.
-   *
-   * @param {Object} action A plain object representing “what changed”. It is
-   * a good idea to keep actions serializable so you can record and replay user
-   * sessions, or use the time travelling `redux-devtools`. An action must have
-   * a `type` property which may not be `undefined`. It is a good idea to use
-   * string constants for action types.
-   *
-   * @returns {Object} For convenience, the same action object you dispatched.
-   *
-   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
-   * return something else (for example, a Promise you can await).
-   */
-
-
-  function dispatch(action) {
-    if (!isPlainObject(action)) {
-      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
-    }
-
-    if (typeof action.type === 'undefined') {
-      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
-    }
-
-    if (isDispatching) {
-      throw new Error('Reducers may not dispatch actions.');
-    }
-
-    try {
-      isDispatching = true;
-      currentState = currentReducer(currentState, action);
-    } finally {
-      isDispatching = false;
-    }
-
-    var listeners = currentListeners = nextListeners;
-
-    for (var i = 0; i < listeners.length; i++) {
-      var listener = listeners[i];
-      listener();
-    }
-
-    return action;
-  }
-  /**
-   * Replaces the reducer currently used by the store to calculate the state.
-   *
-   * You might need this if your app implements code splitting and you want to
-   * load some of the reducers dynamically. You might also need this if you
-   * implement a hot reloading mechanism for Redux.
-   *
-   * @param {Function} nextReducer The reducer for the store to use instead.
-   * @returns {void}
-   */
-
-
-  function replaceReducer(nextReducer) {
-    if (typeof nextReducer !== 'function') {
-      throw new Error('Expected the nextReducer to be a function.');
-    }
-
-    currentReducer = nextReducer;
-    dispatch({
-      type: ActionTypes.REPLACE
-    });
-  }
-  /**
-   * Interoperability point for observable/reactive libraries.
-   * @returns {observable} A minimal observable of state changes.
-   * For more information, see the observable proposal:
-   * https://github.com/tc39/proposal-observable
-   */
-
-
-  function observable() {
-    var _ref;
-
-    var outerSubscribe = subscribe;
-    return _ref = {
-      /**
-       * The minimal observable subscription method.
-       * @param {Object} observer Any object that can be used as an observer.
-       * The observer object should have a `next` method.
-       * @returns {subscription} An object with an `unsubscribe` method that can
-       * be used to unsubscribe the observable from the store, and prevent further
-       * emission of values from the observable.
-       */
-      subscribe: function subscribe(observer) {
-        if (typeof observer !== 'object' || observer === null) {
-          throw new TypeError('Expected the observer to be an object.');
-        }
-
-        function observeState() {
-          if (observer.next) {
-            observer.next(getState());
-          }
-        }
-
-        observeState();
-        var unsubscribe = outerSubscribe(observeState);
-        return {
-          unsubscribe: unsubscribe
-        };
-      }
-    }, _ref[symbol_observable__WEBPACK_IMPORTED_MODULE_0__["default"]] = function () {
-      return this;
-    }, _ref;
-  } // When a store is created, an "INIT" action is dispatched so that every
-  // reducer returns their initial state. This effectively populates
-  // the initial state tree.
-
-
-  dispatch({
-    type: ActionTypes.INIT
-  });
-  return _ref2 = {
-    dispatch: dispatch,
-    subscribe: subscribe,
-    getState: getState,
-    replaceReducer: replaceReducer
-  }, _ref2[symbol_observable__WEBPACK_IMPORTED_MODULE_0__["default"]] = observable, _ref2;
-}
-
-/**
- * Prints a warning in the console if it exists.
- *
- * @param {String} message The warning message.
- * @returns {void}
- */
-function warning(message) {
-  /* eslint-disable no-console */
-  if (typeof console !== 'undefined' && typeof console.error === 'function') {
-    console.error(message);
-  }
-  /* eslint-enable no-console */
-
-
-  try {
-    // This error was thrown as a convenience so that if you enable
-    // "break on all exceptions" in your console,
-    // it would pause the execution at this line.
-    throw new Error(message);
-  } catch (e) {} // eslint-disable-line no-empty
-
-}
-
-function getUndefinedStateErrorMessage(key, action) {
-  var actionType = action && action.type;
-  var actionDescription = actionType && "action \"" + String(actionType) + "\"" || 'an action';
-  return "Given " + actionDescription + ", reducer \"" + key + "\" returned undefined. " + "To ignore an action, you must explicitly return the previous state. " + "If you want this reducer to hold no value, you can return null instead of undefined.";
-}
-
-function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
-  var reducerKeys = Object.keys(reducers);
-  var argumentName = action && action.type === ActionTypes.INIT ? 'preloadedState argument passed to createStore' : 'previous state received by the reducer';
-
-  if (reducerKeys.length === 0) {
-    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
-  }
-
-  if (!isPlainObject(inputState)) {
-    return "The " + argumentName + " has unexpected type of \"" + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + "\". Expected argument to be an object with the following " + ("keys: \"" + reducerKeys.join('", "') + "\"");
-  }
-
-  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
-    return !reducers.hasOwnProperty(key) && !unexpectedKeyCache[key];
-  });
-  unexpectedKeys.forEach(function (key) {
-    unexpectedKeyCache[key] = true;
-  });
-  if (action && action.type === ActionTypes.REPLACE) return;
-
-  if (unexpectedKeys.length > 0) {
-    return "Unexpected " + (unexpectedKeys.length > 1 ? 'keys' : 'key') + " " + ("\"" + unexpectedKeys.join('", "') + "\" found in " + argumentName + ". ") + "Expected to find one of the known reducer keys instead: " + ("\"" + reducerKeys.join('", "') + "\". Unexpected keys will be ignored.");
-  }
-}
-
-function assertReducerShape(reducers) {
-  Object.keys(reducers).forEach(function (key) {
-    var reducer = reducers[key];
-    var initialState = reducer(undefined, {
-      type: ActionTypes.INIT
-    });
-
-    if (typeof initialState === 'undefined') {
-      throw new Error("Reducer \"" + key + "\" returned undefined during initialization. " + "If the state passed to the reducer is undefined, you must " + "explicitly return the initial state. The initial state may " + "not be undefined. If you don't want to set a value for this reducer, " + "you can use null instead of undefined.");
-    }
-
-    if (typeof reducer(undefined, {
-      type: ActionTypes.PROBE_UNKNOWN_ACTION()
-    }) === 'undefined') {
-      throw new Error("Reducer \"" + key + "\" returned undefined when probed with a random type. " + ("Don't try to handle " + ActionTypes.INIT + " or other actions in \"redux/*\" ") + "namespace. They are considered private. Instead, you must return the " + "current state for any unknown actions, unless it is undefined, " + "in which case you must return the initial state, regardless of the " + "action type. The initial state may not be undefined, but can be null.");
-    }
-  });
-}
-/**
- * Turns an object whose values are different reducer functions, into a single
- * reducer function. It will call every child reducer, and gather their results
- * into a single state object, whose keys correspond to the keys of the passed
- * reducer functions.
- *
- * @param {Object} reducers An object whose values correspond to different
- * reducer functions that need to be combined into one. One handy way to obtain
- * it is to use ES6 `import * as reducers` syntax. The reducers may never return
- * undefined for any action. Instead, they should return their initial state
- * if the state passed to them was undefined, and the current state for any
- * unrecognized action.
- *
- * @returns {Function} A reducer function that invokes every reducer inside the
- * passed object, and builds a state object with the same shape.
- */
-
-
-function combineReducers(reducers) {
-  var reducerKeys = Object.keys(reducers);
-  var finalReducers = {};
-
-  for (var i = 0; i < reducerKeys.length; i++) {
-    var key = reducerKeys[i];
-
-    if (true) {
-      if (typeof reducers[key] === 'undefined') {
-        warning("No reducer provided for key \"" + key + "\"");
-      }
-    }
-
-    if (typeof reducers[key] === 'function') {
-      finalReducers[key] = reducers[key];
-    }
-  }
-
-  var finalReducerKeys = Object.keys(finalReducers);
-  var unexpectedKeyCache;
-
-  if (true) {
-    unexpectedKeyCache = {};
-  }
-
-  var shapeAssertionError;
-
-  try {
-    assertReducerShape(finalReducers);
-  } catch (e) {
-    shapeAssertionError = e;
-  }
-
-  return function combination(state, action) {
-    if (state === void 0) {
-      state = {};
-    }
-
-    if (shapeAssertionError) {
-      throw shapeAssertionError;
-    }
-
-    if (true) {
-      var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
-
-      if (warningMessage) {
-        warning(warningMessage);
-      }
-    }
-
-    var hasChanged = false;
-    var nextState = {};
-
-    for (var _i = 0; _i < finalReducerKeys.length; _i++) {
-      var _key = finalReducerKeys[_i];
-      var reducer = finalReducers[_key];
-      var previousStateForKey = state[_key];
-      var nextStateForKey = reducer(previousStateForKey, action);
-
-      if (typeof nextStateForKey === 'undefined') {
-        var errorMessage = getUndefinedStateErrorMessage(_key, action);
-        throw new Error(errorMessage);
-      }
-
-      nextState[_key] = nextStateForKey;
-      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
-    }
-
-    return hasChanged ? nextState : state;
-  };
-}
-
-function bindActionCreator(actionCreator, dispatch) {
-  return function () {
-    return dispatch(actionCreator.apply(this, arguments));
-  };
-}
-/**
- * Turns an object whose values are action creators, into an object with the
- * same keys, but with every function wrapped into a `dispatch` call so they
- * may be invoked directly. This is just a convenience method, as you can call
- * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
- *
- * For convenience, you can also pass a single function as the first argument,
- * and get a function in return.
- *
- * @param {Function|Object} actionCreators An object whose values are action
- * creator functions. One handy way to obtain it is to use ES6 `import * as`
- * syntax. You may also pass a single function.
- *
- * @param {Function} dispatch The `dispatch` function available on your Redux
- * store.
- *
- * @returns {Function|Object} The object mimicking the original object, but with
- * every action creator wrapped into the `dispatch` call. If you passed a
- * function as `actionCreators`, the return value will also be a single
- * function.
- */
-
-
-function bindActionCreators(actionCreators, dispatch) {
-  if (typeof actionCreators === 'function') {
-    return bindActionCreator(actionCreators, dispatch);
-  }
-
-  if (typeof actionCreators !== 'object' || actionCreators === null) {
-    throw new Error("bindActionCreators expected an object or a function, instead received " + (actionCreators === null ? 'null' : typeof actionCreators) + ". " + "Did you write \"import ActionCreators from\" instead of \"import * as ActionCreators from\"?");
-  }
-
-  var keys = Object.keys(actionCreators);
-  var boundActionCreators = {};
-
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    var actionCreator = actionCreators[key];
-
-    if (typeof actionCreator === 'function') {
-      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
-    }
-  }
-
-  return boundActionCreators;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/**
- * Composes single-argument functions from right to left. The rightmost
- * function can take multiple arguments as it provides the signature for
- * the resulting composite function.
- *
- * @param {...Function} funcs The functions to compose.
- * @returns {Function} A function obtained by composing the argument functions
- * from right to left. For example, compose(f, g, h) is identical to doing
- * (...args) => f(g(h(...args))).
- */
-function compose() {
-  for (var _len = arguments.length, funcs = new Array(_len), _key = 0; _key < _len; _key++) {
-    funcs[_key] = arguments[_key];
-  }
-
-  if (funcs.length === 0) {
-    return function (arg) {
-      return arg;
-    };
-  }
-
-  if (funcs.length === 1) {
-    return funcs[0];
-  }
-
-  return funcs.reduce(function (a, b) {
-    return function () {
-      return a(b.apply(void 0, arguments));
-    };
-  });
-}
-
-/**
- * Creates a store enhancer that applies middleware to the dispatch method
- * of the Redux store. This is handy for a variety of tasks, such as expressing
- * asynchronous actions in a concise manner, or logging every action payload.
- *
- * See `redux-thunk` package as an example of the Redux middleware.
- *
- * Because middleware is potentially asynchronous, this should be the first
- * store enhancer in the composition chain.
- *
- * Note that each middleware will be given the `dispatch` and `getState` functions
- * as named arguments.
- *
- * @param {...Function} middlewares The middleware chain to be applied.
- * @returns {Function} A store enhancer applying the middleware.
- */
-
-function applyMiddleware() {
-  for (var _len = arguments.length, middlewares = new Array(_len), _key = 0; _key < _len; _key++) {
-    middlewares[_key] = arguments[_key];
-  }
-
-  return function (createStore) {
-    return function () {
-      var store = createStore.apply(void 0, arguments);
-
-      var _dispatch = function dispatch() {
-        throw new Error("Dispatching while constructing your middleware is not allowed. " + "Other middleware would not be applied to this dispatch.");
-      };
-
-      var middlewareAPI = {
-        getState: store.getState,
-        dispatch: function dispatch() {
-          return _dispatch.apply(void 0, arguments);
-        }
-      };
-      var chain = middlewares.map(function (middleware) {
-        return middleware(middlewareAPI);
-      });
-      _dispatch = compose.apply(void 0, chain)(store.dispatch);
-      return _objectSpread({}, store, {
-        dispatch: _dispatch
-      });
-    };
-  };
-}
-
-/*
- * This is a dummy function to check if the function name has been altered by minification.
- * If the function has been minified and NODE_ENV !== 'production', warn the user.
- */
-
-function isCrushed() {}
-
-if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
-  warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/scheduler/cjs/scheduler-tracing.development.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/scheduler/cjs/scheduler-tracing.development.js ***!
@@ -25128,7 +24280,7 @@ if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v0.12.0
+/** @license React v0.13.3
  * scheduler-tracing.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -25563,7 +24715,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/** @license React v0.12.0
+/* WEBPACK VAR INJECTION */(function(global) {/** @license React v0.13.3
  * scheduler.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -25582,43 +24734,7 @@ if (true) {
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-
-
-// In some cases, StrictMode should also double-render lifecycles.
-// This can be confusing for tests though,
-// And it can be bad for performance in production.
-// This feature flag can be used to control the behavior:
-
-
-// To preserve the "Pause on caught exceptions" behavior of the debugger, we
-// replay the begin phase of a failed component inside invokeGuardedCallback.
-
-
-// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
-
-
-// Gather advanced timing metrics for Profiler subtrees.
-
-
-// Trace which interactions trigger each commit.
-
-
-// Only used in www builds.
- // TODO: true? Here it might just be false.
-
-// Only used in www builds.
-var enableSchedulerDebugging = true;
-
-// Only used in www builds.
-
-
-// React Fire: prevent the value and checked attributes from syncing
-// with their related DOM properties
-
-
-// These APIs will no longer be "unstable" in the upcoming 16.7 release,
-// Control this behavior with a flag to support 16.6 minor releases in the meanwhile.
+var enableSchedulerDebugging = false;
 
 /* eslint-disable no-var */
 
@@ -25797,7 +24913,7 @@ function flushWork(didTimeout) {
     if (didTimeout) {
       // Flush all the expired callbacks without yielding.
       while (firstCallbackNode !== null && !(enableSchedulerDebugging && isSchedulerPaused)) {
-        // TODO Wrap i nfeature flag
+        // TODO Wrap in feature flag
         // Read the current time. Flush all the callbacks that expire at or
         // earlier than that time. Then read the current time again and repeat.
         // This optimizes for as few performance.now calls as possible.
@@ -25845,6 +24961,37 @@ function unstable_runWithPriority(priorityLevel, eventHandler) {
       break;
     default:
       priorityLevel = NormalPriority;
+  }
+
+  var previousPriorityLevel = currentPriorityLevel;
+  var previousEventStartTime = currentEventStartTime;
+  currentPriorityLevel = priorityLevel;
+  currentEventStartTime = exports.unstable_now();
+
+  try {
+    return eventHandler();
+  } finally {
+    currentPriorityLevel = previousPriorityLevel;
+    currentEventStartTime = previousEventStartTime;
+
+    // Before exiting, flush all the immediate work that was scheduled.
+    flushImmediateWork();
+  }
+}
+
+function unstable_next(eventHandler) {
+  var priorityLevel = void 0;
+  switch (currentPriorityLevel) {
+    case ImmediatePriority:
+    case UserBlockingPriority:
+    case NormalPriority:
+      // Shift down to normal priority
+      priorityLevel = NormalPriority;
+      break;
+    default:
+      // Anything lower than normal priority should remain at the current level.
+      priorityLevel = currentPriorityLevel;
+      break;
   }
 
   var previousPriorityLevel = currentPriorityLevel;
@@ -26256,6 +25403,7 @@ exports.unstable_NormalPriority = NormalPriority;
 exports.unstable_IdlePriority = IdlePriority;
 exports.unstable_LowPriority = LowPriority;
 exports.unstable_runWithPriority = unstable_runWithPriority;
+exports.unstable_next = unstable_next;
 exports.unstable_scheduleCallback = unstable_scheduleCallback;
 exports.unstable_cancelCallback = unstable_cancelCallback;
 exports.unstable_wrapCallback = unstable_wrapCallback;
@@ -26305,65 +25453,1195 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/symbol-observable/es/index.js":
-/*!****************************************************!*\
-  !*** ./node_modules/symbol-observable/es/index.js ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./node_modules/webextension-polyfill/dist/browser-polyfill.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/webextension-polyfill/dist/browser-polyfill.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ponyfill.js */ "./node_modules/symbol-observable/es/ponyfill.js");
-/* global window */
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else { var mod; }
+})(this, function (module) {
+  /* webextension-polyfill - v0.4.0 - Wed Feb 06 2019 11:58:31 */
+  /* -*- Mode: indent-tabs-mode: nil; js-indent-level: 2 -*- */
+  /* vim: set sts=2 sw=2 et tw=80: */
+  /* This Source Code Form is subject to the terms of the Mozilla Public
+   * License, v. 2.0. If a copy of the MPL was not distributed with this
+   * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+  "use strict";
 
+  if (typeof browser === "undefined" || Object.getPrototypeOf(browser) !== Object.prototype) {
+    const CHROME_SEND_MESSAGE_CALLBACK_NO_RESPONSE_MESSAGE = "The message port closed before a response was received.";
+    const SEND_RESPONSE_DEPRECATION_WARNING = "Returning a Promise is the preferred way to send a reply from an onMessage/onMessageExternal listener, as the sendResponse will be removed from the specs (See https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage)";
 
-var root;
+    // Wrapping the bulk of this polyfill in a one-time-use function is a minor
+    // optimization for Firefox. Since Spidermonkey does not fully parse the
+    // contents of a function until the first time it's called, and since it will
+    // never actually need to be called, this allows the polyfill to be included
+    // in Firefox nearly for free.
+    const wrapAPIs = extensionAPIs => {
+      // NOTE: apiMetadata is associated to the content of the api-metadata.json file
+      // at build time by replacing the following "include" with the content of the
+      // JSON file.
+      const apiMetadata = {
+        "alarms": {
+          "clear": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "clearAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "get": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "getAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          }
+        },
+        "bookmarks": {
+          "create": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "get": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getChildren": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getRecent": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getSubTree": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getTree": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "move": {
+            "minArgs": 2,
+            "maxArgs": 2
+          },
+          "remove": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeTree": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "search": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "update": {
+            "minArgs": 2,
+            "maxArgs": 2
+          }
+        },
+        "browserAction": {
+          "disable": {
+            "minArgs": 0,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "enable": {
+            "minArgs": 0,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "getBadgeBackgroundColor": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getBadgeText": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getPopup": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getTitle": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "openPopup": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "setBadgeBackgroundColor": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "setBadgeText": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "setIcon": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "setPopup": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "setTitle": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          }
+        },
+        "browsingData": {
+          "remove": {
+            "minArgs": 2,
+            "maxArgs": 2
+          },
+          "removeCache": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeCookies": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeDownloads": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeFormData": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeHistory": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeLocalStorage": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removePasswords": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removePluginData": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "settings": {
+            "minArgs": 0,
+            "maxArgs": 0
+          }
+        },
+        "commands": {
+          "getAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          }
+        },
+        "contextMenus": {
+          "remove": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "update": {
+            "minArgs": 2,
+            "maxArgs": 2
+          }
+        },
+        "cookies": {
+          "get": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getAll": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getAllCookieStores": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "remove": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "set": {
+            "minArgs": 1,
+            "maxArgs": 1
+          }
+        },
+        "devtools": {
+          "inspectedWindow": {
+            "eval": {
+              "minArgs": 1,
+              "maxArgs": 2,
+              "singleCallbackArg": false
+            }
+          },
+          "panels": {
+            "create": {
+              "minArgs": 3,
+              "maxArgs": 3,
+              "singleCallbackArg": true
+            }
+          }
+        },
+        "downloads": {
+          "cancel": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "download": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "erase": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getFileIcon": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "open": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "pause": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeFile": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "resume": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "search": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "show": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          }
+        },
+        "extension": {
+          "isAllowedFileSchemeAccess": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "isAllowedIncognitoAccess": {
+            "minArgs": 0,
+            "maxArgs": 0
+          }
+        },
+        "history": {
+          "addUrl": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "deleteAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "deleteRange": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "deleteUrl": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getVisits": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "search": {
+            "minArgs": 1,
+            "maxArgs": 1
+          }
+        },
+        "i18n": {
+          "detectLanguage": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getAcceptLanguages": {
+            "minArgs": 0,
+            "maxArgs": 0
+          }
+        },
+        "identity": {
+          "launchWebAuthFlow": {
+            "minArgs": 1,
+            "maxArgs": 1
+          }
+        },
+        "idle": {
+          "queryState": {
+            "minArgs": 1,
+            "maxArgs": 1
+          }
+        },
+        "management": {
+          "get": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "getSelf": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "setEnabled": {
+            "minArgs": 2,
+            "maxArgs": 2
+          },
+          "uninstallSelf": {
+            "minArgs": 0,
+            "maxArgs": 1
+          }
+        },
+        "notifications": {
+          "clear": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "create": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "getAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "getPermissionLevel": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "update": {
+            "minArgs": 2,
+            "maxArgs": 2
+          }
+        },
+        "pageAction": {
+          "getPopup": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getTitle": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "hide": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "setIcon": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "setPopup": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "setTitle": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          },
+          "show": {
+            "minArgs": 1,
+            "maxArgs": 1,
+            "fallbackToNoCallback": true
+          }
+        },
+        "permissions": {
+          "contains": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getAll": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "remove": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "request": {
+            "minArgs": 1,
+            "maxArgs": 1
+          }
+        },
+        "runtime": {
+          "getBackgroundPage": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "getBrowserInfo": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "getPlatformInfo": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "openOptionsPage": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "requestUpdateCheck": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "sendMessage": {
+            "minArgs": 1,
+            "maxArgs": 3
+          },
+          "sendNativeMessage": {
+            "minArgs": 2,
+            "maxArgs": 2
+          },
+          "setUninstallURL": {
+            "minArgs": 1,
+            "maxArgs": 1
+          }
+        },
+        "sessions": {
+          "getDevices": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "getRecentlyClosed": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "restore": {
+            "minArgs": 0,
+            "maxArgs": 1
+          }
+        },
+        "storage": {
+          "local": {
+            "clear": {
+              "minArgs": 0,
+              "maxArgs": 0
+            },
+            "get": {
+              "minArgs": 0,
+              "maxArgs": 1
+            },
+            "getBytesInUse": {
+              "minArgs": 0,
+              "maxArgs": 1
+            },
+            "remove": {
+              "minArgs": 1,
+              "maxArgs": 1
+            },
+            "set": {
+              "minArgs": 1,
+              "maxArgs": 1
+            }
+          },
+          "managed": {
+            "get": {
+              "minArgs": 0,
+              "maxArgs": 1
+            },
+            "getBytesInUse": {
+              "minArgs": 0,
+              "maxArgs": 1
+            }
+          },
+          "sync": {
+            "clear": {
+              "minArgs": 0,
+              "maxArgs": 0
+            },
+            "get": {
+              "minArgs": 0,
+              "maxArgs": 1
+            },
+            "getBytesInUse": {
+              "minArgs": 0,
+              "maxArgs": 1
+            },
+            "remove": {
+              "minArgs": 1,
+              "maxArgs": 1
+            },
+            "set": {
+              "minArgs": 1,
+              "maxArgs": 1
+            }
+          }
+        },
+        "tabs": {
+          "captureVisibleTab": {
+            "minArgs": 0,
+            "maxArgs": 2
+          },
+          "create": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "detectLanguage": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "discard": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "duplicate": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "executeScript": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "get": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getCurrent": {
+            "minArgs": 0,
+            "maxArgs": 0
+          },
+          "getZoom": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "getZoomSettings": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "highlight": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "insertCSS": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "move": {
+            "minArgs": 2,
+            "maxArgs": 2
+          },
+          "query": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "reload": {
+            "minArgs": 0,
+            "maxArgs": 2
+          },
+          "remove": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "removeCSS": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "sendMessage": {
+            "minArgs": 2,
+            "maxArgs": 3
+          },
+          "setZoom": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "setZoomSettings": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "update": {
+            "minArgs": 1,
+            "maxArgs": 2
+          }
+        },
+        "topSites": {
+          "get": {
+            "minArgs": 0,
+            "maxArgs": 0
+          }
+        },
+        "webNavigation": {
+          "getAllFrames": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "getFrame": {
+            "minArgs": 1,
+            "maxArgs": 1
+          }
+        },
+        "webRequest": {
+          "handlerBehaviorChanged": {
+            "minArgs": 0,
+            "maxArgs": 0
+          }
+        },
+        "windows": {
+          "create": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "get": {
+            "minArgs": 1,
+            "maxArgs": 2
+          },
+          "getAll": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "getCurrent": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "getLastFocused": {
+            "minArgs": 0,
+            "maxArgs": 1
+          },
+          "remove": {
+            "minArgs": 1,
+            "maxArgs": 1
+          },
+          "update": {
+            "minArgs": 2,
+            "maxArgs": 2
+          }
+        }
+      };
 
-if (typeof self !== 'undefined') {
-  root = self;
-} else if (typeof window !== 'undefined') {
-  root = window;
-} else if (typeof global !== 'undefined') {
-  root = global;
-} else if (true) {
-  root = module;
-} else {}
+      if (Object.keys(apiMetadata).length === 0) {
+        throw new Error("api-metadata.json has not been included in browser-polyfill");
+      }
 
-var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__["default"])(root);
-/* harmony default export */ __webpack_exports__["default"] = (result);
+      /**
+       * A WeakMap subclass which creates and stores a value for any key which does
+       * not exist when accessed, but behaves exactly as an ordinary WeakMap
+       * otherwise.
+       *
+       * @param {function} createItem
+       *        A function which will be called in order to create the value for any
+       *        key which does not exist, the first time it is accessed. The
+       *        function receives, as its only argument, the key being created.
+       */
+      class DefaultWeakMap extends WeakMap {
+        constructor(createItem, items = undefined) {
+          super(items);
+          this.createItem = createItem;
+        }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../../webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+        get(key) {
+          if (!this.has(key)) {
+            this.set(key, this.createItem(key));
+          }
 
-/***/ }),
+          return super.get(key);
+        }
+      }
 
-/***/ "./node_modules/symbol-observable/es/ponyfill.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/symbol-observable/es/ponyfill.js ***!
-  \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+      /**
+       * Returns true if the given object is an object with a `then` method, and can
+       * therefore be assumed to behave as a Promise.
+       *
+       * @param {*} value The value to test.
+       * @returns {boolean} True if the value is thenable.
+       */
+      const isThenable = value => {
+        return value && typeof value === "object" && typeof value.then === "function";
+      };
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return symbolObservablePonyfill; });
-function symbolObservablePonyfill(root) {
-	var result;
-	var Symbol = root.Symbol;
+      /**
+       * Creates and returns a function which, when called, will resolve or reject
+       * the given promise based on how it is called:
+       *
+       * - If, when called, `chrome.runtime.lastError` contains a non-null object,
+       *   the promise is rejected with that value.
+       * - If the function is called with exactly one argument, the promise is
+       *   resolved to that value.
+       * - Otherwise, the promise is resolved to an array containing all of the
+       *   function's arguments.
+       *
+       * @param {object} promise
+       *        An object containing the resolution and rejection functions of a
+       *        promise.
+       * @param {function} promise.resolve
+       *        The promise's resolution function.
+       * @param {function} promise.rejection
+       *        The promise's rejection function.
+       * @param {object} metadata
+       *        Metadata about the wrapped method which has created the callback.
+       * @param {integer} metadata.maxResolvedArgs
+       *        The maximum number of arguments which may be passed to the
+       *        callback created by the wrapped async function.
+       *
+       * @returns {function}
+       *        The generated callback function.
+       */
+      const makeCallback = (promise, metadata) => {
+        return (...callbackArgs) => {
+          if (extensionAPIs.runtime.lastError) {
+            promise.reject(extensionAPIs.runtime.lastError);
+          } else if (metadata.singleCallbackArg || callbackArgs.length <= 1 && metadata.singleCallbackArg !== false) {
+            promise.resolve(callbackArgs[0]);
+          } else {
+            promise.resolve(callbackArgs);
+          }
+        };
+      };
 
-	if (typeof Symbol === 'function') {
-		if (Symbol.observable) {
-			result = Symbol.observable;
-		} else {
-			result = Symbol('observable');
-			Symbol.observable = result;
-		}
-	} else {
-		result = '@@observable';
-	}
+      const pluralizeArguments = numArgs => numArgs == 1 ? "argument" : "arguments";
 
-	return result;
-};
+      /**
+       * Creates a wrapper function for a method with the given name and metadata.
+       *
+       * @param {string} name
+       *        The name of the method which is being wrapped.
+       * @param {object} metadata
+       *        Metadata about the method being wrapped.
+       * @param {integer} metadata.minArgs
+       *        The minimum number of arguments which must be passed to the
+       *        function. If called with fewer than this number of arguments, the
+       *        wrapper will raise an exception.
+       * @param {integer} metadata.maxArgs
+       *        The maximum number of arguments which may be passed to the
+       *        function. If called with more than this number of arguments, the
+       *        wrapper will raise an exception.
+       * @param {integer} metadata.maxResolvedArgs
+       *        The maximum number of arguments which may be passed to the
+       *        callback created by the wrapped async function.
+       *
+       * @returns {function(object, ...*)}
+       *       The generated wrapper function.
+       */
+      const wrapAsyncFunction = (name, metadata) => {
+        return function asyncFunctionWrapper(target, ...args) {
+          if (args.length < metadata.minArgs) {
+            throw new Error(`Expected at least ${metadata.minArgs} ${pluralizeArguments(metadata.minArgs)} for ${name}(), got ${args.length}`);
+          }
+
+          if (args.length > metadata.maxArgs) {
+            throw new Error(`Expected at most ${metadata.maxArgs} ${pluralizeArguments(metadata.maxArgs)} for ${name}(), got ${args.length}`);
+          }
+
+          return new Promise((resolve, reject) => {
+            if (metadata.fallbackToNoCallback) {
+              // This API method has currently no callback on Chrome, but it return a promise on Firefox,
+              // and so the polyfill will try to call it with a callback first, and it will fallback
+              // to not passing the callback if the first call fails.
+              try {
+                target[name](...args, makeCallback({ resolve, reject }, metadata));
+              } catch (cbError) {
+                console.warn(`${name} API method doesn't seem to support the callback parameter, ` + "falling back to call it without a callback: ", cbError);
+
+                target[name](...args);
+
+                // Update the API method metadata, so that the next API calls will not try to
+                // use the unsupported callback anymore.
+                metadata.fallbackToNoCallback = false;
+                metadata.noCallback = true;
+
+                resolve();
+              }
+            } else if (metadata.noCallback) {
+              target[name](...args);
+              resolve();
+            } else {
+              target[name](...args, makeCallback({ resolve, reject }, metadata));
+            }
+          });
+        };
+      };
+
+      /**
+       * Wraps an existing method of the target object, so that calls to it are
+       * intercepted by the given wrapper function. The wrapper function receives,
+       * as its first argument, the original `target` object, followed by each of
+       * the arguments passed to the original method.
+       *
+       * @param {object} target
+       *        The original target object that the wrapped method belongs to.
+       * @param {function} method
+       *        The method being wrapped. This is used as the target of the Proxy
+       *        object which is created to wrap the method.
+       * @param {function} wrapper
+       *        The wrapper function which is called in place of a direct invocation
+       *        of the wrapped method.
+       *
+       * @returns {Proxy<function>}
+       *        A Proxy object for the given method, which invokes the given wrapper
+       *        method in its place.
+       */
+      const wrapMethod = (target, method, wrapper) => {
+        return new Proxy(method, {
+          apply(targetMethod, thisObj, args) {
+            return wrapper.call(thisObj, target, ...args);
+          }
+        });
+      };
+
+      let hasOwnProperty = Function.call.bind(Object.prototype.hasOwnProperty);
+
+      /**
+       * Wraps an object in a Proxy which intercepts and wraps certain methods
+       * based on the given `wrappers` and `metadata` objects.
+       *
+       * @param {object} target
+       *        The target object to wrap.
+       *
+       * @param {object} [wrappers = {}]
+       *        An object tree containing wrapper functions for special cases. Any
+       *        function present in this object tree is called in place of the
+       *        method in the same location in the `target` object tree. These
+       *        wrapper methods are invoked as described in {@see wrapMethod}.
+       *
+       * @param {object} [metadata = {}]
+       *        An object tree containing metadata used to automatically generate
+       *        Promise-based wrapper functions for asynchronous. Any function in
+       *        the `target` object tree which has a corresponding metadata object
+       *        in the same location in the `metadata` tree is replaced with an
+       *        automatically-generated wrapper function, as described in
+       *        {@see wrapAsyncFunction}
+       *
+       * @returns {Proxy<object>}
+       */
+      const wrapObject = (target, wrappers = {}, metadata = {}) => {
+        let cache = Object.create(null);
+        let handlers = {
+          has(proxyTarget, prop) {
+            return prop in target || prop in cache;
+          },
+
+          get(proxyTarget, prop, receiver) {
+            if (prop in cache) {
+              return cache[prop];
+            }
+
+            if (!(prop in target)) {
+              return undefined;
+            }
+
+            let value = target[prop];
+
+            if (typeof value === "function") {
+              // This is a method on the underlying object. Check if we need to do
+              // any wrapping.
+
+              if (typeof wrappers[prop] === "function") {
+                // We have a special-case wrapper for this method.
+                value = wrapMethod(target, target[prop], wrappers[prop]);
+              } else if (hasOwnProperty(metadata, prop)) {
+                // This is an async method that we have metadata for. Create a
+                // Promise wrapper for it.
+                let wrapper = wrapAsyncFunction(prop, metadata[prop]);
+                value = wrapMethod(target, target[prop], wrapper);
+              } else {
+                // This is a method that we don't know or care about. Return the
+                // original method, bound to the underlying object.
+                value = value.bind(target);
+              }
+            } else if (typeof value === "object" && value !== null && (hasOwnProperty(wrappers, prop) || hasOwnProperty(metadata, prop))) {
+              // This is an object that we need to do some wrapping for the children
+              // of. Create a sub-object wrapper for it with the appropriate child
+              // metadata.
+              value = wrapObject(value, wrappers[prop], metadata[prop]);
+            } else {
+              // We don't need to do any wrapping for this property,
+              // so just forward all access to the underlying object.
+              Object.defineProperty(cache, prop, {
+                configurable: true,
+                enumerable: true,
+                get() {
+                  return target[prop];
+                },
+                set(value) {
+                  target[prop] = value;
+                }
+              });
+
+              return value;
+            }
+
+            cache[prop] = value;
+            return value;
+          },
+
+          set(proxyTarget, prop, value, receiver) {
+            if (prop in cache) {
+              cache[prop] = value;
+            } else {
+              target[prop] = value;
+            }
+            return true;
+          },
+
+          defineProperty(proxyTarget, prop, desc) {
+            return Reflect.defineProperty(cache, prop, desc);
+          },
+
+          deleteProperty(proxyTarget, prop) {
+            return Reflect.deleteProperty(cache, prop);
+          }
+        };
+
+        // Per contract of the Proxy API, the "get" proxy handler must return the
+        // original value of the target if that value is declared read-only and
+        // non-configurable. For this reason, we create an object with the
+        // prototype set to `target` instead of using `target` directly.
+        // Otherwise we cannot return a custom object for APIs that
+        // are declared read-only and non-configurable, such as `chrome.devtools`.
+        //
+        // The proxy handlers themselves will still use the original `target`
+        // instead of the `proxyTarget`, so that the methods and properties are
+        // dereferenced via the original targets.
+        let proxyTarget = Object.create(target);
+        return new Proxy(proxyTarget, handlers);
+      };
+
+      /**
+       * Creates a set of wrapper functions for an event object, which handles
+       * wrapping of listener functions that those messages are passed.
+       *
+       * A single wrapper is created for each listener function, and stored in a
+       * map. Subsequent calls to `addListener`, `hasListener`, or `removeListener`
+       * retrieve the original wrapper, so that  attempts to remove a
+       * previously-added listener work as expected.
+       *
+       * @param {DefaultWeakMap<function, function>} wrapperMap
+       *        A DefaultWeakMap object which will create the appropriate wrapper
+       *        for a given listener function when one does not exist, and retrieve
+       *        an existing one when it does.
+       *
+       * @returns {object}
+       */
+      const wrapEvent = wrapperMap => ({
+        addListener(target, listener, ...args) {
+          target.addListener(wrapperMap.get(listener), ...args);
+        },
+
+        hasListener(target, listener) {
+          return target.hasListener(wrapperMap.get(listener));
+        },
+
+        removeListener(target, listener) {
+          target.removeListener(wrapperMap.get(listener));
+        }
+      });
+
+      // Keep track if the deprecation warning has been logged at least once.
+      let loggedSendResponseDeprecationWarning = false;
+
+      const onMessageWrappers = new DefaultWeakMap(listener => {
+        if (typeof listener !== "function") {
+          return listener;
+        }
+
+        /**
+         * Wraps a message listener function so that it may send responses based on
+         * its return value, rather than by returning a sentinel value and calling a
+         * callback. If the listener function returns a Promise, the response is
+         * sent when the promise either resolves or rejects.
+         *
+         * @param {*} message
+         *        The message sent by the other end of the channel.
+         * @param {object} sender
+         *        Details about the sender of the message.
+         * @param {function(*)} sendResponse
+         *        A callback which, when called with an arbitrary argument, sends
+         *        that value as a response.
+         * @returns {boolean}
+         *        True if the wrapped listener returned a Promise, which will later
+         *        yield a response. False otherwise.
+         */
+        return function onMessage(message, sender, sendResponse) {
+          let didCallSendResponse = false;
+
+          let wrappedSendResponse;
+          let sendResponsePromise = new Promise(resolve => {
+            wrappedSendResponse = function (response) {
+              if (!loggedSendResponseDeprecationWarning) {
+                console.warn(SEND_RESPONSE_DEPRECATION_WARNING, new Error().stack);
+                loggedSendResponseDeprecationWarning = true;
+              }
+              didCallSendResponse = true;
+              resolve(response);
+            };
+          });
+
+          let result;
+          try {
+            result = listener(message, sender, wrappedSendResponse);
+          } catch (err) {
+            result = Promise.reject(err);
+          }
+
+          const isResultThenable = result !== true && isThenable(result);
+
+          // If the listener didn't returned true or a Promise, or called
+          // wrappedSendResponse synchronously, we can exit earlier
+          // because there will be no response sent from this listener.
+          if (result !== true && !isResultThenable && !didCallSendResponse) {
+            return false;
+          }
+
+          // A small helper to send the message if the promise resolves
+          // and an error if the promise rejects (a wrapped sendMessage has
+          // to translate the message into a resolved promise or a rejected
+          // promise).
+          const sendPromisedResult = promise => {
+            promise.then(msg => {
+              // send the message value.
+              sendResponse(msg);
+            }, error => {
+              // Send a JSON representation of the error if the rejected value
+              // is an instance of error, or the object itself otherwise.
+              let message;
+              if (error && (error instanceof Error || typeof error.message === "string")) {
+                message = error.message;
+              } else {
+                message = "An unexpected error occurred";
+              }
+
+              sendResponse({
+                __mozWebExtensionPolyfillReject__: true,
+                message
+              });
+            }).catch(err => {
+              // Print an error on the console if unable to send the response.
+              console.error("Failed to send onMessage rejected reply", err);
+            });
+          };
+
+          // If the listener returned a Promise, send the resolved value as a
+          // result, otherwise wait the promise related to the wrappedSendResponse
+          // callback to resolve and send it as a response.
+          if (isResultThenable) {
+            sendPromisedResult(result);
+          } else {
+            sendPromisedResult(sendResponsePromise);
+          }
+
+          // Let Chrome know that the listener is replying.
+          return true;
+        };
+      });
+
+      const wrappedSendMessageCallback = ({ reject, resolve }, reply) => {
+        if (extensionAPIs.runtime.lastError) {
+          // Detect when none of the listeners replied to the sendMessage call and resolve
+          // the promise to undefined as in Firefox.
+          // See https://github.com/mozilla/webextension-polyfill/issues/130
+          if (extensionAPIs.runtime.lastError.message === CHROME_SEND_MESSAGE_CALLBACK_NO_RESPONSE_MESSAGE) {
+            resolve();
+          } else {
+            reject(extensionAPIs.runtime.lastError);
+          }
+        } else if (reply && reply.__mozWebExtensionPolyfillReject__) {
+          // Convert back the JSON representation of the error into
+          // an Error instance.
+          reject(new Error(reply.message));
+        } else {
+          resolve(reply);
+        }
+      };
+
+      const wrappedSendMessage = (name, metadata, apiNamespaceObj, ...args) => {
+        if (args.length < metadata.minArgs) {
+          throw new Error(`Expected at least ${metadata.minArgs} ${pluralizeArguments(metadata.minArgs)} for ${name}(), got ${args.length}`);
+        }
+
+        if (args.length > metadata.maxArgs) {
+          throw new Error(`Expected at most ${metadata.maxArgs} ${pluralizeArguments(metadata.maxArgs)} for ${name}(), got ${args.length}`);
+        }
+
+        return new Promise((resolve, reject) => {
+          const wrappedCb = wrappedSendMessageCallback.bind(null, { resolve, reject });
+          args.push(wrappedCb);
+          apiNamespaceObj.sendMessage(...args);
+        });
+      };
+
+      const staticWrappers = {
+        runtime: {
+          onMessage: wrapEvent(onMessageWrappers),
+          onMessageExternal: wrapEvent(onMessageWrappers),
+          sendMessage: wrappedSendMessage.bind(null, "sendMessage", { minArgs: 1, maxArgs: 3 })
+        },
+        tabs: {
+          sendMessage: wrappedSendMessage.bind(null, "sendMessage", { minArgs: 2, maxArgs: 3 })
+        }
+      };
+      const settingMetadata = {
+        clear: { minArgs: 1, maxArgs: 1 },
+        get: { minArgs: 1, maxArgs: 1 },
+        set: { minArgs: 1, maxArgs: 1 }
+      };
+      apiMetadata.privacy = {
+        network: {
+          networkPredictionEnabled: settingMetadata,
+          webRTCIPHandlingPolicy: settingMetadata
+        },
+        services: {
+          passwordSavingEnabled: settingMetadata
+        },
+        websites: {
+          hyperlinkAuditingEnabled: settingMetadata,
+          referrersEnabled: settingMetadata
+        }
+      };
+
+      return wrapObject(extensionAPIs, staticWrappers, apiMetadata);
+    };
+
+    // The build process adds a UMD wrapper around this file, which makes the
+    // `module` variable available.
+    module.exports = wrapAPIs(chrome);
+  } else {
+    module.exports = browser;
+  }
+});
+//# sourceMappingURL=browser-polyfill.js.map
 
 
 /***/ }),
@@ -26399,41 +26677,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/harmony-module.js":
-/*!*******************************************!*\
-  !*** (webpack)/buildin/harmony-module.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(originalModule) {
-	if (!originalModule.webpackPolyfill) {
-		var module = Object.create(originalModule);
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		Object.defineProperty(module, "exports", {
-			enumerable: true
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-
 /***/ "./src/content/App.css":
 /*!*****************************!*\
   !*** ./src/content/App.css ***!
@@ -26458,233 +26701,107 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./logo.svg */ "./src/content/logo.svg");
 /* harmony import */ var _logo_svg__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_logo_svg__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var webextension_polyfill__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! webextension-polyfill */ "./node_modules/webextension-polyfill/dist/browser-polyfill.js");
+/* harmony import */ var webextension_polyfill__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(webextension_polyfill__WEBPACK_IMPORTED_MODULE_2__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var App =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(App, _React$Component);
 
-  function App(props) {
-    var _this;
+var App = function App() {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(false),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      visible = _React$useState2[0],
+      setVisible = _React$useState2[1];
 
-    _classCallCheck(this, App);
+  webextension_polyfill__WEBPACK_IMPORTED_MODULE_2___default.a.runtime.onConnect.addListener(function listener(port) {
+    port.onMessage.addListener(function (action) {
+      setVisible(action.visible);
+      webextension_polyfill__WEBPACK_IMPORTED_MODULE_2___default.a.runtime.onConnect.removeListener(listener);
+    });
+  });
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
-    _this.state = {
-      counter: 3
-    };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    return _this;
+  if (!visible) {
+    return null;
   }
 
-  _createClass(App, [{
-    key: "handleClick",
-    value: function handleClick() {
-      this.setState(function (_ref) {
-        var counter = _ref.counter;
-        return {
-          counter: counter - 1
-        };
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.counter === 0) {
-        throw new Error('I crashed!');
-      }
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "App App-fade",
-        style: {
-          display: this.props.visible ? 'block' : 'none'
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-        className: "App-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: _logo_svg__WEBPACK_IMPORTED_MODULE_1___default.a,
-        className: "App-logo",
-        alt: "logo"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "App-title"
-      }, "Welcome to React")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "App-intro"
-      }, "To get started, edit ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("code", null, "src/App.js"), " and reload the extension."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "App-footer",
-        onClick: this.handleClick
-      }, "Click here ", this.state.counter, " times to throw an error."));
-    }
-  }]);
-
-  return App;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "App App-fade"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+    className: "App-header"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: _logo_svg__WEBPACK_IMPORTED_MODULE_1___default.a,
+    className: "App-logo",
+    alt: "logo"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "App-title"
+  }, "Welcome to React")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "App-intro"
+  }, "To get started, edit ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("code", null, "src/App.js"), " and reload the extension."));
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
 
 /***/ }),
 
-/***/ "./src/content/AppContainer.js":
-/*!*************************************!*\
-  !*** ./src/content/AppContainer.js ***!
-  \*************************************/
+/***/ "./src/content/Wrapper.js":
+/*!********************************!*\
+  !*** ./src/content/Wrapper.js ***!
+  \********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App */ "./src/content/App.js");
-/* harmony import */ var _ErrorBoundary__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ErrorBoundary */ "./src/content/ErrorBoundary.js");
-/* harmony import */ var _store_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/actions */ "./src/content/store/actions.js");
-
-
-
-
-
-
-
-var AppContainer = function AppContainer(_ref) {
-  var state = _ref.state,
-      actions = _ref.actions;
-  return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_ErrorBoundary__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_3__["default"], state));
-};
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    state: state
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    actions: Object(redux__WEBPACK_IMPORTED_MODULE_0__["bindActionCreators"])(_store_actions__WEBPACK_IMPORTED_MODULE_5__, dispatch)
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(AppContainer));
-
-/***/ }),
-
-/***/ "./src/content/ErrorBoundary.js":
-/*!**************************************!*\
-  !*** ./src/content/ErrorBoundary.js ***!
-  \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Wrapper; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _crash_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./crash.png */ "./src/content/crash.png");
-/* harmony import */ var _crash_png__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_crash_png__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
+function Wrapper(props) {
+  var nodeRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+  var shadowRoot = null;
+  var iframeHead = null;
+  var iframeBody = null;
 
-var ErrorBoundary =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(ErrorBoundary, _React$Component);
-
-  function ErrorBoundary(props) {
-    var _this;
-
-    _classCallCheck(this, ErrorBoundary);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ErrorBoundary).call(this, props));
-    _this.state = {
-      hasError: false
-    };
-    return _this;
+  if (props.rootElement.attachShadow) {
+    shadowRoot = props.rootElement.attachShadow({
+      mode: 'open'
+    });
+    shadowRoot.appendChild(props.style);
+  } else {
+    iframeHead = nodeRef.contentDocument.head;
+    iframeBody = nodeRef.contentDocument.body;
   }
 
-  _createClass(ErrorBoundary, [{
-    key: "componentDidCatch",
-    value: function componentDidCatch(error, info) {
-      this.setState({
-        hasError: true
-      });
-      console.log(error, info);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.hasError) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "App"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-          className: "App-header"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: _crash_png__WEBPACK_IMPORTED_MODULE_1___default.a,
-          className: "App-crash",
-          alt: "crash"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-          className: "App-title"
-        }, "Something went wrong.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          className: "App-intro"
-        }, "App has crashed!"));
-      }
+  if (shadowRoot) {
+    return react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.createPortal(props.children, shadowRoot);
+  }
 
-      return this.props.children;
-    }
-  }]);
-
-  return ErrorBoundary;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (ErrorBoundary);
-
-/***/ }),
-
-/***/ "./src/content/crash.png":
-/*!*******************************!*\
-  !*** ./src/content/crash.png ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAABy1BMVEUAAABEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREDxWTrxWTrJVDvuWTrxWTrxWTrvWTrjVzvYVju3UjzFVDzfVzvmWDruWTrxWTrlWDrxWTrxWTraVjvmWDrxWTrrWDrxWTrxWTrvWTqfTz3vWTrvWTrxWTrxWTrmWDrnWDrxWTrRVTvjVzrtWTqaTj3dVzvhVzvvWTrOVTvlWDrxWTruWTrxWTrUVTvfVzu7UjzcVjviVzvmWDrkVzrhVzvbVjvkVzrpWDrXVjvdVzvsWDrvWTqkUD3QVTvvWTrtWTraVjvoWDrTVTvmWDrmWDrhVzvMVTvjVzrqWDrxWTrwWTroWDrnWDroa1LsgGn0gmv1g2vyY0b0loPvsKPxzcXz6uj09PT19fX9/f3////81s76wbX3opD0eF/zblP84Nr+9fP4wLTy4NzrkoDpYUb89PH2l4T5tqn96ub4rJ3x19HoYUbvuq70jHj1jXj7y8H2q5z3tajyzsby2NLpdV3qf2jsiXXuppj61c3sk4Dur6PtppfqiXX5ysD76eXtnYzxxLrz4d3snIv639nzeF/wuq/07OnxY0bpWDrqWDpk6qNhAAAAWHRSTlMAAQIDBAUGBwgJCgsMDg8QQDtxn7/ApGotPJbhkDDhz2Bp8N9CjyDPHe/fr3Ai8O9Kw2EeiKWgS8JQgYBahywStNLSlXmzMll4UbAcOYFBR+E4ssKGOpQyILG48QAAGpVJREFUeNrtnel/E1eWhi0bOza2UYHkAHGMFAsrgB0UY5a4iyUduqeXme7ZZ65UEKsDskteA2kbATEkDWQhSW+ZbvrPnQ+ykFzWWnWXc849+sbrH/zk8xS26t6n7tvXxy9+Nb5i/f39Mc6syhpfAwMDAwOcWZU1Xh6HBgcHD8U4syjb9/XBoaGhwRhnFmX7vv7G8PDwGzHOLMr2fX14ZGRkOMaZRVlfwx/7D4+Ojh7u3/dlzmhnsYH6n/tHx8bGRgN/hzPSWexQ/QLoHx0fHx8L/J0xzihnscHB1xdA7PDY+JHxwN8ZP3KEM7pZ7I2hwYFY7fPB6Ng4z8iubHh4aHCgdi2MjI6N8Yysyg6PDA8dqv0uGB4ZHeUZWZWNjo4M19aEDg0NjxzmGVmVjY2NjtTWhAYGh4aHeUZ2ZeNjo7U1odjA4FBgfZBnRD4bHztcY94/MDjI/G3Lxuuf+foHDjF/67KGe77+AeZvdRbYHuIZ2ZfxPJg/z4P58zyYP8+D+fOMmD9nFvGP8TxszvY5gWM8D+v473cCeUa28Wcn0G7+7ATanbETaHfGTmBfX9ypvvrYCbTOCTx6LJEU9dfEm8dPsBNoDf+Tb03mReMrX/A8b/LtKXtmYLMTePyUV2jCv5AXIpW25f+AvU7gO9NeS/5CiEzajt+BtjqBpye9tvyFECkrPhNa6gS+XejIXwgxw04gze89+25X/IV49wzvCRPMps52yT9fmD7J/G3m73nTR5m/zfy9wtkp5k8qi5/riX9epOLMn1I20SN/IWaZP6HsWM/8hZizgb8lTuB753vnL3JZ8nOxxgl8MwR/IRLk+dviBL4fir8QDjuBNLL5cPxFkp1AGvu/IfkLcYGdQALZwqmw/POTC+wE4s8uhuZf8C6yE4g+OzEdnr83fYadQOzZpQj8vcJlonOxxwm8Eol/XkzRnIs9TuAH0fiLJM25WOMEvhORvxCLJOdiixN45lxU/iJDfa+EtBP4k8j8hXB5Txht9l4uOn+RizN/rFlCAn8hEswfaeZI4S/EFPPHmSXl8BcTzB9ltiiJf75wlfljzDKy+Hun2AlEmLnS+HveNXYC0WXxnDz+hbNxkvxJO4EJifzzYoYif9JO4JRU/kJk6fGn7QQm5fKv7wqyE4giW5TMXwiHGH/iTmBGNv+9XUF2AnFkrnT+1WcF2QnEkdVuAWXyF7k4O4FYsoQC/kLMsBOIJMsq4S/y19kJxJEl1fAvzLMTiCJzFPH3vCvsBGLIMqr4e5O8J4wgm1PGv5BPM3/wWTynjn9VEGX+oLMZhfxrjjjzh5tllfKv7woyf6BZUi3/2vGBzB9o5ijmv7cryE4g1Cyjmr9I9bETCDebU85fiDQ7gWCzeE49f5G7wU4g1GxGA3+Rv8ZOINAsq4V/wTvBTiDMbEIPf+9DdgJBZqc18fcKp/Hzp+gE/lQX/3wK/awoOoHvaOMvRBr7+glBJ/DMtD7+IhNHvn5G0Am8qJF/fVeQnUAo2Qmt/NH3ydBzAj/Uyp9SnwwNJ/CKZv6k+mQo7Al/pJs/oT4ZCvyPa+dPp0+GAv+F8/r5U+mTIeEEXTPAn0ifDAn+143w96avM38Y2WUj/Cn0ydBwAk8b4p+vHRuD1wmh4QQmTfHH3idDxAlMG+OPvE+GiBMYz5jjj7pPhooT6Brkj7pPhogTmM2Z5I+4T4aKE5gwyh9vnwwVJ9AxzB9rnwwZJzBpmj/SPhkqTmDaOH+kfTJEnMD6LaA5/jj7ZIg4gS4A/jj7ZGg4ga9vAY3yx94ng9gJTIDgn68KorwnrD2bAsJfiCnmbyJLQuGPu08GLf9FMPxR98ng/fySgcMfcZ8MXv4uIP54+2Tw8q+2wkDhj7VPBrETmADFH2mfDGIncAoYf5R9MpidwCQ0/gj7ZDA7gYvg+OPrk0HtBGbg8UfXJ4PZCXQB8i/k59gJ1JTFcxD54+qTQe0EJkDyF2KGnUAtWRYof0x9MqidwCRU/oj6ZDA7gQ5Y/oj6ZDA7gefg8sfTJ4PYCTwGmD/KPhlkTuCN85D54+yTQbV+cRM0f5R9Mqj4XwfOH2GfDC4nZB46f3R9Mrj4XwHPH1ufDDIn7BR8/rj6ZJDx/xkC/qj6ZJA5gQvTknnduv3x0tLSkuRrIoemTwabE3hRHv/i7z65c7e0vOJXX+XVtXX7+mSwOYEnZPHfWNtcWS6V6vx93/f9rU9vy/qdgKNPBp0T+HM5/JdWfb8Jf39luXTv/mf29MmgcwLfl8Jmo+y35F8qLf9+25o+GXRO4LsS+Bd3/Lb8V3x/c92OPhl0TuAFCfzXH3Tk7/t+xYY+GXRO4I1cdP7bfjf8fb9cJN8ng88JdKPzX+2Sv+9vFqn3yaBzArM6+fv+1jrxPhl0TuCsVv6+//vPaPfJYHMCncj8d3riv7L88BHpPhlsTmBK1+e/evbYlj4ZDE5gOir/ja1e+ZeWP49635nmPWFJWTwXdW2m3Dv/la1i1D6ZOPOXk7lR+W+H4O/7O3b0ycDnX2+FCXtv9iAMf9/fsKFPBoETlIjKfzsc/9c/Aij3ySDg70Tem3kQjr+/9ymAcp8MBicwGZX/bkj+vr9NvU8GgxOYjrw3txqWv/+EeJ8MBiew1goTgcNWWP6+XyTdJ4PCCXQj898Nz9/fpdwng8IJ3LsFjMLhaXj+/heE+2RwOIGJ6L7+l+H5r/yBcJ8MCifQkfC8RgT+yyW6fTI4nMBkdP63ovAvPaPaJ4PDCUxLeF7reRT+pRcSXPRFdgLDZhkJz+vdj8J/+SnRPhkcTqAr43nNr6LwX6nIeE7EZScwVBbPyXhe82kU/n6ZaJ8MCicwIeV53UoU/o0XAKk+GQxO4JSc57UrUfg3XABk+2TAOoFJOc/rV6Lwr18AlPtkYL6vRUnnNVSi8H99AVDukwH6vjKSzuuoROFfuwAo98kAfV+urPNaKlH4710AlPtkgL6v+FlZZ3hVovCvXgCU+2SgXpeXpZ3hthuFv18m3icDlf8/yTvDbykKf79Mu08GrBP4gbwzHNej8PefyDtPMslOYNfZL2Se4RmFv1+h3CcD1wk8JfMM1yj8/acSz5PNsBPYZfYzqWf4fh2B/8o3dPtk4DqBC9NSz3CO4gQuP6fbJwPXCXxL7hne30Zxwp6R7ZOB6wSekHyG+8soThjZPhnATuC85DPhv4vA/y7VPhnATuAV2R0OtyM4YV9S7ZMB7AROSu/wiOCEfU+1TwauE/hL+R0upp1QiH0yYJ3AM2fld/iUwztB29I7hoD0yYB1At9W0Ov0JLwTtCS/YwpcnwwoJ/A9Fb1eEZygonT+EPtkAO0JJxXwF2vhnSAF/MUs82+ZOSr4V42AUPw3FfAH1ycDyQlJqeAv1o07wfuzFPNvkaWV8BcitBO0o4I/rD4ZSPwbjgSWO/OtsE5IRQl/SH0yoJxAVxF/UQ7rhCwp4Q+oTwaUE5hVxV+shnWCltTwB9MnA8sJnFXFP/w5YUJVxziMPhlYTqCjjH/+m5D8t9R1zDvsBAazlDL+hechnaCyMv4Q+mSAOYFpdfy9WyGdoCfK+EPok4HlBL6+BVQycwBOeDAz3icDzAl0VfIv/BDOCfmjOv7G+2SAOYFZpfzzZQBO+IE+mSw7gfUsoZT/Xmtkz3tCtxTyN9wnA8wJdNTyD3tOkFL+QjjsBNaypFr+e2cE9Mr/nlr+RvtkYDmBacX8a0aAaSccUJ8MKCew2gqjkL8ohnKCPlXMH0ifjHkn0FXNXwggTngwu8Z7wn17rTBq+YvNME7Irmr+QPpkTL+HhHr+ogzECQ9mCebf52jgLypQnPBgNmU9/76kBv6iAsUJD2ZJ6/mndfAXS+bOiYbdJ2Ocfzyjg7/4GIwTDqtPxrwT6GrhH6o7rqKDv9k+GfNOYDanh78HxwkH1CcDwAlMaOLv3YHjhAezhMVO4JQu/t6feneC1vXwF/mj9jqBE7r4h+kO08XfVJ8MACfwV9r459cgOeHB7IqtTuCkNv71DWEITngwm7TUCbymj//eI+JQnPBgpr9PBoITeGZaH38hQDnhwUx/nwwEJ/CSTv5iy+g54eD6ZAA4gSe18q+dFQfECT+Q6e6TAeAEzmvlL1ZhOeHCcJ+MeSfwql7+VTMckBMOp0/GkBN4Su98xXaP/B9qfn8m+2RM8L+oeb5iCZoTHszmrOK/cF73fDd6dIK+0Pz+zPXJGHFCburmLwQ4JzyY3bSI/3X9/PN/huaEw+iTMeOETejnX7gDzgkPZh9aw/+0Af7et705Qfr5m+iTMeQEZgzw917Cc8KDmfY+GUNO4JwJ/t4LgE54MEtb4QQ2Hgmscb4f9+QEPTHBX3OfjCkncMYI/3wRohMezHT2yZhyArNm+AvRkxO0ZoS/1j4ZU05g0hD/6iPi0Jxwc30yppxAxxT/enscKCfcVJ+MMScwY4r/66PCYDnhhvpkjDmBaWP8axdAV/wfmOKvq0/GlBNYvwXUP98lmE54MDu/QNkJdM3xr14AXe4Jrhrjr6lPxpATmDXIXwigTngw09InY8gJnDXJX0B1woOZ5j4ZjU6gY5S/KEN1woOZQ3VPOGWUv/i+eyfokUn+uvtktPFPm+Wf/wqsEx7M0iT5790Cmvt8/RewTngw09kno+/zhmuYv/ccrhNurk9GH/+saf7es66doKeG+evrk9F4vzFrmr9XAOyEG+qT0egEOub557e6dUKWTPPX1Cej0wlMmucvyoCdcBN9MjqdwDQA/nuPiAN1woPZcVJOYDwDgH9DeVh7/lsA+HunFig5gS4E/mIbtBMezK4RcgKzOQj8X58VB9MJD2aK+2S0OoEJEPzFBmwnPJgp7ZPR6gQ6MPjvmeFwnfBgprBPRq8TmATCXzyA7YQHM4V9MlqdwDQU/qLcnROyAYO/yj4ZnU5g/BwU/mIHuBOur09GpxP4EzD8RQW6E66tT0ajE3jjPBj+4nPoTriJPhnVTuCbcPjnb3flBO3k4fzMSqDfEz4KiH/hEXgn3ESfjFonYB4Qf8/rygl6AemanUfO/yoo/t4f4DvhwewqbifoFCj+ha/hO+HBbBI1/4uw+OcrCJzwYDaHmP/CNKxZikoX/O8Ae88q+2RUO4GXgM2ysTwMrhMezNT1yah2Ak9C499wAQB2wg9kqvpklDuBH+TBzbILJ2gN2ntW1Sej3An8BTz+AocTrqVPRr0TeA4e/z0zvO2e0Do4/mr6ZJQ7gccA8hdPcDjhGvpklDuBN3IA+YsKDidcfZ+MeidwBiJ/sYbECVfdJ6PeCcyC5C+WOjpBqxD5S++TUe8EJkHyF+tYnPBgNo/MCXRg8hf5jk7QNkj+svtklDuBGaD8C3exOOHBLIPKCZyDyt+7g8YJD2ZpRE5gQysMtFk+RuOEBzN1fTLy94RnwPL3vurAfxMqf3V9MvL5Z+HyL/wOjxMu9PTJKHBCknD555cQOeFa+mQU8HcA8689Io7DCdfQJ6PCCUsB5t9YHtZ0Teg2YP4K+mRU8E+D5i8eYHLCVffJqHACa7eAUH+Xlts7IaD5y+6TUeIEurD5ix1UTngwuwjeCcwC579nhmNxwg9k16E7gbPA+Yvdtk7Qn4DzL/wauBPoQOcvlpA54cHMge0EpqDzF0VkTngwk9Uno8YJTIPnLwQ2JzyYpQE7gfEcfP7ir8ic8GAmpU9GkRPoIuCf/xKbE66iT0aNE5jNIeBfeNmG/wME/KX0yahxAhMY+Hsv0TnhCvpklDiBDgr+3nN8Trj8PhklTmASBX/vNj4nXGmfjDQnMI2DfyHfxgnaRcFfdp+MnH8nnkHCXyB0woOZ1D4ZSf+Oi4V/Y3lYcE2oiIO/1D4ZSf9O9iwW/tVHxJE54cHsbBaaE3QZDf/6UWGYnPBglgDG/zQe/mINpRMezBxYTuAHePjXjgprsidUwcNfTp+MNCfwHUT8xTpOJ1zI75OR5wSeQsS/aobjc8Ll98nIcwIvouIvtlo5Ic9QfR9R+2TkOYEL06j4izJOJ1xyn4xEJ/ASLv5itQX/u8i+jwQQJ/AksrmJp1idcJl9MhKdwHlsc/sGqxMusU9GohN4FRv/wnO0TngwuwrBCZzExt+71cIJ2sbGP3yfjEQn8Bo6/p6H1wkPZq5xJ/DMWXz8Cz80d0I20PEP3Scjzwm8jJB/vozXCQ9mCcNO4HsY+dceEcfohB/IIvfJRHMCkxj5N5aHoXPChfw+mQj8HZT8q4+IH9gT3MHIX0KfTBQnIIOSf708DKMTLrtPJgr/OZz8RRG1Ey63TyYK/4YjgZHNDbUTLrVPJpITNoOVP7HspiH+WeYAJDthxglMMgcg2bwRJ9BhDmCycH0yEZ3ADHMAk4Xqk4noBKaZA6BsTrsT+PoWkDkg7ZOJ6AS6zAFUNqPZCczyzIFlPfbJRHUCZ3nmwLLe+mSiOoEO/rkVlyo75epr9emLW/ivCUenE5hCzv/Hnc2AE3Lv/z5H/jMhpdEJTKPm/+iPzZ3ArZ0N1L8TLmhzAqu3gEj5P3r5tzbnBG4g/t3WS59MNCfQRcz/L3fbd8fuFPF+bxc1OYFZvPyfPezUHe1vLeH9bHNdz55wAi3/+3c78vd9/wu0n21/rYW/g5b/41I3/FeW7zzCek/o6HBCktT5l0oPP0O6JpDSwD9Nn39p+a9FpGsCaeX84xkL+K/4m0Wca0K5uGL+fS5S/t/2xL/hMSFk329vfTK9O4HZHE7+3/XIH+1zQj31yYRwAhM4+d+62yv/vccE8P28Syh1Ah2kayR3eufvP0C6JuiodAIncPL/LgR/39/Beb8zodAJ/BXSNbJ7Yfj7/gbOn3fH1TmBkzj53w/H3/8U5/XeXZ9MGCfwGtI18j+H47+yjNQTuqbICTwzjXMeL8LyL32Lc0+giz6ZUE7gJaR7ZN+H5V+6i3RPqHOfTBgn8CRS/n8Pzb+0jNUT7NgnE8YJnEe6R7odnv/KKtI9oY59MiGcwKtY98hXw/NvODkO2ZpAWr4TeAqrN/8gPP/Gw0NxrQlk4rKdwItY+Rej8N87OArhmrAreU944TzW52aWovCvHR2Hb024hz6ZrpyAm2ifm1qLwt9fRcq/hz6Zrvhfx/vcXCUK/z0vBOWewFGZTtAEWv61CyAc/+oFgHNPaF4i/9N4+e9dACH5+2WB9xnIq/KcwAxe/tULICx/v4z4GehJaU7gHGL+ohKFP6o+8QOZK8kJbDwSGN88KlH4+2XMZ2B06pPp1gmcwcxfVKLw979GfXZMQooTmEXNX2xH4b/yCe6zg6ZkOIGzqPmLj6PwX36J++ygpAQn0MHNP1+Iwr/0HPnZUYvRncAUcv7ewwj8S4+Qnx2WiewEprHz976NwP8h+vME5yI6gfVbQLT3Q+Gd0FLpE/TnSbbok+naCXTR8y/kt8I7YT9i59+qT6ZbJzBLgH8EJ+wH/Pxb9Ml06wTOEuDfoIT0uia0RoB/8z6ZLp1AhwJ/Icoh+W8VCfDv2CfTzglMkuD/+kdAr2uCFRL8O/fJtPx6mgb/2o+AXvlvFUnw79gn05J/PEOEv1gP5QSsEeHfoU+m9c8Hlwp/IXZC8N+kwr99n0xr/tkcGf6iuNkz/611Mvzb9cm0+XyQoMNfiB//1uue0DYh/tVdwR75O5T45wv3e+S/Sol/yz6Zdk5gUtDqV7pvM3+R6dkJTAtq/VqfWsy/eZ9MWycwQ69fbdti/s36ZNo6gS7Ffr3tre7479Dj36RPpq0TGM+R7Fdc3+zm/m+XIv+DfTJtncAE0X7N4k5H/uUNmvyDfTJtncApup2r6+X2Z8LsCqL8A30y7Z3AJOXO3Y+/bMn/wbagy39fn0x7J3CReOfys8dNuyO/3xWU+e/rk2nvBJ6j37m921gevLJcuvf4m78L4vwb+2TaOoHHLOlcX9qtVCqVSuXpN88f2fD9NvbJtHMCb5y3g7+NWbYbJ/Amz41sNtuFE3id50Y4czrvCc/z3AhnEx35X+G5kc6Od3JCPuIZkc4O9MkE+B/nGRHPrrXlvzDNMyKe7e+TIXMmOGddZ4k2TuAJnpEFmdPaCXyTZ2RBlmzpBL7PM7IiS7dyAid4RlZk1T6Zg07gBZ6RJZnb3AnM8IwsyXLZZk5gmmdkTZZo5gRmeEbWZGf/+aATuMgzsij75UEncJZnZFE2ecAJjPOMbMoK/xJ0Ahd5RjZlr34TdAJneEZWZcngflCKZ2RXFtwM5hlZlk3t55/lGVmWLe6/AByekWWZ2+QC4BlZlAUugDmekWVZ4AJweUaWZe5+J9DlGQn7nIAGJ9DJv+IZWZW5+53A3/6jwDOyKnP3O4H/+qrAM7IqcwNO4KsCz8iq7LcBJ/DfXvGMrMr+PeAE/gfPyKrsH0En8Dc8I5uyV/8ZdAKneEY2ZYX/OuAE5nhGFmWF/z5wTmCCZ2RRNnnwnECHZ2RR9j9NzgnM8Izsyf63yRkRczwja7KJZkfExHM8I1uyxaaHBLETYEuWan5KVDzHM7Ijc1qcE3aBZ2RFluRzgq3OctmW5wSe4HMiLcjm2nQHv8MzIp8l23YHJ3hGxLNMvH13cIpnRDrLTXXoDo6neG6W8G/RHVy7AnhuFPkvdtEdXL0CeG60//+36w6OJ3huJLPUVLfdwXM8N4LZbLzb7uC+/qMf8dyorf8tNq75tO8O7h8/cuT4eZ4bpWwmvo9v2+7garfgDZfPjiXTE5TIBvi26w6ud0suzvIsCWQ/PRY/wLddd/C+bknHTWZ4lmiz8/NvXT3T34Zvk+7gJt2inNHOeB7Mn+fB/HkezJ/nwfx5RsyfM4v4x3geNmdNnECekU38mzmBPCN7+Dd1AnlG1vBv4QTyjCzJWjqBPCMrsjZOIM/Igqy9E8gzop51cgJ5RsSzzk4gz4h01oUTyHOjnHXnBHJGNuvaCeSMfMZOIO8J8jyYP8+D+ff19fWPjY+PB9eEOSOd7V8fHBsbC64Jc0Y6278/MDo6GlwT5ox01viKDY+MjAzHOLMoa7wHjL0xPDwcWBPmjHjW4ATGBoeGhgJrwpwRzxqcwNihwcHBQ8Gvc0Y8q18AAwMDAwOBDwWc0c9ql0Ssv78/FvxQyJkF2f8DR+xzx/wCLBwAAAAASUVORK5CYII="
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
+    sandbox: this.props.sandbox,
+    ref: nodeRef
+  }, iframeHead && react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.createPortal(props.style, iframeHead), iframeBody && react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.createPortal(props.children, iframeBody));
+}
+Wrapper.propTypes = {
+  rootElement: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.instanceOf(window.Element),
+  style: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.instanceOf(window.Element)
+};
+Wrapper.defaultProps = {
+  sandbox: 'allow-same-origin allow-scripts allow-forms allow-popups'
+};
 
 /***/ }),
 
@@ -26699,46 +26816,37 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADD
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _AppContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AppContainer */ "./src/content/AppContainer.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Wrapper */ "./src/content/Wrapper.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App */ "./src/content/App.js");
 /* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./App.css */ "./src/content/App.css");
 /* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_App_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./src/content/store/index.js");
 
 
 
 
-
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === 'dispatch') {
-    _store__WEBPACK_IMPORTED_MODULE_5__["default"].dispatch(request.data);
-  }
-
-  sendResponse({
-    data: request.data
-  });
-});
+ // import { connectToDevTools } from 'react-devtools-core'
+// connectToDevTools()
 
 document.onreadystatechange = function () {
   if (document.readyState === 'interactive') {
-    var container = document.createElement('div');
-    container.id = 'app-container';
-    container.style = 'box-shadow:initial;position:fixed;overflow:initial;right:0;top:0;bottom:initial;padding:initial;float:right;z-index:2147483647';
-    document.body.appendChild(container);
-    var shadowRoot = container.attachShadow({
-      mode: 'open'
-    });
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    style.appendChild(document.createTextNode(_App_css__WEBPACK_IMPORTED_MODULE_4___default.a));
-    Object(react_dom__WEBPACK_IMPORTED_MODULE_2__["render"])(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_1__["Provider"], {
-      store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AppContainer__WEBPACK_IMPORTED_MODULE_3__["default"], null)), shadowRoot, function () {
-      shadowRoot.appendChild(style);
-    });
+    var container = document.getElementById('webext-root');
+
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'webext-root';
+      var zIndex =  true ? 9999999 : undefined;
+      container.style = "position:fixed;right:0;top:0;float:right;z-index:".concat(zIndex, ";");
+      document.body.appendChild(container);
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.appendChild(document.createTextNode(_App_css__WEBPACK_IMPORTED_MODULE_4___default.a));
+      Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wrapper__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        rootElement: container,
+        style: style
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_3__["default"], null)), container);
+    }
   }
 };
 
@@ -26752,78 +26860,6 @@ document.onreadystatechange = function () {
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA1OTUuMyI+CiAgICA8ZyBmaWxsPSIjNjFEQUZCIj4KICAgICAgICA8cGF0aCBkPSJNNjY2LjMgMjk2LjVjMC0zMi41LTQwLjctNjMuMy0xMDMuMS04Mi40IDE0LjQtNjMuNiA4LTExNC4yLTIwLjItMTMwLjQtNi41LTMuOC0xNC4xLTUuNi0yMi40LTUuNnYyMi4zYzQuNiAwIDguMy45IDExLjQgMi42IDEzLjYgNy44IDE5LjUgMzcuNSAxNC45IDc1LjctMS4xIDkuNC0yLjkgMTkuMy01LjEgMjkuNC0xOS42LTQuOC00MS04LjUtNjMuNS0xMC45LTEzLjUtMTguNS0yNy41LTM1LjMtNDEuNi01MCAzMi42LTMwLjMgNjMuMi00Ni45IDg0LTQ2LjlWNzhjLTI3LjUgMC02My41IDE5LjYtOTkuOSA1My42LTM2LjQtMzMuOC03Mi40LTUzLjItOTkuOS01My4ydjIyLjNjMjAuNyAwIDUxLjQgMTYuNSA4NCA0Ni42LTE0IDE0LjctMjggMzEuNC00MS4zIDQ5LjktMjIuNiAyLjQtNDQgNi4xLTYzLjYgMTEtMi4zLTEwLTQtMTkuNy01LjItMjktNC43LTM4LjIgMS4xLTY3LjkgMTQuNi03NS44IDMtMS44IDYuOS0yLjYgMTEuNS0yLjZWNzguNWMtOC40IDAtMTYgMS44LTIyLjYgNS42LTI4LjEgMTYuMi0zNC40IDY2LjctMTkuOSAxMzAuMS02Mi4yIDE5LjItMTAyLjcgNDkuOS0xMDIuNyA4Mi4zIDAgMzIuNSA0MC43IDYzLjMgMTAzLjEgODIuNC0xNC40IDYzLjYtOCAxMTQuMiAyMC4yIDEzMC40IDYuNSAzLjggMTQuMSA1LjYgMjIuNSA1LjYgMjcuNSAwIDYzLjUtMTkuNiA5OS45LTUzLjYgMzYuNCAzMy44IDcyLjQgNTMuMiA5OS45IDUzLjIgOC40IDAgMTYtMS44IDIyLjYtNS42IDI4LjEtMTYuMiAzNC40LTY2LjcgMTkuOS0xMzAuMSA2Mi0xOS4xIDEwMi41LTQ5LjkgMTAyLjUtODIuM3ptLTEzMC4yLTY2LjdjLTMuNyAxMi45LTguMyAyNi4yLTEzLjUgMzkuNS00LjEtOC04LjQtMTYtMTMuMS0yNC00LjYtOC05LjUtMTUuOC0xNC40LTIzLjQgMTQuMiAyLjEgMjcuOSA0LjcgNDEgNy45em0tNDUuOCAxMDYuNWMtNy44IDEzLjUtMTUuOCAyNi4zLTI0LjEgMzguMi0xNC45IDEuMy0zMCAyLTQ1LjIgMi0xNS4xIDAtMzAuMi0uNy00NS0xLjktOC4zLTExLjktMTYuNC0yNC42LTI0LjItMzgtNy42LTEzLjEtMTQuNS0yNi40LTIwLjgtMzkuOCA2LjItMTMuNCAxMy4yLTI2LjggMjAuNy0zOS45IDcuOC0xMy41IDE1LjgtMjYuMyAyNC4xLTM4LjIgMTQuOS0xLjMgMzAtMiA0NS4yLTIgMTUuMSAwIDMwLjIuNyA0NSAxLjkgOC4zIDExLjkgMTYuNCAyNC42IDI0LjIgMzggNy42IDEzLjEgMTQuNSAyNi40IDIwLjggMzkuOC02LjMgMTMuNC0xMy4yIDI2LjgtMjAuNyAzOS45em0zMi4zLTEzYzUuNCAxMy40IDEwIDI2LjggMTMuOCAzOS44LTEzLjEgMy4yLTI2LjkgNS45LTQxLjIgOCA0LjktNy43IDkuOC0xNS42IDE0LjQtMjMuNyA0LjYtOCA4LjktMTYuMSAxMy0yNC4xek00MjEuMiA0MzBjLTkuMy05LjYtMTguNi0yMC4zLTI3LjgtMzIgOSAuNCAxOC4yLjcgMjcuNS43IDkuNCAwIDE4LjctLjIgMjcuOC0uNy05IDExLjctMTguMyAyMi40LTI3LjUgMzJ6bS03NC40LTU4LjljLTE0LjItMi4xLTI3LjktNC43LTQxLTcuOSAzLjctMTIuOSA4LjMtMjYuMiAxMy41LTM5LjUgNC4xIDggOC40IDE2IDEzLjEgMjQgNC43IDggOS41IDE1LjggMTQuNCAyMy40ek00MjAuNyAxNjNjOS4zIDkuNiAxOC42IDIwLjMgMjcuOCAzMi05LS40LTE4LjItLjctMjcuNS0uNy05LjQgMC0xOC43LjItMjcuOC43IDktMTEuNyAxOC4zLTIyLjQgMjcuNS0zMnptLTc0IDU4LjljLTQuOSA3LjctOS44IDE1LjYtMTQuNCAyMy43LTQuNiA4LTguOSAxNi0xMyAyNC01LjQtMTMuNC0xMC0yNi44LTEzLjgtMzkuOCAxMy4xLTMuMSAyNi45LTUuOCA0MS4yLTcuOXptLTkwLjUgMTI1LjJjLTM1LjQtMTUuMS01OC4zLTM0LjktNTguMy01MC42IDAtMTUuNyAyMi45LTM1LjYgNTguMy01MC42IDguNi0zLjcgMTgtNyAyNy43LTEwLjEgNS43IDE5LjYgMTMuMiA0MCAyMi41IDYwLjktOS4yIDIwLjgtMTYuNiA0MS4xLTIyLjIgNjAuNi05LjktMy4xLTE5LjMtNi41LTI4LTEwLjJ6TTMxMCA0OTBjLTEzLjYtNy44LTE5LjUtMzcuNS0xNC45LTc1LjcgMS4xLTkuNCAyLjktMTkuMyA1LjEtMjkuNCAxOS42IDQuOCA0MSA4LjUgNjMuNSAxMC45IDEzLjUgMTguNSAyNy41IDM1LjMgNDEuNiA1MC0zMi42IDMwLjMtNjMuMiA0Ni45LTg0IDQ2LjktNC41LS4xLTguMy0xLTExLjMtMi43em0yMzcuMi03Ni4yYzQuNyAzOC4yLTEuMSA2Ny45LTE0LjYgNzUuOC0zIDEuOC02LjkgMi42LTExLjUgMi42LTIwLjcgMC01MS40LTE2LjUtODQtNDYuNiAxNC0xNC43IDI4LTMxLjQgNDEuMy00OS45IDIyLjYtMi40IDQ0LTYuMSA2My42LTExIDIuMyAxMC4xIDQuMSAxOS44IDUuMiAyOS4xem0zOC41LTY2LjdjLTguNiAzLjctMTggNy0yNy43IDEwLjEtNS43LTE5LjYtMTMuMi00MC0yMi41LTYwLjkgOS4yLTIwLjggMTYuNi00MS4xIDIyLjItNjAuNiA5LjkgMy4xIDE5LjMgNi41IDI4LjEgMTAuMiAzNS40IDE1LjEgNTguMyAzNC45IDU4LjMgNTAuNi0uMSAxNS43LTIzIDM1LjYtNTguNCA1MC42ek0zMjAuOCA3OC40eiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjQyMC45IiBjeT0iMjk2LjUiIHI9IjQ1LjciLz4KICAgICAgICA8cGF0aCBkPSJNNTIwLjUgNzguMXoiLz4KICAgIDwvZz4KPC9zdmc+Cg=="
-
-/***/ }),
-
-/***/ "./src/content/store/actions.js":
-/*!**************************************!*\
-  !*** ./src/content/store/actions.js ***!
-  \**************************************/
-/*! exports provided: toggleApp */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleApp", function() { return toggleApp; });
-var toggleApp = function toggleApp(payload) {
-  return {
-    type: 'TOGGLE_APP',
-    payload: payload
-  };
-};
-
-/***/ }),
-
-/***/ "./src/content/store/index.js":
-/*!************************************!*\
-  !*** ./src/content/store/index.js ***!
-  \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers */ "./src/content/store/reducers.js");
-
-
-
-if (true) {
-  __webpack_require__(/*! react-devtools */ "./node_modules/react-devtools/index.js");
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_1__["default"]));
-
-/***/ }),
-
-/***/ "./src/content/store/reducers.js":
-/*!***************************************!*\
-  !*** ./src/content/store/reducers.js ***!
-  \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var initialState = {
-  visible: false
-};
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'TOGGLE_APP':
-      return _objectSpread({}, state, action.payload);
-
-    default:
-      return state;
-  }
-});
 
 /***/ })
 

@@ -1,39 +1,40 @@
 {
-  "title": "Chrome React Minimal",
-  "name": "chrome-react-minimal",
+  "title": "Simple Browser Extension using React",
+  "name": "react-browser-extension-minimal",
   "version": "1.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/herodrigues/chrome-react-minimal.git"
+    "url": "git://github.com/herodrigues/react-browser-extension-minimal.git"
   },
   "dependencies": {
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-redux": "^6.0.0",
-    "redux": "^4.0.1"
+    "prop-types": "^15.7.2",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "webextension-polyfill": "^0.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.3.1",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "base64-image-loader": "^1.2.1",
     "clean-webpack-plugin": "^1.0.1",
-    "copy-webpack-plugin": "^4.6.0",
+    "copy-webpack-plugin": "^5.0.0",
     "raw-loader": "^1.0.0",
-    "react-devtools": "^3.6.0",
+    "react-devtools-core": "^3.6.0",
     "standard": "^12.0.1",
-    "webpack": "^4.29.0",
-    "webpack-cli": "^3.2.1",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3",
     "webpack-merge": "^4.2.1"
   },
-  "description": "Chrome extension with React/Redux",
+  "description": "Browser extension using React",
   "bugs": {
     "url": "https://github.com/herodrigues/chrome-react-minimal/issues"
   },
   "standard": {
+    "parser": "babel-eslint",
     "globals": [
       "chrome",
       "browser"
