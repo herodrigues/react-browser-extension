@@ -40,10 +40,10 @@ module.exports = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(__dirname),
+    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new CopyWebpackPlugin([
-      { from: './src/icons' },
-      { from: './src/manifest.json' }
-    ])
+      { from: "./src/icons", to: "icons" },
+      { from: "./src/manifest.json" }
+    ]),
   ]
 }
