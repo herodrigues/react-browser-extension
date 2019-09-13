@@ -4,37 +4,28 @@
   "description": "Simple browser extension using React",
   "manifest_version": 2,
   "minimum_chrome_version": "27",
-  "permissions": [
-    "activeTab"
-  ],
+  "permissions": ["activeTab"],
   "content_scripts": [
     {
       "run_at": "document_start",
       "match_about_blank": false,
       "all_frames": false,
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "content.js"
-      ]
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"]
     }
   ],
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "scripts": ["background.js"]
   },
   "icons": {
-    "16": "icon-16.png",
-    "48": "icon-48.png",
-    "128": "icon-128.png"
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
   },
   "browser_action": {
     "default_icon": {
-      "19": "icon-19.png",
-      "38": "icon-38.png"
+      "19": "icons/icon-19.png",
+      "38": "icons/icon-38.png"
     }
   }
 }
