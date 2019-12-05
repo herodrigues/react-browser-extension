@@ -1,4 +1,4 @@
 node_modules/
 *.log
-build
-dist
+build/
+dist/
