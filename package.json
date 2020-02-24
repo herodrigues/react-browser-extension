@@ -30,7 +30,7 @@
   },
   "description": "Browser extension using React",
   "bugs": {
-    "url": "https://github.com/herodrigues/chrome-react-minimal/issues"
+    "url": "https://github.com/herodrigues/react-browser-extension/issues"
   },
   "standard": {
     "parser": "babel-eslint",
@@ -39,7 +39,7 @@
       "browser"
     ]
   },
-  "homepage": "https://github.com/58phases/chrome-react-minimal#readme",
+  "homepage": "https://github.com/herodrigues/react-browser-extension#readme",
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.prod.js --progress --colors",
     "dev": "./node_modules/.bin/webpack --config webpack.dev.js --progress --colors",
@@ -49,7 +49,7 @@
   "keywords": [
     "extension",
     "react",
-    "redux"
+    "hooks"
   ],
   "author": "Herinson Rodrigues"
 }
