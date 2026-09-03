@@ -1,23 +1,22 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: transparent;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
 #root {
-    width: 320px;
-    min-height: 400px;
-    padding: 16px;
+    margin: 0;
+    padding: 0;
+    width: 300px;
     box-sizing: border-box;
 }
 
 .popup-container {
     text-align: center;
-    float: left;
-    position: relative;
-    clear: both;
-    background: #fff;
     overflow: hidden;
-    margin-top: 16px;
-    margin-right: 16px;
-    margin-left: 4px;
-    border-radius: 4px;
-    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
-    box-sizing: content-box;
     transition: .25s ease-in-out;
     width: 300px;
 }
