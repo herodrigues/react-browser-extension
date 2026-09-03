@@ -1,10 +1,10 @@
 // src/popup/Logo.tsx
 import React from "react";
 
-export const Logo: React.FC<{ size?: number }> = ({ size = 64 }) => (
+export const Logo: React.FC = () => (
   <svg
-    width={size}
-    height={size}
+    width={64}
+    height={64}
     viewBox="-11.5 -10.23174 23 20.46348"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

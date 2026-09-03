@@ -1,8 +1,6 @@
-# Browser Extension using React
+# Browser Extension with React
 
-A minimal example of a browser extension using React.
-
-![example](https://user-images.githubusercontent.com/1832537/44593550-11309980-a79a-11e8-8ec5-6c3d6430e06c.gif)
+A minimal example of a browser extension (manifest V3) using React.
 
 ### Installation
 
