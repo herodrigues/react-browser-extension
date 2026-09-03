@@ -1,0 +1,58 @@
+#root {
+    width: 320px;
+    min-height: 400px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.popup-container {
+    text-align: center;
+    float: left;
+    position: relative;
+    clear: both;
+    background: #fff;
+    overflow: hidden;
+    margin-top: 16px;
+    margin-right: 16px;
+    margin-left: 4px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+    box-sizing: content-box;
+    transition: .25s ease-in-out;
+    width: 300px;
+}
+
+.popup-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+}
+
+.popup-title {
+    font-size: 1.5em;
+}
+
+.popup-intro {
+    padding: 15px;
+    font-size: large;
+}
+
+.popup-footer {
+    user-select: none;
+}
+
+.spinning-logo {
+    animation: spin 10s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

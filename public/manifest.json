@@ -1,0 +1,46 @@
+{
+	"manifest_version": 3,
+	"name": "React Browser Extension",
+	"version": "1.0.0",
+	"description": "React TypeScript cross-browser extension skeleton",
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "react-browser-extension@hbrodrigues.com"
+		}
+	},
+	"action": {
+		"default_popup": "src/popup/index.html",
+		"default_title": "React Browser Extension",
+		"default_icon": {
+			"16": "icons/icon-16.png",
+			"48": "icons/icon-48.png",
+			"128": "icons/icon-128.png"
+		}
+	},
+	"icons": {
+		"16": "icons/icon-16.png",
+		"48": "icons/icon-48.png"
+	},
+	"options_page": "src/options/index.html",
+	"background": {
+		"scripts": [
+			"background/index.js"
+		],
+		"service_worker": "background/index.js",
+		"type": "module"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js": [
+				"content/index.js"
+			]
+		}
+	],
+	"permissions": [
+		"storage",
+		"activeTab"
+	]
+}
