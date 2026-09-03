@@ -1,55 +1,27 @@
 {
   "title": "Simple Browser Extension using React",
-  "name": "react-browser-extension-minimal",
-  "version": "1.0.0",
+  "name": "react-browser-extension",
+  "version": "2.0.0",
+  "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/herodrigues/react-browser-extension-minimal.git"
+    "url": "git://github.com/herodrigues/react-browser-extension.git"
+  },
+  "scripts": {
+    "dev": "vite build --watch --mode development",
+    "build": "tsc && vite build --mode production"
   },
   "dependencies": {
-    "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "webextension-polyfill": "^0.8.0"
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.5",
-    "@babel/preset-react": "^7.14.5",
-    "babel-loader": "^8.2.2",
-    "base64-image-loader": "^1.2.1",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^9.0.0",
-    "eslint": "^7.29.0",
-    "eslint-plugin-react": "^7.24.0",
-    "raw-loader": "^4.0.2",
-    "webpack": "^5.39.1",
-    "webpack-cli": "^4.7.2",
-    "webpack-merge": "^5.8.0"
-  },
-  "description": "Browser extension using React",
-  "bugs": {
-    "url": "https://github.com/herodrigues/react-browser-extension/issues"
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "globals": [
-      "chrome",
-      "browser"
-    ]
-  },
-  "homepage": "https://github.com/herodrigues/react-browser-extension#readme",
-  "scripts": {
-    "build": "./node_modules/.bin/webpack --config webpack.prod.js --progress --color",
-    "dev": "./node_modules/.bin/webpack --config webpack.dev.js --progress --color",
-    "start": "./node_modules/.bin/webpack --config webpack.dev.js --watch --progress --color",
-    "react-devtools": "./node_modules/.bin/react-devtools &"
-  },
-  "keywords": [
-    "extension",
-    "react",
-    "hooks"
-  ],
-  "author": "Herinson Rodrigues"
+    "@types/chrome": "^0.0.268",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "typescript": "^5.4.0",
+    "vite": "^8.2.2"
+  }
 }
